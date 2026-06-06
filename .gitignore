@@ -1,1 +1,10 @@
+# clasp local config (contains scriptId)
 .clasp.json
+
+# OS / editor cruft
+.DS_Store
+*.swp
+
+# Node (for local tooling: tests, linters)
+node_modules/
+npm-debug.log*

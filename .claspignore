@@ -1,0 +1,14 @@
+# Files kept in the repo but NOT deployed to Apps Script by `clasp push`.
+# Ignore-list semantics: anything matching here is excluded from the push.
+
+# Local-only docs, prototypes, and data dumps
+docs/**
+
+# Local test/tooling (runs in Node, never on Apps Script)
+tests/**
+node_modules/**
+
+# Repo meta
+**/*.md
+.DS_Store
+.clasp.json
