@@ -14,6 +14,7 @@ const CONFIG = {
     MAIN: "WIT_Members",
     EXTERNAL: "WIT_External",
     HEADER_ROW: 2,
+    GROUP_EMAIL_ROW: 3, // row holding group email addresses (GroupsView)
     DATA_START_ROW: 4,
 
     // Generated report sheets (rebuilt by the report builders;
@@ -105,6 +106,11 @@ const CONFIG = {
     ALERTS: true,
   },
 
+  // Keys for values stashed in PropertiesService.
+  PROPERTIES: {
+    SYNC_REPORT: "lastSyncReport",
+  },
+
   DRIVE: {
     PHOTO_FOLDER_ID: "1SdzoC6kMquUP14atedTNOGZouYQ-VG6t",
     BIO_FOLDER_ID: "1J90gz9dTXAuo6xfgiO9yeyh69zftVu9f",
@@ -120,5 +126,25 @@ const CONFIG = {
   URLS: {
     MEMBER_GUIDE: WEB_APP_URL,
     SIGNATURE_GENERATOR: `${WEB_APP_URL}?page=signature`,
+  },
+};
+
+// ============================================================
+// Derived config — defined after the literal so it can reference
+// CONFIG. Safe because it lives in the same file (the load-order
+// caveat only affects CONFIG references from OTHER files' top level).
+// ============================================================
+
+// Region display/iteration order: the five regions plus a catch-all.
+CONFIG.REGION_ORDER = [...Object.values(CONFIG.REGIONS), "Unknown"];
+
+// Status colors, keyed by Email-Status value. `bg` is used for sheet
+// cell backgrounds; `bg`+`fg` together style the HTML email badges.
+CONFIG.COLORS = {
+  STATUS: {
+    [CONFIG.STATUS.REQUEST]:       { bg: "#fff3cd", fg: "#856404" },
+    [CONFIG.STATUS.SENT]:          { bg: "#cfe2ff", fg: "#0a4a90" },
+    [CONFIG.STATUS.CREATED]:       { bg: "#d1e7dd", fg: "#0a5933" },
+    [CONFIG.STATUS.NOT_ACTIVATED]: { bg: "#fde8e8", fg: "#9c1c1c" },
   },
 };

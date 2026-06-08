@@ -128,16 +128,9 @@ function buildEmailRequestsReport() {
  * @param {number}  startRow — 1-indexed row where data begins
  */
 function _applyStatusColors(sheet, rows, startRow) {
-  const STATUS_COLORS = {
-    'requested':     '#fff3cd',
-    'sent':          '#cfe2ff',
-    'created':       '#d1e7dd',
-    'not activated': '#fde8e8',
-  };
-
   rows.forEach((row, i) => {
     const status = row[3]; // index 3 = Request Status
-    const color  = STATUS_COLORS[status] ?? '#ffffff';
+    const color  = CONFIG.COLORS.STATUS[status]?.bg ?? '#ffffff';
     sheet.getRange(startRow + i, 4).setBackground(color);
   });
 }

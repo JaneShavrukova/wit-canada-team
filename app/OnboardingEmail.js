@@ -120,12 +120,14 @@ function processIntroSentOnEdit(e) {
 // ─────────────────────────────────────────────────────────────
 
 function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
-  const params = '&firstName=' + encodeURIComponent(firstName || '')
-    + '&lastName='  + encodeURIComponent(lastName  || '')
-    + '&role='      + encodeURIComponent(role      || '')
-    + '&witEmail='  + encodeURIComponent(witEmail  || '');
-  const checklistUrl  = CONFIG.URLS.MEMBER_GUIDE + '?' + params.slice(1);
-  const signatureUrl  = CONFIG.URLS.SIGNATURE_GENERATOR + params;
+  const params = {
+    firstName: firstName || '',
+    lastName:  lastName  || '',
+    role:      role      || '',
+    witEmail:  witEmail  || '',
+  };
+  const checklistUrl  = buildUrl(CONFIG.URLS.MEMBER_GUIDE, params);
+  const signatureUrl  = buildUrl(CONFIG.URLS.SIGNATURE_GENERATOR, params);
 
   return `
 <!DOCTYPE html>

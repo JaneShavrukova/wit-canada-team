@@ -1,10 +1,8 @@
 // ============================================================
 // WIT Canada — Photos & Bios Report
 // ============================================================
-
-const REPORT_KEY        = 'lastSyncReport';
-
-const REGION_ORDER = ['Alberta', 'BC', 'Maritimes', 'Ontario', 'Quebec', 'Unknown'];
+// Region order and the PropertiesService key live in CONFIG
+// (CONFIG.REGION_ORDER, CONFIG.PROPERTIES.SYNC_REPORT).
 
 
 // ─────────────────────────────────────────────
@@ -20,7 +18,7 @@ function saveSyncReport(byRegion) {
 
   PropertiesService
     .getScriptProperties()
-    .setProperty(REPORT_KEY, JSON.stringify({ timestamp, byRegion }));
+    .setProperty(CONFIG.PROPERTIES.SYNC_REPORT, JSON.stringify({ timestamp, byRegion }));
 }
 
 
@@ -31,7 +29,7 @@ function saveSyncReport(byRegion) {
 function loadSyncReport() {
   const raw = PropertiesService
     .getScriptProperties()
-    .getProperty(REPORT_KEY);
+    .getProperty(CONFIG.PROPERTIES.SYNC_REPORT);
 
   if (!raw) return null;
   return JSON.parse(raw);
@@ -52,7 +50,7 @@ function showSyncReportSidebar() {
 
   const { timestamp, byRegion } = data;
 
-  const sectionsHtml = REGION_ORDER
+  const sectionsHtml = CONFIG.REGION_ORDER
     .filter(region => byRegion[region]?.length > 0)
     .map(region => {
       const members = byRegion[region].filter(m => !m.hasPhoto || !m.hasBio);
@@ -202,7 +200,7 @@ function buildPhotoBioReportSheet() {
     .setBackground('#f8f9fa');
   currentRow++;
 
-  REGION_ORDER.forEach(region => {
+  CONFIG.REGION_ORDER.forEach(region => {
     const members = (byRegion[region] || []).filter(m => !m.hasPhoto || !m.hasBio);
     if (members.length === 0) return;
 

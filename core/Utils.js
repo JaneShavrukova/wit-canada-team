@@ -66,19 +66,45 @@ function getCol(colMap, key) {
   return col;
 }
 
+/**
+ * Reads an entire row in ONE Spreadsheet call and returns a lookup
+ * keyed by header (use CONFIG.HEADERS.* values). Prefer this over
+ * repeated getRange(row, col).getValue() when reading several columns.
+ *
+ * @param {Sheet}  sheet
+ * @param {number} row     1-indexed row
+ * @param {Object} colMap  from getColumnIndexMap(sheet)
+ * @returns {(header: string) => *}  reader: get(CONFIG.HEADERS.X)
+ */
+function getRowValues(sheet, row, colMap) {
+  const values = sheet.getRange(row, 1, 1, sheet.getMaxColumns()).getValues()[0];
+  return (header) => {
+    const col = colMap[normalizeHeader(header)];
+    return col ? values[col - 1] : undefined;
+  };
+}
+
 
 // ─────────────────────────────────────────────
 // String helpers
 // ─────────────────────────────────────────────
 
+/**
+ * Removes diacritics (\u00e9 \u2192 e) by Unicode decomposition.
+ * Shared base for normalize() and generateWITEmail().
+ */
+function stripAccents(str) {
+  return (str ?? '')
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
 function normalize(str) {
   if (!str) return '';
 
-  return str
-    .toString()
+  return stripAccents(str)
     .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z\s]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
@@ -161,6 +187,30 @@ function runWithAlert(fn) {
   }
 }
 
+/**
+ * Validates that the active sheet is the main members sheet and that
+ * a member data row is selected. On failure it alerts the user and
+ * returns null. On success returns { sheet, row, colMap }.
+ *
+ * @returns {{sheet: Sheet, row: number, colMap: Object}|null}
+ */
+function requireActiveMemberRow() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+  if (sheet.getName() !== CONFIG.SHEET.MAIN) {
+    showAlert('Wrong sheet', 'Please select a row in the WIT_Members sheet first.');
+    return null;
+  }
+
+  const row = sheet.getActiveRange().getRow();
+  if (row < CONFIG.SHEET.DATA_START_ROW) {
+    showAlert('No member selected', 'Please click on a member row first.');
+    return null;
+  }
+
+  return { sheet, row, colMap: getColumnIndexMap(sheet) };
+}
+
 function buildMissingFieldsMessage({ firstName, lastName, personalEmail }) {
   const missing = [];
 
@@ -186,11 +236,33 @@ function buildMissingFieldsMessage({ firstName, lastName, personalEmail }) {
  */
 function generateWITEmail(firstName, lastName) {
   const clean = (str) =>
-    str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
+    stripAccents(str)
       .toLowerCase()
       .replace(/[^a-z]/g, '');
 
   return `${clean(firstName)}.${clean(lastName)}@women-in-tech.org`;
+}
+
+
+// ─────────────────────────────────────────────
+// URL helpers
+// ─────────────────────────────────────────────
+
+/**
+ * Appends URL-encoded query params to a base URL. Picks the right
+ * separator based on whether `base` already contains a '?'.
+ * Skips params that are null/undefined (empty string is kept).
+ *
+ * @param {string} base
+ * @param {Object} params  e.g. { firstName, lastName, role, witEmail }
+ * @returns {string}
+ */
+function buildUrl(base, params) {
+  const query = Object.entries(params)
+    .filter(([, v]) => v !== undefined && v !== null)
+    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+    .join('&');
+
+  if (!query) return base;
+  return base + (base.includes('?') ? '&' : '?') + query;
 }

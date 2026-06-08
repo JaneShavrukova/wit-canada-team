@@ -32,11 +32,12 @@ function doGet(e) {
   guideTpl.lastName     = ln;
   guideTpl.role         = rl;
   guideTpl.witEmail     = we;
-  guideTpl.signatureUrl = CONFIG.URLS.SIGNATURE_GENERATOR
-    + '&firstName=' + encodeURIComponent(fn)
-    + '&lastName='  + encodeURIComponent(ln)
-    + '&role='      + encodeURIComponent(rl)
-    + '&witEmail='  + encodeURIComponent(we);
+  guideTpl.signatureUrl = buildUrl(CONFIG.URLS.SIGNATURE_GENERATOR, {
+    firstName: fn,
+    lastName:  ln,
+    role:      rl,
+    witEmail:  we,
+  });
   return guideTpl.evaluate()
     .setTitle('WIT Canada — Welcome Guide')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')

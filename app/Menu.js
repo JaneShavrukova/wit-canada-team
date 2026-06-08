@@ -131,28 +131,16 @@ function showPermissionAlert() {
 // ============================================================
 
 function openMemberGuideForRow() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const ctx = requireActiveMemberRow();
+  if (!ctx) return;
+  const { sheet, row, colMap } = ctx;
 
-  if (sheet.getName() !== CONFIG.SHEET.MAIN) {
-    showAlert('Wrong sheet', 'Please select a row in the WIT_Members sheet first.');
-    return;
-  }
-
-  const row = sheet.getActiveRange().getRow();
-  if (row < CONFIG.SHEET.DATA_START_ROW) {
-    showAlert('No member selected', 'Please click on a member row first.');
-    return;
-  }
-
-  const colMap    = getColumnIndexMap(sheet);
   const get       = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
 
   const firstName = get(CONFIG.HEADERS.FIRST_NAME);
   const role      = get(CONFIG.HEADERS.ROLE);
 
-  const url = CONFIG.URLS.MEMBER_GUIDE
-    + '?firstName=' + encodeURIComponent(firstName)
-    + '&role='      + encodeURIComponent(role);
+  const url = buildUrl(CONFIG.URLS.MEMBER_GUIDE, { firstName, role });
 
   const displayName = [firstName].filter(Boolean).join(' ') || '';
 
@@ -218,20 +206,10 @@ function openPersonalInfoForm() {
 // ============================================================
 
 function openSignatureGeneratorForRow() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const ctx = requireActiveMemberRow();
+  if (!ctx) return;
+  const { sheet, row, colMap } = ctx;
 
-  if (sheet.getName() !== CONFIG.SHEET.MAIN) {
-    showAlert('Wrong sheet', 'Please select a row in the WIT_Members sheet first.');
-    return;
-  }
-
-  const row = sheet.getActiveRange().getRow();
-  if (row < CONFIG.SHEET.DATA_START_ROW) {
-    showAlert('No member selected', 'Please click on a member row first.');
-    return;
-  }
-
-  const colMap  = getColumnIndexMap(sheet);
   const get     = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
 
   const firstName = get(CONFIG.HEADERS.FIRST_NAME);
@@ -239,11 +217,7 @@ function openSignatureGeneratorForRow() {
   const role      = get(CONFIG.HEADERS.ROLE);
   const witEmail  = get(CONFIG.HEADERS.WIT_EMAIL);
 
-  const url = CONFIG.URLS.SIGNATURE_GENERATOR
-    + '&firstName=' + encodeURIComponent(firstName)
-    + '&lastName='  + encodeURIComponent(lastName)
-    + '&role='      + encodeURIComponent(role)
-    + '&witEmail='  + encodeURIComponent(witEmail);
+  const url = buildUrl(CONFIG.URLS.SIGNATURE_GENERATOR, { firstName, lastName, role, witEmail });
 
   const html = HtmlService
     .createHtmlOutput('<script>window.open("' + url + '","_blank");google.script.host.close();</script>')

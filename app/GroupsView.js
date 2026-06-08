@@ -2,8 +2,6 @@
 // WIT Canada — Groups View
 // ============================================================
 
-const EMAIL_ROW = 3;
-
 function buildGroupsView() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const mainSheet = ss.getSheetByName(CONFIG.SHEET.MAIN);
@@ -18,7 +16,7 @@ function buildGroupsView() {
     .getValues()[0];
 
   const emailRow = mainSheet
-    .getRange(EMAIL_ROW, 1, 1, mainSheet.getMaxColumns())
+    .getRange(CONFIG.SHEET.GROUP_EMAIL_ROW, 1, 1, mainSheet.getMaxColumns())
     .getValues()[0];
 
   // Build group definitions

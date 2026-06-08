@@ -122,12 +122,9 @@ function _markRequestsAsSent() {
  * @returns {string} HTML string
  */
 function _statusBadge(status) {
-  const styles = {
-    'requested':     'background:#fff3cd; color:#856404;',
-    'sent':          'background:#cfe2ff; color:#0a4a90;',
-    'created':       'background:#d1e7dd; color:#0a5933;',
-    'not activated': 'background:#fde8e8; color:#9c1c1c;',
-  };
-  const style = styles[status] ?? 'background:#f1f3f4; color:#3c4043;';
+  const c = CONFIG.COLORS.STATUS[status];
+  const style = c
+    ? `background:${c.bg}; color:${c.fg};`
+    : 'background:#f1f3f4; color:#3c4043;';
   return `<span style="padding:2px 8px; border-radius:4px; font-size:12px; font-weight:600; ${style}">${status}</span>`;
 }
