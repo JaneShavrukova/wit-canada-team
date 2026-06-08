@@ -12,13 +12,14 @@
 //      and the list of groups to assign.
 // ============================================================
 
-const WATCHED_SHEETS = new Set([CONFIG.SHEET.MAIN, "WIT_External"]);
-
 function processGroupsRequestOnEdit(e) {
   const sheet = e.source.getActiveSheet();
   const sheetName = sheet.getName();
 
-  if (!WATCHED_SHEETS.has(sheetName)) return;
+  // Built inside the function: referencing CONFIG at top level is unsafe
+  // because Apps Script evaluates files in name order (app/ before core/).
+  const watchedSheets = new Set([CONFIG.SHEET.MAIN, CONFIG.SHEET.EXTERNAL]);
+  if (!watchedSheets.has(sheetName)) return;
 
   const colMap = getColumnIndexMap(sheet);
   const groupsCol = colMap[normalizeHeader(CONFIG.HEADERS.ADDED_TO_GROUPS)];

@@ -46,15 +46,15 @@ function onOpen() {
 // ============================================================
 
 function openEmailRequestsReport() {
-  _openReportSheet(EMAIL_REQUESTS_SHEET);
+  _openReportSheet(CONFIG.SHEET.REPORTS.EMAIL_REQUESTS);
 }
 
 function openPhotoBioReport() {
-  _openReportSheet(REPORT_SHEET_NAME);
+  _openReportSheet(CONFIG.SHEET.REPORTS.PHOTO_BIO);
 }
 
 function openGroupsReport() {
-  _openReportSheet(GROUPS_VIEW_SHEET);
+  _openReportSheet(CONFIG.SHEET.REPORTS.GROUPS);
 }
 
 function _openReportSheet(name) {

@@ -1,10 +1,7 @@
 function exportDriveStructureToMd() {
-  const SHARED_DRIVES = [
-    { id: '0ABdfrNcsjynoUk9PVA', name: 'General' },
-    { id: '0ADJyJDduRllQUk9PVA', name: 'Leadership' },
-  ];
-  const OUTPUT_FOLDER_ID = '10Yzu4SKwqWiepB5-LfvGN0eRaHSgektQ';
-  const FOLDER_MIME = 'application/vnd.google-apps.folder';
+  const SHARED_DRIVES    = CONFIG.DRIVE.SHARED_DRIVES;
+  const OUTPUT_FOLDER_ID  = CONFIG.DRIVE.STRUCTURE_OUTPUT_FOLDER_ID;
+  const FOLDER_MIME       = 'application/vnd.google-apps.folder';
 
   const lines = ['# WIT Canada — Drive Structure\n'];
 

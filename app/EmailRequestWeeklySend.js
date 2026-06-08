@@ -97,7 +97,7 @@ function sendWeeklyEmailRequestsReport() {
 function _markRequestsAsSent() {
   const sheet     = getMainSheet();
   const colMap    = getColumnIndexMap(sheet);
-  const statusCol = getCol(colMap, CONFIG.HEADERS.REQUEST_STATUS);
+  const statusCol = getCol(colMap, CONFIG.HEADERS.EMAIL_STATUS);
 
   let count = 0;
 

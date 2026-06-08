@@ -3,7 +3,6 @@
 // ============================================================
 
 const REPORT_KEY        = 'lastSyncReport';
-const REPORT_SHEET_NAME = 'Report_Photos&Bios';
 
 const REGION_ORDER = ['Alberta', 'BC', 'Maritimes', 'Ontario', 'Quebec', 'Unknown'];
 
@@ -167,9 +166,9 @@ function buildPhotoBioReportSheet() {
   const data = loadSyncReport();
   const ss   = SpreadsheetApp.getActiveSpreadsheet();
 
-  let report = ss.getSheetByName(REPORT_SHEET_NAME);
+  let report = ss.getSheetByName(CONFIG.SHEET.REPORTS.PHOTO_BIO);
   if (!report) {
-    report = ss.insertSheet(REPORT_SHEET_NAME);
+    report = ss.insertSheet(CONFIG.SHEET.REPORTS.PHOTO_BIO);
   } else {
     report.clearContents();
     report.clearFormats();

@@ -2,13 +2,15 @@
 // WIT Canada — Groups View
 // ============================================================
 
-const GROUPS_VIEW_SHEET = "Report_Groups";
 const EMAIL_ROW = 3;
-const SOURCE_SHEETS = [CONFIG.SHEET.MAIN, "WIT_External"];
 
 function buildGroupsView() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const mainSheet = ss.getSheetByName(CONFIG.SHEET.MAIN);
+
+  // Built inside the function: referencing CONFIG at top level is unsafe
+  // because Apps Script evaluates files in name order (app/ before core/).
+  const sourceSheets = [CONFIG.SHEET.MAIN, CONFIG.SHEET.EXTERNAL];
 
   // Read group names (row 2) and emails (row 3)
   const allHeaders = mainSheet
@@ -40,7 +42,7 @@ function buildGroupsView() {
   const groupMembers = {};
   groupDefs.forEach((g) => (groupMembers[g.email] = []));
 
-  SOURCE_SHEETS.forEach((sheetName) => {
+  sourceSheets.forEach((sheetName) => {
     const sheet = ss.getSheetByName(sheetName);
     if (!sheet) return;
 
@@ -93,10 +95,10 @@ function buildGroupsView() {
 
   // Delete and recreate sheet to avoid stale groupings.
   // Record position first so the tab order is preserved after recreation.
-  const existing = ss.getSheetByName(GROUPS_VIEW_SHEET);
+  const existing = ss.getSheetByName(CONFIG.SHEET.REPORTS.GROUPS);
   const position = existing ? existing.getIndex() : null;
   if (existing) ss.deleteSheet(existing);
-  const out = ss.insertSheet(GROUPS_VIEW_SHEET);
+  const out = ss.insertSheet(CONFIG.SHEET.REPORTS.GROUPS);
   if (position !== null) ss.moveActiveSheet(position);
 
   const values = [];
@@ -206,6 +208,6 @@ function buildGroupsView() {
   ss.setActiveSheet(out);
   showAlert(
     "✅ Done",
-    `${GROUPS_VIEW_SHEET} updated — ${groupDefs.length} groups found.`,
+    `${CONFIG.SHEET.REPORTS.GROUPS} updated — ${groupDefs.length} groups found.`,
   );
 }

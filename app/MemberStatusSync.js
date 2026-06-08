@@ -18,7 +18,7 @@ function processMemberStatusOnEdit(e) {
   const colMap = getColumnIndexMap(sheet);
 
   const contractCol  = colMap[normalizeHeader(CONFIG.HEADERS.CONTRACT_STATUS)];
-  const emailCol     = colMap[normalizeHeader(CONFIG.HEADERS.REQUEST_STATUS)];
+  const emailCol     = colMap[normalizeHeader(CONFIG.HEADERS.EMAIL_STATUS)];
   const groupsCol    = colMap[normalizeHeader(CONFIG.HEADERS.ADDED_TO_GROUPS)];
   const memberCol    = colMap[normalizeHeader(CONFIG.HEADERS.MEMBER_STATUS)];
 

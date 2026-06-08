@@ -32,7 +32,7 @@ function processIntroSentOnEdit(e) {
   const firstNameCol    = colMap[normalizeHeader(CONFIG.HEADERS.FIRST_NAME)];
   const lastNameCol     = colMap[normalizeHeader(CONFIG.HEADERS.LAST_NAME)];
   const personalEmailCol = colMap[normalizeHeader(CONFIG.HEADERS.PERSONAL_EMAIL)];
-  const emailStatusCol  = colMap[normalizeHeader(CONFIG.HEADERS.REQUEST_STATUS)];
+  const emailStatusCol  = colMap[normalizeHeader(CONFIG.HEADERS.EMAIL_STATUS)];
   const roleCol         = colMap[normalizeHeader(CONFIG.HEADERS.ROLE)];
   const witEmailCol     = colMap[normalizeHeader(CONFIG.HEADERS.WIT_EMAIL)];
 

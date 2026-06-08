@@ -23,8 +23,8 @@ function processEmailRequestOnEdit(e) {
   const colMap = getColumnIndexMap(sheet);
 
   // ── Guard: only watch the Request Status column ──────────
-  const statusCol = colMap[normalizeHeader(CONFIG.HEADERS.REQUEST_STATUS)];
-  if (!statusCol) throw new Error(`Column not found: ${CONFIG.HEADERS.REQUEST_STATUS}`);
+  const statusCol = colMap[normalizeHeader(CONFIG.HEADERS.EMAIL_STATUS)];
+  if (!statusCol) throw new Error(`Column not found: ${CONFIG.HEADERS.EMAIL_STATUS}`);
   if (col !== statusCol) return;
 
   // ── Read new status value ────────────────────────────────

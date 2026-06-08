@@ -1,12 +1,28 @@
 // ============================================================
 // WIT Canada — Global Config
+// Single source of truth for constants: sheet names, headers,
+// status enums, identifiers (Drive folders, groups), and URLs.
 // ============================================================
+
+// Deployed web-app base URL. Both pages are served from this one
+// endpoint, routed by the ?page= parameter (see WebApp.doGet).
+const WEB_APP_URL =
+  "https://script.google.com/a/macros/women-in-tech.org/s/AKfycbxh3-EQ7VUbbf1WMn9q9aSBBCnSimhRST5QwEjs6VDXij07JwJQMP0Md99DqpqrFNmU/exec";
 
 const CONFIG = {
   SHEET: {
     MAIN: "WIT_Members",
+    EXTERNAL: "WIT_External",
     HEADER_ROW: 2,
     DATA_START_ROW: 4,
+
+    // Generated report sheets (rebuilt by the report builders;
+    // also opened from the menu, hence centralized here).
+    REPORTS: {
+      EMAIL_REQUESTS: "Report_Email_Requests",
+      PHOTO_BIO: "Report_Photos&Bios",
+      GROUPS: "Report_Groups",
+    },
   },
 
   STATUS: {
@@ -47,7 +63,7 @@ const CONFIG = {
     ROLE: "Role",
     WIT_EMAIL: "WIT Email",
     PERSONAL_EMAIL: "Personal Email",
-    REQUEST_STATUS: "Email Status",
+    EMAIL_STATUS: "Email Status",
     ADDED_TO_GROUPS: "Add to groups",
     INTRO_SENT: "Intro sent",
     PHOTO: "Photo",
@@ -92,12 +108,17 @@ const CONFIG = {
   DRIVE: {
     PHOTO_FOLDER_ID: "1SdzoC6kMquUP14atedTNOGZouYQ-VG6t",
     BIO_FOLDER_ID: "1J90gz9dTXAuo6xfgiO9yeyh69zftVu9f",
+
+    // Used by the Drive-structure export tool (tools/DriveStructure.js).
+    STRUCTURE_OUTPUT_FOLDER_ID: "10Yzu4SKwqWiepB5-LfvGN0eRaHSgektQ",
+    SHARED_DRIVES: [
+      { id: "0ABdfrNcsjynoUk9PVA", name: "General" },
+      { id: "0ADJyJDduRllQUk9PVA", name: "Leadership" },
+    ],
   },
 
   URLS: {
-    MEMBER_GUIDE:
-      "https://script.google.com/a/macros/women-in-tech.org/s/AKfycbxh3-EQ7VUbbf1WMn9q9aSBBCnSimhRST5QwEjs6VDXij07JwJQMP0Md99DqpqrFNmU/exec",
-    SIGNATURE_GENERATOR:
-      "https://script.google.com/a/macros/women-in-tech.org/s/AKfycbxh3-EQ7VUbbf1WMn9q9aSBBCnSimhRST5QwEjs6VDXij07JwJQMP0Md99DqpqrFNmU/exec?page=signature",
+    MEMBER_GUIDE: WEB_APP_URL,
+    SIGNATURE_GENERATOR: `${WEB_APP_URL}?page=signature`,
   },
 };

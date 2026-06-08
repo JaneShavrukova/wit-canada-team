@@ -4,7 +4,6 @@
 // Trigger: Time-driven → Day timer → 3:00–4:00 AM PT
 // ============================================================
 
-const EMAIL_REQUESTS_SHEET = 'Report_Email_Requests';
 
 /**
  * Builds (or rebuilds) the Email_Requests sheet with all members
@@ -22,7 +21,7 @@ function buildEmailRequestsReport() {
   const lastCol   = getCol(colMap, CONFIG.HEADERS.LAST_NAME);
   const roleCol   = getCol(colMap, CONFIG.HEADERS.ROLE);
   const emailCol  = getCol(colMap, CONFIG.HEADERS.PERSONAL_EMAIL);
-  const statusCol = getCol(colMap, CONFIG.HEADERS.REQUEST_STATUS);
+  const statusCol = getCol(colMap, CONFIG.HEADERS.EMAIL_STATUS);
 
   // ── Collect pending members ──────────────────────────────
   // WIT_External is intentionally excluded — external members
@@ -58,10 +57,10 @@ function buildEmailRequestsReport() {
 
   // ── Write to sheet ───────────────────────────────────────
   const ss     = SpreadsheetApp.getActiveSpreadsheet();
-  let   report = ss.getSheetByName(EMAIL_REQUESTS_SHEET);
+  let   report = ss.getSheetByName(CONFIG.SHEET.REPORTS.EMAIL_REQUESTS);
 
   if (!report) {
-    report = ss.insertSheet(EMAIL_REQUESTS_SHEET);
+    report = ss.insertSheet(CONFIG.SHEET.REPORTS.EMAIL_REQUESTS);
   } else {
     report.clearContents();
     report.clearFormats();
@@ -115,7 +114,7 @@ function buildEmailRequestsReport() {
 
   ss.setActiveSheet(report);
 
-  Logger.log(`${EMAIL_REQUESTS_SHEET} report built: ${rows.length} pending member(s).`);
+  Logger.log(`${CONFIG.SHEET.REPORTS.EMAIL_REQUESTS} report built: ${rows.length} pending member(s).`);
   return rows;
 }
 
