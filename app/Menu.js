@@ -75,58 +75,6 @@ function _openReportSheet(name) {
 
 
 // ============================================================
-// Group access wrappers (with permission handling)
-// ============================================================
-
-function syncAllMembers() {
-  runWithAlert(() => {
-    try {
-      _syncAllMembers();
-    } catch (e) {
-      if (isPermissionError(e)) {
-        showPermissionAlert();
-      } else {
-        throw e;
-      }
-    }
-  });
-}
-
-function syncSelectedMember() {
-  runWithAlert(() => {
-    try {
-      _syncSelectedMember();
-    } catch (e) {
-      if (isPermissionError(e)) {
-        showPermissionAlert();
-      } else {
-        throw e;
-      }
-    }
-  });
-}
-
-
-// ============================================================
-// Helpers (menu-specific)
-// ============================================================
-
-function isPermissionError(e) {
-  return e.message && e.message.toLowerCase().includes('permission');
-}
-
-function showPermissionAlert() {
-  SpreadsheetApp.getUi().alert(
-    'Permission required',
-    'Assigning group access requires the Groups Admin role in Google Workspace.\n\n' +
-    'Please contact the Ops Lead — she will run the sync for you:\n' +
-    CONFIG.EMAIL.OPS_LEAD,
-    SpreadsheetApp.getUi().ButtonSet.OK
-  );
-}
-
-
-// ============================================================
 // Member Onboarding
 // ============================================================
 

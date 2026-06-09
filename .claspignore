@@ -5,6 +5,9 @@
 tests/**
 node_modules/**
 
+# Parked / not deployed (e.g. needs Workspace admin access we don't have)
+disabled/**
+
 # Repo meta
 **/*.md
 .DS_Store
