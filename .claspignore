@@ -1,10 +1,6 @@
 # Files kept in the repo but NOT deployed to Apps Script by `clasp push`.
 # Ignore-list semantics: anything matching here is excluded from the push.
 
-# Standalone visual prototype — lives in the repo, but is NOT part of the
-# deployed Apps Script app, so keep it out of `clasp push`.
-SiteTeamVisualPrototype.html
-
 # Local test/tooling (runs in Node, never on Apps Script)
 tests/**
 node_modules/**
