@@ -51,12 +51,13 @@ const THEME = {
 // event banners, presentation/report highlights — and sparingly,
 // to keep screens professional and not visually noisy.
 THEME.brand = {
-  electric: '#020ba6', // vivid brand blue (promo headlines/CTAs)
-  cyan:     '#02f3f2', // bright accent (highlights, on dark)
-  navy:     '#020039', // deep brand navy (promo backgrounds)
-  ivory:    '#fafae6', // warm off-white (promo backgrounds)
-  gold:     '#e6cf67', // gold accent
-  coral:    '#e8543b', // coral accent (sparing emphasis)
+  electric:  '#020ba6', // vivid brand blue (promo headlines/CTAs)
+  cyan:      '#02f3f2', // bright accent (highlights, on dark)
+  navy:      '#020039', // deep brand navy (promo backgrounds)
+  ivory:     '#fafae6', // warm off-white (promo backgrounds)
+  gold:      '#e6cf67', // gold accent
+  coral:     '#e8543b', // coral accent (sparing emphasis / attention)
+  coralTint: '#fdecea', // soft coral background for attention callouts
 };
 
 // ── Report-sheet chrome (derived from tokens) ──────────────
@@ -120,6 +121,7 @@ function themeCss() {
     'brand-ivory':         THEME.brand.ivory,
     'brand-gold':          THEME.brand.gold,
     'brand-coral':         THEME.brand.coral,
+    'brand-coral-tint':    THEME.brand.coralTint,
   };
 
   const body = Object.entries(vars)

@@ -56,11 +56,14 @@ function onEditInstallable(e) {
   };
 
   // Order note: the first three react to distinct values; member-status
-  // promotion runs last so it sees the row's settled state.
+  // promotion runs last so it sees the row's settled state. The onboarding
+  // handler runs after processEmailRequestOnEdit (so a 'requested' cancel
+  // reverts first) and before member-status (so a 'created' cancel reverts
+  // before status is recomputed).
   const handlers = [
     processEmailRequestOnEdit,
     processGroupsRequestOnEdit,
-    processIntroSentOnEdit,
+    processOnboardingEmailOnEdit,
     processMemberStatusOnEdit,
   ];
 

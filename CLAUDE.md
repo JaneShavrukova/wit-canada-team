@@ -30,8 +30,8 @@ app/     Triggers.js            setupTriggers() — registers all installable tr
          GroupsAccessRequest.js onEdit: "Add to groups" → "requested" (notify).
          GroupsSync.js          Actually adds members to Google Groups (AdminDirectory).
          GroupsView.js          Builds the Report_Groups snapshot sheet.
-         MemberStatusSync.js    onEdit: auto-promote Member Status → "active".
-         OnboardingEmail.js     onEdit: "Intro sent" → send welcome email.
+         MemberStatusSync.js    onEdit: Member Status → "onboarding" / "active".
+         OnboardingEmail.js     onEdit: Email Status → Letter 1 (requested) / Letter 2 (created).
          PhotoBioSync.js        Matches Drive photos/bios to members.
          PhotoBioReport.js      Renders the photo/bio status sheet + sidebar.
          ProfileUpdate.js       Form-submit handler + its trigger installer.
@@ -56,10 +56,16 @@ error is re-thrown afterwards so failures still surface.
 
 | Handler (dispatched, not trigger-bound) | Sheet | Reacts to |
 |---|---|---|
-| `processEmailRequestOnEdit` | WIT_Members | Email Status → `requested` |
+| `processEmailRequestOnEdit` | WIT_Members | Email Status → `requested` (Ops Lead notification) |
 | `processGroupsRequestOnEdit` | WIT_Members, WIT_External | Add to groups → `requested` |
-| `processMemberStatusOnEdit` | WIT_Members | Contract+Email+Groups all done → `active` |
-| `processIntroSentOnEdit` | WIT_Members | Intro sent checkbox → true |
+| `processOnboardingEmailOnEdit` | WIT_Members | Email Status → `requested` (Letter 1, personal email) / `created` (Letter 2, WIT email) |
+| `processMemberStatusOnEdit` | WIT_Members | Contract/Email/Groups → Member Status `onboarding` (in progress) or `active` (complete) |
+
+Onboarding emails are driven solely by **Email Status** (single source of truth);
+they fire only on a transition *into* the target value. The `requested`
+confirmation lives in `processEmailRequestOnEdit` (which runs first and reverts on
+cancel, gating Letter 1); `created` gets its own confirmation in the onboarding
+handler. The legacy "Intro sent" trigger has been removed.
 
 Other installable triggers:
 

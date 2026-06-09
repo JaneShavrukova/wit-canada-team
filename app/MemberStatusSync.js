@@ -34,19 +34,36 @@ function processMemberStatusOnEdit(e, ctx) {
   const groups   = safeString(sheet.getRange(row, groupsCol).getValue()).toLowerCase();
   const current  = safeString(sheet.getRange(row, memberCol).getValue()).toLowerCase();
 
-  // ── Skip if already active ───────────────────────────────
+  // ── Skip if already active (final state) ─────────────────
   if (current === CONFIG.MEMBER_STATUS.ACTIVE) return;
 
-  // ── Check all three conditions ───────────────────────────
+  // ── Promote to ACTIVE when fully onboarded ───────────────
   const allDone =
     contract === CONFIG.CONTRACT.SIGNED &&
     email    === CONFIG.STATUS.ACTIVE &&
     groups   === CONFIG.GROUPS_STATUS.ADDED;
 
-  if (!allDone) return;
+  if (allDone) {
+    sheet.getRange(row, memberCol).setValue(CONFIG.MEMBER_STATUS.ACTIVE);
+    Logger.log(`processMemberStatusOnEdit: row ${row} → active.`);
+    return;
+  }
 
-  // ── Promote to active ────────────────────────────────────
-  sheet.getRange(row, memberCol).setValue(CONFIG.MEMBER_STATUS.ACTIVE);
+  // ── Set ONBOARDING while in progress ─────────────────────
+  // Contract signed, the email pipeline is underway (not blank, not yet
+  // active), and groups are pending (requested — not added, not blank).
+  // ('not sent' is listed in the spec but isn't an Email Status value, so
+  // it's a harmless no-op in the exclusion set.)
+  const EMAIL_EXCLUDED  = new Set([CONFIG.STATUS.NEW, CONFIG.STATUS.ACTIVE, 'not sent']);
+  const GROUPS_EXCLUDED = new Set([CONFIG.GROUPS_STATUS.DEFAULT, CONFIG.GROUPS_STATUS.ADDED]);
 
-  Logger.log(`processMemberStatusOnEdit: row ${row} promoted to active.`);
+  const onboarding =
+    contract === CONFIG.CONTRACT.SIGNED &&
+    !EMAIL_EXCLUDED.has(email) &&
+    !GROUPS_EXCLUDED.has(groups);
+
+  if (onboarding && current !== CONFIG.MEMBER_STATUS.ONBOARDING) {
+    sheet.getRange(row, memberCol).setValue(CONFIG.MEMBER_STATUS.ONBOARDING);
+    Logger.log(`processMemberStatusOnEdit: row ${row} → onboarding.`);
+  }
 }
