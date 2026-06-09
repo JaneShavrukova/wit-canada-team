@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <base target="_top" />
+    <?!= themeCss() ?>
     <style>
       * {
         box-sizing: border-box;
@@ -12,12 +13,12 @@
       body {
         font-family: Arial, sans-serif;
         font-size: 12px;
-        color: #2c3e50;
+        color: var(--color-text-strong);
         background: #faf9f7;
         line-height: 1.5;
       }
       .topbar {
-        background: #1b4f8a;
+        background: var(--color-primary);
         padding: 12px 14px 10px;
         position: sticky;
         top: 0;
@@ -48,7 +49,7 @@
       .nav-btn:hover,
       .nav-btn.active {
         background: white;
-        color: #1b4f8a;
+        color: var(--color-primary);
         border-color: white;
       }
       .section {
@@ -73,7 +74,7 @@
         cursor: pointer;
         font-size: 12px;
         font-weight: bold;
-        color: #2c3e50;
+        color: var(--color-text-strong);
         user-select: none;
         transition: background 0.15s;
       }
@@ -81,17 +82,17 @@
         background: #f5f8fd;
       }
       .acc-head.open {
-        background: #ebf2fa;
-        color: #1b4f8a;
+        background: var(--color-primary-tint);
+        color: var(--color-primary);
       }
       .acc-arrow {
         font-size: 10px;
         transition: transform 0.2s;
-        color: #7f8c8d;
+        color: var(--color-text-muted);
       }
       .acc-head.open .acc-arrow {
         transform: rotate(180deg);
-        color: #1b4f8a;
+        color: var(--color-primary);
       }
       .acc-body {
         display: none;
@@ -104,7 +105,7 @@
       }
       h5 {
         font-size: 11px;
-        color: #1b4f8a;
+        color: var(--color-primary);
         text-transform: uppercase;
         letter-spacing: 0.06em;
         margin: 14px 0 8px;
@@ -114,7 +115,7 @@
       }
       p {
         font-size: 11px;
-        color: #5d6d7e;
+        color: var(--color-text-body);
         margin-bottom: 8px;
         line-height: 1.5;
       }
@@ -130,17 +131,17 @@
       .col-name {
         font-weight: bold;
         font-size: 11px;
-        color: #2c3e50;
+        color: var(--color-text-strong);
         margin-bottom: 2px;
       }
       .col-desc {
         font-size: 11px;
-        color: #7f8c8d;
+        color: var(--color-text-muted);
         line-height: 1.4;
       }
       .col-note {
         font-size: 10px;
-        color: #2e86c1;
+        color: var(--color-accent-sky);
         font-style: italic;
         margin-top: 3px;
       }
@@ -186,7 +187,7 @@
       .b-active {
         background: #1d9e75;
         color: white;
-        border: 1px solid #0f6e56;
+        border: 1px solid var(--color-success);
       }
       .b-onb {
         background: #faeeda;
@@ -209,12 +210,12 @@
       .step-num {
         min-width: 20px;
         height: 20px;
-        background: #ebf2fa;
+        background: var(--color-primary-tint);
         border-radius: 50%;
         text-align: center;
         line-height: 20px;
         font-weight: bold;
-        color: #1b4f8a;
+        color: var(--color-primary);
         font-size: 10px;
         flex-shrink: 0;
       }
@@ -222,19 +223,19 @@
         font-weight: bold;
         font-size: 11px;
         margin-bottom: 2px;
-        color: #2c3e50;
+        color: var(--color-text-strong);
       }
       .step-desc {
         font-size: 11px;
-        color: #7f8c8d;
+        color: var(--color-text-muted);
         line-height: 1.4;
       }
       .auto-tag {
         display: inline-block;
         font-size: 9px;
         font-weight: bold;
-        background: #ebf2fa;
-        color: #1b4f8a;
+        background: var(--color-primary-tint);
+        color: var(--color-primary);
         border-radius: 3px;
         padding: 1px 5px;
         margin-left: 4px;
@@ -253,8 +254,8 @@
         line-height: 1.4;
       }
       .tip {
-        background: #ebf2fa;
-        border-left: 2px solid #2e86c1;
+        background: var(--color-primary-tint);
+        border-left: 2px solid var(--color-accent-sky);
         padding: 8px 10px;
         border-radius: 0 6px 6px 0;
         font-size: 11px;
@@ -263,8 +264,8 @@
         line-height: 1.4;
       }
       .ok {
-        background: #e1f5ee;
-        border-left: 2px solid #0f6e56;
+        background: var(--color-success-tint);
+        border-left: 2px solid var(--color-success);
         padding: 8px 10px;
         border-radius: 0 6px 6px 0;
         font-size: 11px;
@@ -294,7 +295,7 @@
         padding: 8px 10px;
         margin-bottom: 10px;
         font-size: 11px;
-        color: #1b4f8a;
+        color: var(--color-primary);
       }
     </style>
   </head>

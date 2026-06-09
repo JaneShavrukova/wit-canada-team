@@ -58,7 +58,7 @@ function showSyncReportSidebar() {
         return `
           <tr>
             <td>${m.name}</td>
-            <td style="color:#1a2fa3">${m.witEmail}</td>
+            <td style="color:var(--color-primary)">${m.witEmail}</td>
             <td style="text-align:center">${photo}</td>
             <td style="text-align:center">${bio}</td>
           </tr>`;
@@ -84,24 +84,25 @@ function showSyncReportSidebar() {
   const allGood = !sectionsHtml.trim();
 
   const html = `
+    ${themeCss()}
     <style>
       * { box-sizing: border-box; margin: 0; padding: 0; }
       body {
         font-family: Google Sans, sans-serif;
         font-size: 12px;
         padding: 16px;
-        background: #fff;
-        color: #3c4043;
+        background: var(--color-surface);
+        color: var(--color-text-strong);
       }
       .meta {
         font-size: 11px;
-        color: #80868b;
+        color: var(--color-text-muted);
         margin-bottom: 14px;
         padding-bottom: 10px;
-        border-bottom: 1px solid #f1f3f4;
+        border-bottom: 1px solid var(--color-border);
       }
       .all-good {
-        color: #34a853;
+        color: var(--color-success);
         font-weight: 600;
         font-size: 13px;
         margin-top: 24px;
@@ -113,16 +114,16 @@ function showSyncReportSidebar() {
         font-size: 10px;
         text-transform: uppercase;
         letter-spacing: 0.6px;
-        color: #5f6368;
+        color: var(--color-text-muted);
         margin-bottom: 6px;
         padding-bottom: 4px;
-        border-bottom: 1px solid #e8eaed;
+        border-bottom: 1px solid var(--color-border);
       }
       table { width: 100%; border-collapse: collapse; }
       th {
         text-align: left;
         font-size: 10px;
-        color: #80868b;
+        color: var(--color-text-muted);
         font-weight: 600;
         padding: 3px 4px;
         text-transform: uppercase;
@@ -130,7 +131,7 @@ function showSyncReportSidebar() {
       th:not(:first-child) { text-align: center; }
       td {
         padding: 5px 4px;
-        border-bottom: 1px solid #f8f9fa;
+        border-bottom: 1px solid var(--color-surface-muted);
         font-size: 12px;
       }
       tr:last-child td { border-bottom: none; }
@@ -208,5 +209,5 @@ function buildPhotoBioReportSheet() {
   setReportColumnWidths(report, [200, 220, 80, 80]);
 
   report.setFrozenRows(2);
-  ss.setActiveSheet(report);
+  SpreadsheetApp.getActiveSpreadsheet().setActiveSheet(report);
 }

@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap"
       rel="stylesheet"
     />
+    <?!= themeCss() ?>
     <style>
       *,
       *::before,
@@ -24,11 +25,11 @@
       }
 
       :root {
-        --blue: #1b4f8a;
-        --blue-lt: #ebf2fa;
-        --blue-md: #2e86c1;
-        --teal: #0f6e56;
-        --teal-lt: #e1f5ee;
+        --blue: var(--color-primary);
+        --blue-lt: var(--color-primary-tint);
+        --blue-md: var(--color-accent-sky);
+        --teal: var(--color-success);
+        --teal-lt: var(--color-success-tint);
         --amber: #854f0b;
         --amber-lt: #faeeda;
         --gray: #5f5e5a;
@@ -39,7 +40,7 @@
         --bg: #faf9f7;
         --white: #ffffff;
         --radius: 10px;
-        --check-done: #0f6e56;
+        --check-done: var(--color-success);
       }
 
       .check-label a {

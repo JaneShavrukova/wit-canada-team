@@ -84,12 +84,25 @@ legacy single-purpose installer, now subsumed by `setupTriggers`.)
 - **`CONFIG` (core/Config.js) is the single source for data & identifiers** —
   sheet names, headers, statuses, folder IDs, URLs. Not visual styling.
 - **`THEME` (core/Theme.js) is the single source for color/design tokens.**
-  Never hard-code hex in feature files: use `THEME.*` in JS (sheets, inline
-  email styles) and `themeCss()` + `var(--color-*)` in HtmlService templates.
-  Brand blue is `#1b4f8a`. Migrated: all report sheets and all HTML emails.
-  Still on inline hex (planned `themeCss()` follow-on): the HtmlService
-  sidebar/modal HTML (`Sidebar.js`, `Menu.js`, `PhotoBioReport`'s
-  `showSyncReportSidebar`) and the `.html` guide pages.
+  Never hard-code hex in feature files. Three consumption paths:
+    - **Sheets / inline email styles** → `THEME.*` in JS.
+    - **JS-built HTML** (modals, sidebars) → inject `${themeCss()}` into the
+      string and use `var(--color-*)`.
+    - **HtmlService templates** (`.html` guides) → `<?!= themeCss() ?>` in
+      `<head>`, then `var(--color-*)`; for copy-out artifacts that can't use
+      CSS vars (e.g. the email signature) print a token via `<?= THEME.x ?>`.
+  `core/Theme.js` is the only `.js` file that may contain raw hex.
+- **Primary UI is blue-driven (`THEME.primary` `#1b4f8a`).** The brand sheet's
+  bright marketing accents live under **`THEME.brand`** (electric/cyan/navy/
+  ivory/gold/coral) and are exposed as `--brand-*` CSS vars. Do **not** promote
+  them to primary UI — use only on promotional/high-emphasis surfaces
+  (signature template, campaign/event banners, key highlights), sparingly, to
+  keep screens professional and not noisy.
+- **Remaining inline hex** (planned final pass): the decorative long-tail in the
+  three large `.html` guides (`FileGuide`, `OnboardingGuide`, `MemberGuide`) —
+  sand neutrals and amber/green/red status tints. `themeCss()` is already wired
+  into them, so finishing is a mechanical `var(--…)` swap once those semantic
+  tints get tokens.
 - **File evaluation order.** Apps Script has no modules; all files share one
   global scope and top-level statements run in load order. Do **not** reference
   `CONFIG` from another file's *top-level* code — only from inside function

@@ -8,3 +8,5 @@
 # Node (for local tooling: tests, linters)
 node_modules/
 npm-debug.log*
+
+settings.json

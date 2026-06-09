@@ -15,18 +15,19 @@ function openNewMemberGuideExternal() {
   const html = HtmlService.createHtmlOutput(`<!DOCTYPE html>
 <html>
 <head>
+${themeCss()}
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Google Sans', Arial, sans-serif;
-    background: #f8f9fa;
+    background: var(--color-surface-muted);
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding: 16px;
   }
   .card {
-    background: #fff;
+    background: var(--color-surface);
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(27,79,138,0.10);
     padding: 28px 28px 24px;
@@ -34,7 +35,7 @@ function openNewMemberGuideExternal() {
     width: 100%;
   }
   .header {
-    background: #1b4f8a;
+    background: var(--color-primary);
     border-radius: 8px;
     padding: 16px 20px;
     margin-bottom: 20px;
@@ -44,19 +45,19 @@ function openNewMemberGuideExternal() {
   }
   .header .emoji { font-size: 24px; line-height: 1; }
   .header h1 {
-    color: #fff;
+    color: var(--color-on-primary);
     font-size: 16px;
     font-weight: 600;
     line-height: 1.3;
   }
   .description {
-    color: #444;
+    color: var(--color-text-body);
     font-size: 13px;
     line-height: 1.6;
     margin-bottom: 16px;
   }
   .covers-label {
-    color: #1b4f8a;
+    color: var(--color-primary);
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
@@ -68,7 +69,7 @@ function openNewMemberGuideExternal() {
     margin-bottom: 24px;
   }
   ul li {
-    color: #444;
+    color: var(--color-text-body);
     font-size: 13px;
     padding: 4px 0 4px 20px;
     position: relative;
@@ -78,7 +79,7 @@ function openNewMemberGuideExternal() {
     content: '✓';
     position: absolute;
     left: 0;
-    color: #1b4f8a;
+    color: var(--color-primary);
     font-weight: 700;
     font-size: 12px;
   }
@@ -98,23 +99,23 @@ function openNewMemberGuideExternal() {
     font-family: inherit;
   }
   .btn-primary {
-    background: #1b4f8a;
-    color: #fff;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
   }
-  .btn-primary:hover { background: #16407a; }
+  .btn-primary:hover { background: var(--color-primary-dark); }
   .btn-secondary {
-    background: #ebf2fa;
-    color: #1b4f8a;
+    background: var(--color-primary-tint);
+    color: var(--color-primary);
   }
-  .btn-secondary:hover { background: #ddeaf7; }
+  .btn-secondary:hover { background: var(--color-primary-tint-hover); }
   .btn-secondary.copied {
-    background: #e6f4ea;
-    color: #1e7e34;
+    background: var(--color-success-tint);
+    color: var(--color-success);
   }
 </style>
 </head>
