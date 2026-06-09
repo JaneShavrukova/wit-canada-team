@@ -29,48 +29,7 @@ function onOpen() {
       .addItem('Refresh Photos & Bios',          'syncPhotosAndBios')
       .addItem('Refresh Groups',                 'buildGroupsView'))
 
-    .addSeparator()
-
-    // ── 🔍 Reports ───────────────────────────────────────────
-    .addSubMenu(ui.createMenu('🔍 Reports')
-      .addItem('Open Email Requests',            'openEmailRequestsReport')
-      .addItem('Open Missing Bios',              'openPhotoBioReport')
-      .addItem('Open Groups Status',             'openGroupsReport'))
-
     .addToUi();
-}
-
-
-// ============================================================
-// Report navigation helpers
-// ============================================================
-
-function openEmailRequestsReport() {
-  _openReportSheet(CONFIG.SHEET.REPORTS.EMAIL_REQUESTS);
-}
-
-function openPhotoBioReport() {
-  _openReportSheet(CONFIG.SHEET.REPORTS.PHOTO_BIO);
-}
-
-function openGroupsReport() {
-  _openReportSheet(CONFIG.SHEET.REPORTS.GROUPS);
-}
-
-function _openReportSheet(name) {
-  const ss    = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName(name);
-
-  if (!sheet) {
-    SpreadsheetApp.getUi().alert(
-      'Report not found',
-      `"${name}" hasn't been generated yet.\n\nRun the corresponding Refresh action first.`,
-      SpreadsheetApp.getUi().ButtonSet.OK
-    );
-    return;
-  }
-
-  ss.setActiveSheet(sheet);
 }
 
 
@@ -78,19 +37,16 @@ function _openReportSheet(name) {
 // Member Onboarding
 // ============================================================
 
-function openMemberGuideForRow() {
-  const ctx = requireActiveMemberRow();
-  if (!ctx) return;
-  const { sheet, row, colMap } = ctx;
-
-  const get       = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
-
-  const firstName = get(CONFIG.HEADERS.FIRST_NAME);
-  const role      = get(CONFIG.HEADERS.ROLE);
-
-  const url = buildUrl(CONFIG.URLS.MEMBER_GUIDE, { firstName, role });
-
-  const displayName = [firstName].filter(Boolean).join(' ') || '';
+/**
+ * Shows a small branded launcher modal: header (emoji + title),
+ * description, a "What it covers" checklist, and Open / Close buttons.
+ * Shared by the onboarding-tool menu items.
+ *
+ * @param {{emoji: string, title: string, description: string,
+ *          covers: string[], buttonLabel: string, url: string}} opts
+ */
+function _showLaunchCard(opts) {
+  const items = opts.covers.map((c) => `    <li>${c}</li>`).join('\n');
 
   const html = HtmlService.createHtmlOutput(`<!DOCTYPE html>
 <html>
@@ -119,26 +75,49 @@ ${themeCss()}
 <body>
 <div class="card">
   <div class="header">
-    <span class="emoji">📋</span>
-    <h1>Onboarding Checklist</h1>
+    <span class="emoji">${opts.emoji}</span>
+    <h1>${opts.title}</h1>
   </div>
-  <p class="description">A personalised step-by-step checklist to complete during onboarding.</p>
+  <p class="description">${opts.description}</p>
   <p class="covers-label">What it covers</p>
   <ul>
-    <li>Account &amp; email setup</li>
-    <li>Communication &amp; access</li>
-    <li>Community profile</li>
-    <li>Say hello to the team</li>
+${items}
   </ul>
   <div class="buttons">
-    <a class="btn btn-primary" href="${url}" target="_blank" onclick="google.script.host.close()">Open Checklist ↗</a>
+    <a class="btn btn-primary" href="${opts.url}" target="_blank" onclick="google.script.host.close()">${opts.buttonLabel}</a>
     <button class="btn btn-secondary" onclick="google.script.host.close()">Close</button>
   </div>
 </div>
 </body>
 </html>`).setWidth(480).setHeight(400);
 
-  SpreadsheetApp.getUi().showModalDialog(html, '📋 Onboarding Checklist');
+  SpreadsheetApp.getUi().showModalDialog(html, `${opts.emoji} ${opts.title}`);
+}
+
+function openMemberGuideForRow() {
+  const ctx = requireActiveMemberRow();
+  if (!ctx) return;
+  const { sheet, row, colMap } = ctx;
+  const get = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
+
+  const url = buildUrl(CONFIG.URLS.MEMBER_GUIDE, {
+    firstName: get(CONFIG.HEADERS.FIRST_NAME),
+    role:      get(CONFIG.HEADERS.ROLE),
+  });
+
+  _showLaunchCard({
+    emoji:       '📋',
+    title:       'Onboarding Checklist',
+    description: 'A personalised step-by-step checklist to complete during onboarding.',
+    covers: [
+      'Account &amp; email setup',
+      'Communication &amp; access',
+      'Community profile',
+      'Say hello to the team',
+    ],
+    buttonLabel: 'Open Checklist ↗',
+    url,
+  });
 }
 
 function openPersonalInfoForm() {
@@ -158,18 +137,26 @@ function openSignatureGeneratorForRow() {
   const ctx = requireActiveMemberRow();
   if (!ctx) return;
   const { sheet, row, colMap } = ctx;
+  const get = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
 
-  const get     = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
+  const url = buildUrl(CONFIG.URLS.SIGNATURE_GENERATOR, {
+    firstName: get(CONFIG.HEADERS.FIRST_NAME),
+    lastName:  get(CONFIG.HEADERS.LAST_NAME),
+    role:      get(CONFIG.HEADERS.ROLE),
+    witEmail:  get(CONFIG.HEADERS.WIT_EMAIL),
+  });
 
-  const firstName = get(CONFIG.HEADERS.FIRST_NAME);
-  const lastName  = get(CONFIG.HEADERS.LAST_NAME);
-  const role      = get(CONFIG.HEADERS.ROLE);
-  const witEmail  = get(CONFIG.HEADERS.WIT_EMAIL);
-
-  const url = buildUrl(CONFIG.URLS.SIGNATURE_GENERATOR, { firstName, lastName, role, witEmail });
-
-  const html = HtmlService
-    .createHtmlOutput('<script>window.open("' + url + '","_blank");google.script.host.close();</script>')
-    .setWidth(1).setHeight(1);
-  SpreadsheetApp.getUi().showModalDialog(html, 'Opening Signature Generator…');
+  _showLaunchCard({
+    emoji:       '✍️',
+    title:       'Email Signature Generator',
+    description: 'A ready-to-use generator, pre-filled with your details, for your WIT Canada email signature.',
+    covers: [
+      'Pre-filled with your info',
+      'Live signature preview',
+      'One-click copy for Gmail',
+      'Step-by-step Gmail setup',
+    ],
+    buttonLabel: 'Open Generator ↗',
+    url,
+  });
 }
