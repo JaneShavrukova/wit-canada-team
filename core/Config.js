@@ -138,13 +138,5 @@ const CONFIG = {
 // Region display/iteration order: the five regions plus a catch-all.
 CONFIG.REGION_ORDER = [...Object.values(CONFIG.REGIONS), "Unknown"];
 
-// Status colors, keyed by Email-Status value. `bg` is used for sheet
-// cell backgrounds; `bg`+`fg` together style the HTML email badges.
-CONFIG.COLORS = {
-  STATUS: {
-    [CONFIG.STATUS.REQUEST]:       { bg: "#fff3cd", fg: "#856404" },
-    [CONFIG.STATUS.SENT]:          { bg: "#cfe2ff", fg: "#0a4a90" },
-    [CONFIG.STATUS.CREATED]:       { bg: "#d1e7dd", fg: "#0a5933" },
-    [CONFIG.STATUS.NOT_ACTIVATED]: { bg: "#fde8e8", fg: "#9c1c1c" },
-  },
-};
+// NOTE: visual styling (colors / design tokens) lives in core/Theme.js
+// (the THEME object), not in CONFIG. CONFIG holds data & identifiers only.

@@ -10,11 +10,7 @@
 // ─────────────────────────────────────────────
 
 function saveSyncReport(byRegion) {
-  const timestamp = new Date().toLocaleString('en-CA', {
-    timeZone: 'America/Vancouver',
-    dateStyle: 'medium',
-    timeStyle: 'short'
-  });
+  const timestamp = reportTimestamp();
 
   PropertiesService
     .getScriptProperties()
@@ -161,16 +157,8 @@ function showSyncReportSidebar() {
 // ─────────────────────────────────────────────
 
 function buildPhotoBioReportSheet() {
-  const data = loadSyncReport();
-  const ss   = SpreadsheetApp.getActiveSpreadsheet();
-
-  let report = ss.getSheetByName(CONFIG.SHEET.REPORTS.PHOTO_BIO);
-  if (!report) {
-    report = ss.insertSheet(CONFIG.SHEET.REPORTS.PHOTO_BIO);
-  } else {
-    report.clearContents();
-    report.clearFormats();
-  }
+  const data   = loadSyncReport();
+  const report = getOrCreateReportSheet(CONFIG.SHEET.REPORTS.PHOTO_BIO);
 
   if (!data) {
     report.getRange(1, 1).setValue('No sync data yet. Run "Update photos & bios data" first.');
@@ -178,27 +166,10 @@ function buildPhotoBioReportSheet() {
   }
 
   const { timestamp, byRegion } = data;
-  let currentRow = 1;
-
   const COL_COUNT = 4;
 
-  // Title row
-  report.getRange(currentRow, 1, 1, COL_COUNT).merge()
-    .setValue('Photos & Bios Status Report')
-    .setFontSize(14)
-    .setFontWeight('bold')
-    .setBackground('#1a2fa3')
-    .setFontColor('#ffffff')
-    .setHorizontalAlignment('left');
-  currentRow++;
-
-  // Timestamp row
-  report.getRange(currentRow, 1, 1, COL_COUNT).merge()
-    .setValue(`Updated: ${timestamp}`)
-    .setFontSize(10)
-    .setFontColor('#5f6368')
-    .setBackground('#f8f9fa');
-  currentRow++;
+  // Title + timestamp banner (rows 1–2); content begins at row 3.
+  let currentRow = writeReportTitleBlock(report, 'Photos & Bios Status Report', COL_COUNT, timestamp);
 
   CONFIG.REGION_ORDER.forEach(region => {
     const members = (byRegion[region] || []).filter(m => !m.hasPhoto || !m.hasBio);
@@ -209,12 +180,12 @@ function buildPhotoBioReportSheet() {
       .setValue(region.toUpperCase())
       .setFontSize(10)
       .setFontWeight('bold')
-      .setBackground('#e8f0fe')
-      .setFontColor('#1a2fa3');
+      .setBackground(THEME.report.SECTION_BG)
+      .setFontColor(THEME.report.SECTION_FG);
     currentRow++;
 
     // Column headers
-    report.getRange(currentRow, 1, 1, COL_COUNT).setBackground('#f1f3f4').setFontWeight('bold');
+    report.getRange(currentRow, 1, 1, COL_COUNT).setBackground(THEME.surfaceMuted).setFontWeight('bold');
     report.getRange(currentRow, 1).setValue('Member');
     report.getRange(currentRow, 2).setValue('WIT Email');
     report.getRange(currentRow, 3).setValue('Photo');
@@ -234,10 +205,7 @@ function buildPhotoBioReportSheet() {
   });
 
   // Column widths
-  report.setColumnWidth(1, 200);
-  report.setColumnWidth(2, 220);
-  report.setColumnWidth(3, 80);
-  report.setColumnWidth(4, 80);
+  setReportColumnWidths(report, [200, 220, 80, 80]);
 
   report.setFrozenRows(2);
   ss.setActiveSheet(report);

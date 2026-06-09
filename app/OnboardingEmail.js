@@ -129,24 +129,26 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
   const checklistUrl  = buildUrl(CONFIG.URLS.MEMBER_GUIDE, params);
   const signatureUrl  = buildUrl(CONFIG.URLS.SIGNATURE_GENERATOR, params);
 
+  const T = THEME; // inline tokens (emails can't use CSS variables)
+
   return `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
 </head>
-<body style="margin:0;padding:0;background:#f4f6fb;font-family:Arial,sans-serif;">
+<body style="margin:0;padding:0;background:${T.surfaceAlt};font-family:Arial,sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6fb;padding:32px 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:${T.surfaceAlt};padding:32px 0;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:${T.surface};border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
 
           <!-- Header -->
           <tr>
-            <td style="background:#1b4f8a;padding:28px 36px;">
+            <td style="background:${T.primary};padding:28px 36px;">
               <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.08em;">Women in Tech Canada</p>
-              <h1 style="margin:6px 0 0;font-size:20px;color:#ffffff;font-weight:bold;">Welcome to the team 👋</h1>
+              <h1 style="margin:6px 0 0;font-size:20px;color:${T.onPrimary};font-weight:bold;">Welcome to the team 👋</h1>
             </td>
           </tr>
 
@@ -154,22 +156,22 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
           <tr>
             <td style="padding:32px 36px;">
 
-              <p style="margin:0 0 20px;font-size:15px;color:#2c3e50;line-height:1.6;">
+              <p style="margin:0 0 20px;font-size:15px;color:${T.textStrong};line-height:1.6;">
                 Hi ${firstName},
               </p>
-              <p style="margin:0 0 20px;font-size:14px;color:#5d6d7e;line-height:1.6;">
+              <p style="margin:0 0 20px;font-size:14px;color:${T.textBody};line-height:1.6;">
                 Welcome to Women in Tech Canada — we're glad to have you with us.
               </p>
-              <p style="margin:0 0 28px;font-size:14px;color:#5d6d7e;line-height:1.6;">
+              <p style="margin:0 0 28px;font-size:14px;color:${T.textBody};line-height:1.6;">
                 To get started, please complete your onboarding using the interactive checklist below:
               </p>
 
               <!-- CTA buttons -->
               <table cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
                 <tr>
-                  <td style="background:#1b4f8a;border-radius:6px;">
+                  <td style="background:${T.primary};border-radius:6px;">
                     <a href="${checklistUrl}" target="_blank"
-                       style="display:inline-block;padding:12px 28px;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                       style="display:inline-block;padding:12px 28px;color:${T.onPrimary};font-size:14px;font-weight:bold;text-decoration:none;">
                       👉 Open Onboarding Checklist
                     </a>
                   </td>
@@ -177,9 +179,9 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
               </table>
               <table cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
                 <tr>
-                  <td style="background:#1b4f8a;border-radius:6px;">
+                  <td style="background:${T.primary};border-radius:6px;">
                     <a href="${signatureUrl}" target="_blank"
-                       style="display:inline-block;padding:12px 28px;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                       style="display:inline-block;padding:12px 28px;color:${T.onPrimary};font-size:14px;font-weight:bold;text-decoration:none;">
                       ✍️ Create your email signature →
                     </a>
                   </td>
@@ -187,20 +189,20 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
               </table>
 
               <!-- Divider -->
-              <hr style="border:none;border-top:1px solid #e8ecf0;margin:0 0 28px;">
+              <hr style="border:none;border-top:1px solid ${T.border};margin:0 0 28px;">
 
               <!-- Steps -->
-              <h2 style="margin:0 0 20px;font-size:15px;color:#1b4f8a;font-weight:bold;">Key Steps</h2>
+              <h2 style="margin:0 0 20px;font-size:15px;color:${T.primary};font-weight:bold;">Key Steps</h2>
 
               <!-- Step 1 -->
               <table cellpadding="0" cellspacing="0" style="margin-bottom:20px;width:100%;">
                 <tr>
                   <td width="32" valign="top">
-                    <div style="width:24px;height:24px;background:#e8f0fb;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;color:#1b4f8a;">1</div>
+                    <div style="width:24px;height:24px;background:${T.primaryTint};border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;color:${T.primary};">1</div>
                   </td>
                   <td valign="top">
-                    <p style="margin:0 0 4px;font-size:13px;font-weight:bold;color:#2c3e50;">Email Activation</p>
-                    <p style="margin:0;font-size:13px;color:#7f8c8d;line-height:1.5;">
+                    <p style="margin:0 0 4px;font-size:13px;font-weight:bold;color:${T.textStrong};">Email Activation</p>
+                    <p style="margin:0;font-size:13px;color:${T.textMuted};line-height:1.5;">
                       You should have received an email with instructions to activate your WIT account.<br>
                       Please activate it within <strong>48 hours</strong>.
                     </p>
@@ -212,12 +214,12 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
               <table cellpadding="0" cellspacing="0" style="margin-bottom:20px;width:100%;">
                 <tr>
                   <td width="32" valign="top">
-                    <div style="width:24px;height:24px;background:#e8f0fb;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;color:#1b4f8a;">2</div>
+                    <div style="width:24px;height:24px;background:${T.primaryTint};border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;color:${T.primary};">2</div>
                   </td>
                   <td valign="top">
-                    <p style="margin:0 0 4px;font-size:13px;font-weight:bold;color:#2c3e50;">Access to Tools</p>
-                    <p style="margin:0 0 6px;font-size:13px;color:#7f8c8d;line-height:1.5;">Once your email is activated, you will receive access to:</p>
-                    <ul style="margin:0;padding-left:18px;font-size:13px;color:#7f8c8d;line-height:1.8;">
+                    <p style="margin:0 0 4px;font-size:13px;font-weight:bold;color:${T.textStrong};">Access to Tools</p>
+                    <p style="margin:0 0 6px;font-size:13px;color:${T.textMuted};line-height:1.5;">Once your email is activated, you will receive access to:</p>
+                    <ul style="margin:0;padding-left:18px;font-size:13px;color:${T.textMuted};line-height:1.8;">
                       <li>Google Drive (WIT Canada shared drive)</li>
                       <li>Internal communication tools</li>
                       <li>Relevant working documents</li>
@@ -230,11 +232,11 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
               <table cellpadding="0" cellspacing="0" style="margin-bottom:20px;width:100%;">
                 <tr>
                   <td width="32" valign="top">
-                    <div style="width:24px;height:24px;background:#e8f0fb;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;color:#1b4f8a;">3</div>
+                    <div style="width:24px;height:24px;background:${T.primaryTint};border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;color:${T.primary};">3</div>
                   </td>
                   <td valign="top">
-                    <p style="margin:0 0 4px;font-size:13px;font-weight:bold;color:#2c3e50;">Communication Channels</p>
-                    <p style="margin:0;font-size:13px;color:#7f8c8d;line-height:1.5;">
+                    <p style="margin:0 0 4px;font-size:13px;font-weight:bold;color:${T.textStrong};">Communication Channels</p>
+                    <p style="margin:0;font-size:13px;color:${T.textMuted};line-height:1.5;">
                       You will be added to the appropriate groups based on your role.
                     </p>
                   </td>
@@ -245,11 +247,11 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
               <table cellpadding="0" cellspacing="0" style="margin-bottom:28px;width:100%;">
                 <tr>
                   <td width="32" valign="top">
-                    <div style="width:24px;height:24px;background:#e8f0fb;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;color:#1b4f8a;">4</div>
+                    <div style="width:24px;height:24px;background:${T.primaryTint};border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:bold;color:${T.primary};">4</div>
                   </td>
                   <td valign="top">
-                    <p style="margin:0 0 4px;font-size:13px;font-weight:bold;color:#2c3e50;">Review Materials</p>
-                    <p style="margin:0;font-size:13px;color:#7f8c8d;line-height:1.5;">
+                    <p style="margin:0 0 4px;font-size:13px;font-weight:bold;color:${T.textStrong};">Review Materials</p>
+                    <p style="margin:0;font-size:13px;color:${T.textMuted};line-height:1.5;">
                       Please follow the onboarding checklist to complete all required steps and review key documents.
                     </p>
                   </td>
@@ -257,11 +259,11 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
               </table>
 
               <!-- Divider -->
-              <hr style="border:none;border-top:1px solid #e8ecf0;margin:0 0 24px;">
+              <hr style="border:none;border-top:1px solid ${T.border};margin:0 0 24px;">
 
-              <p style="margin:0;font-size:13px;color:#7f8c8d;line-height:1.6;">
+              <p style="margin:0;font-size:13px;color:${T.textMuted};line-height:1.6;">
                 If you have any questions or run into any issues, feel free to reach out to
-                <a href="mailto:${CONFIG.EMAIL.OPS_LEAD}" style="color:#1b4f8a;text-decoration:none;">${CONFIG.EMAIL.OPS_LEAD}</a>.
+                <a href="mailto:${CONFIG.EMAIL.OPS_LEAD}" style="color:${T.primary};text-decoration:none;">${CONFIG.EMAIL.OPS_LEAD}</a>.
               </p>
 
             </td>
@@ -269,8 +271,8 @@ function _buildOnboardingEmailHtml(firstName, lastName, role, witEmail) {
 
           <!-- Footer -->
           <tr>
-            <td style="background:#f8f9fa;padding:16px 36px;border-top:1px solid #e8ecf0;">
-              <p style="margin:0;font-size:11px;color:#adb5bd;text-align:center;">
+            <td style="background:${T.surfaceMuted};padding:16px 36px;border-top:1px solid ${T.border};">
+              <p style="margin:0;font-size:11px;color:${T.textFaint};text-align:center;">
                 Women in Tech Canada · This is an automated message
               </p>
             </td>

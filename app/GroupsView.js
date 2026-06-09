@@ -103,11 +103,7 @@ function buildGroupsView() {
   const formats = [];
   const groupRanges = [];
 
-  const timestamp = new Date().toLocaleString("en-CA", {
-    timeZone: "America/Vancouver",
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  const timestamp = reportTimestamp();
 
   values.push(["Groups Snapshot", "", ""]);
   formats.push("title");
@@ -155,37 +151,40 @@ function buildGroupsView() {
 
     if (type === "title") {
       fullRow
-        .setBackground("#1a2fa3")
-        .setFontColor("#ffffff")
+        .setBackground(THEME.report.TITLE_BG)
+        .setFontColor(THEME.report.TITLE_FG)
         .setFontWeight("bold")
         .setFontSize(14);
     } else if (type === "timestamp") {
-      fullRow.setBackground("#f8f9fa").setFontColor("#5f6368").setFontSize(10);
+      fullRow
+        .setBackground(THEME.report.SUBTITLE_BG)
+        .setFontColor(THEME.report.SUBTITLE_FG)
+        .setFontSize(10);
     } else if (type === "header") {
       fullRow
-        .setBackground("#1a2fa3")
-        .setFontColor("#ffffff")
+        .setBackground(THEME.report.TITLE_BG)
+        .setFontColor(THEME.report.TITLE_FG)
         .setFontWeight("bold")
         .setFontSize(11);
     } else if (type === "member") {
       fullRow
-        .setBackground("#ffffff")
-        .setFontColor("#3c4043")
+        .setBackground(THEME.surface)
+        .setFontColor(THEME.textStrong)
         .setFontWeight("normal")
         .setFontSize(11);
-      roleCell.setFontColor("#80868b").setFontSize(10);
+      roleCell.setFontColor(THEME.textMuted).setFontSize(10);
     } else if (type === "member-external") {
       fullRow
-        .setBackground("#ffffff")
-        .setFontColor("#80868b")
+        .setBackground(THEME.surface)
+        .setFontColor(THEME.textMuted)
         .setFontWeight("normal")
         .setFontStyle("italic")
         .setFontSize(11);
-      roleCell.setFontColor("#b0b4b8").setFontSize(10);
+      roleCell.setFontColor(THEME.textFaint).setFontSize(10);
     } else if (type === "empty") {
       fullRow
-        .setBackground("#ffffff")
-        .setFontColor("#aaaaaa")
+        .setBackground(THEME.surface)
+        .setFontColor(THEME.textFaint)
         .setFontStyle("italic")
         .setFontSize(10);
     }

@@ -137,47 +137,49 @@ function _buildGroupsRequestEmailHtml(
   sheetName,
   groups,
 ) {
+  const T = THEME; // inline tokens (emails can't use CSS variables)
+
   const groupRows =
     groups.length > 0
       ? groups
           .map(
             (g) => `
         <tr>
-          <td style="padding:7px 10px;border-bottom:1px solid #e8ecf0;font-size:13px;color:#2c3e50;">${g.name}</td>
-          <td style="padding:7px 10px;border-bottom:1px solid #e8ecf0;font-size:13px;color:#1b4f8a;">${g.email}</td>
+          <td style="padding:7px 10px;border-bottom:1px solid ${T.border};font-size:13px;color:${T.textStrong};">${g.name}</td>
+          <td style="padding:7px 10px;border-bottom:1px solid ${T.border};font-size:13px;color:${T.primary};">${g.email}</td>
         </tr>`,
           )
           .join("")
-      : `<tr><td colspan="2" style="padding:10px;font-size:13px;color:#adb5bd;font-style:italic;">No groups selected</td></tr>`;
+      : `<tr><td colspan="2" style="padding:10px;font-size:13px;color:${T.textFaint};font-style:italic;">No groups selected</td></tr>`;
 
   return `
 <!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#f4f6fb;font-family:Arial,sans-serif;">
+<body style="margin:0;padding:0;background:${T.surfaceAlt};font-family:Arial,sans-serif;">
 
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6fb;padding:32px 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:${T.surfaceAlt};padding:32px 0;">
     <tr>
       <td align="center">
-        <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+        <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:${T.surface};border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
 
           <!-- Header -->
           <tr>
-            <td style="background:#1b4f8a;padding:24px 32px;">
+            <td style="background:${T.primary};padding:24px 32px;">
               <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.08em;">WIT Canada · Operations</p>
-              <h1 style="margin:6px 0 0;font-size:18px;color:#ffffff;font-weight:bold;">Groups Access Requested</h1>
+              <h1 style="margin:6px 0 0;font-size:18px;color:${T.onPrimary};font-weight:bold;">Groups Access Requested</h1>
             </td>
           </tr>
 
           <!-- Member info -->
           <tr>
             <td style="padding:24px 32px 16px;">
-              <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f8fd;border-radius:6px;border:1px solid #dce8f8;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background:${T.primaryTint};border-radius:6px;border:1px solid ${T.border};">
                 <tr>
                   <td style="padding:14px 16px;">
-                    <p style="margin:0 0 4px;font-size:11px;color:#7f8c8d;text-transform:uppercase;letter-spacing:0.06em;">${memberType} · ${sheetName}</p>
-                    <p style="margin:0 0 2px;font-size:15px;font-weight:bold;color:#2c3e50;">${fullName}</p>
-                    <p style="margin:0;font-size:13px;color:#7f8c8d;">${role}</p>
+                    <p style="margin:0 0 4px;font-size:11px;color:${T.textMuted};text-transform:uppercase;letter-spacing:0.06em;">${memberType} · ${sheetName}</p>
+                    <p style="margin:0 0 2px;font-size:15px;font-weight:bold;color:${T.textStrong};">${fullName}</p>
+                    <p style="margin:0;font-size:13px;color:${T.textMuted};">${role}</p>
                   </td>
                 </tr>
               </table>
@@ -187,12 +189,12 @@ function _buildGroupsRequestEmailHtml(
           <!-- Groups table -->
           <tr>
             <td style="padding:0 32px 24px;">
-              <p style="margin:0 0 10px;font-size:13px;font-weight:bold;color:#1b4f8a;">Groups to assign</p>
-              <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e8ecf0;border-radius:6px;overflow:hidden;">
+              <p style="margin:0 0 10px;font-size:13px;font-weight:bold;color:${T.primary};">Groups to assign</p>
+              <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ${T.border};border-radius:6px;overflow:hidden;">
                 <thead>
-                  <tr style="background:#1b4f8a;">
-                    <th style="padding:8px 10px;text-align:left;font-size:11px;color:#fff;font-weight:bold;">Group</th>
-                    <th style="padding:8px 10px;text-align:left;font-size:11px;color:#fff;font-weight:bold;">Email</th>
+                  <tr style="background:${T.primary};">
+                    <th style="padding:8px 10px;text-align:left;font-size:11px;color:${T.onPrimary};font-weight:bold;">Group</th>
+                    <th style="padding:8px 10px;text-align:left;font-size:11px;color:${T.onPrimary};font-weight:bold;">Email</th>
                   </tr>
                 </thead>
                 <tbody>${groupRows}</tbody>
@@ -203,14 +205,14 @@ function _buildGroupsRequestEmailHtml(
           <!-- Divider -->
           <tr>
             <td style="padding:0 32px;">
-              <hr style="border:none;border-top:1px solid #e8ecf0;margin:0;">
+              <hr style="border:none;border-top:1px solid ${T.border};margin:0;">
             </td>
           </tr>
 
           <!-- Action note -->
           <tr>
             <td style="padding:20px 32px 28px;">
-              <p style="margin:0;font-size:13px;color:#7f8c8d;line-height:1.6;">
+              <p style="margin:0;font-size:13px;color:${T.textMuted};line-height:1.6;">
                 Please add this member to the listed groups in Google Admin, then update
                 <strong>Add to Groups = added</strong> in the sheet.
               </p>
@@ -219,8 +221,8 @@ function _buildGroupsRequestEmailHtml(
 
           <!-- Footer -->
           <tr>
-            <td style="background:#f8f9fa;padding:14px 32px;border-top:1px solid #e8ecf0;">
-              <p style="margin:0;font-size:11px;color:#adb5bd;text-align:center;">
+            <td style="background:${T.surfaceMuted};padding:14px 32px;border-top:1px solid ${T.border};">
+              <p style="margin:0;font-size:11px;color:${T.textFaint};text-align:center;">
                 Women in Tech Canada · This is an automated message
               </p>
             </td>

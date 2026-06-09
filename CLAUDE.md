@@ -12,8 +12,12 @@ Pushed to Apps Script with `clasp push` (see `.clasp.json`). Files under
 ## Layout
 
 ```
-core/    Config.js   Single source of truth: sheet/column names, status enums,
-                     group↔email map, Drive folder IDs, URLs.
+core/    Config.js   Data & identifiers: sheet/column names, status enums,
+                     group↔email map, Drive folder IDs, URLs. NOT colors.
+         Theme.js    Design tokens (THEME) — the one palette for sheets,
+                     sidebars, web pages, and emails; themeCss() emits CSS vars.
+         ReportBuilder.js  Shared report-sheet scaffolding (banner, timestamp,
+                     get-or-create, column widths).
          Utils.js    Stateless helpers: sheet access, column-index mapping,
                      string normalization, Drive lookups, UI alerts, email gen.
 
@@ -77,10 +81,15 @@ legacy single-purpose installer, now subsumed by `setupTriggers`.)
 
 ## Conventions & constraints
 
-- **`CONFIG` is the single source of truth.** Add new sheet names, headers,
-  statuses, colors, folder IDs, and URLs there — not as scattered top-level
-  consts. (A few legacy ones still live in app files; consolidating them is a
-  planned refactor step.)
+- **`CONFIG` (core/Config.js) is the single source for data & identifiers** —
+  sheet names, headers, statuses, folder IDs, URLs. Not visual styling.
+- **`THEME` (core/Theme.js) is the single source for color/design tokens.**
+  Never hard-code hex in feature files: use `THEME.*` in JS (sheets, inline
+  email styles) and `themeCss()` + `var(--color-*)` in HtmlService templates.
+  Brand blue is `#1b4f8a`. Migrated: all report sheets and all HTML emails.
+  Still on inline hex (planned `themeCss()` follow-on): the HtmlService
+  sidebar/modal HTML (`Sidebar.js`, `Menu.js`, `PhotoBioReport`'s
+  `showSyncReportSidebar`) and the `.html` guide pages.
 - **File evaluation order.** Apps Script has no modules; all files share one
   global scope and top-level statements run in load order. Do **not** reference
   `CONFIG` from another file's *top-level* code — only from inside function

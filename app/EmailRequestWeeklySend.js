@@ -16,6 +16,7 @@
  */
 function sendWeeklyEmailRequestsReport() {
   const rows = buildEmailRequestsReport(); // always rebuild fresh before sending
+  const T = THEME; // inline tokens (emails can't use CSS variables)
 
   // rows includes requested + sent + created + not activated (full tracker view)
   const newCount          = rows.filter(r => r[3] === CONFIG.STATUS.REQUEST).length;
@@ -36,24 +37,24 @@ function sendWeeklyEmailRequestsReport() {
   const tableRows = rows
     .map(([name, role, personalEmail, requestStatus, witEmail]) => `
       <tr>
-        <td style="padding:8px 10px; border-bottom:1px solid #e8eaed;">${name}</td>
-        <td style="padding:8px 10px; border-bottom:1px solid #e8eaed; color:#5f6368;">${role}</td>
-        <td style="padding:8px 10px; border-bottom:1px solid #e8eaed;">${personalEmail}</td>
-        <td style="padding:8px 10px; border-bottom:1px solid #e8eaed;">${_statusBadge(requestStatus)}</td>
-        <td style="padding:8px 10px; border-bottom:1px solid #e8eaed; color:#1a2fa3; font-weight:bold;">${witEmail}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${name}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border}; color:${T.textMuted};">${role}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${personalEmail}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${_statusBadge(requestStatus)}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border}; color:${T.primary}; font-weight:bold;">${witEmail}</td>
       </tr>
     `)
     .join('');
 
   const htmlBody = `
-    <div style="font-family: Arial, sans-serif; font-size: 14px; color: #1a1a1a; max-width: 800px;">
+    <div style="font-family: Arial, sans-serif; font-size: 14px; color: ${T.textStrong}; max-width: 800px;">
 
       <p>Hi Tamuna,</p>
       <p>Here is the weekly summary of WIT email creation requests as of <strong>${timestamp}</strong>:</p>
 
       <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
         <thead>
-          <tr style="background:#1a2fa3; color:#ffffff;">
+          <tr style="background:${T.primary}; color:${T.onPrimary};">
             <th style="padding:10px; text-align:left;">Full Name</th>
             <th style="padding:10px; text-align:left;">Role</th>
             <th style="padding:10px; text-align:left;">Personal Email</th>
@@ -64,7 +65,7 @@ function sendWeeklyEmailRequestsReport() {
         <tbody>${tableRows}</tbody>
       </table>
 
-      <p style="color:#5f6368; font-size:13px;">
+      <p style="color:${T.textMuted}; font-size:13px;">
         New this week: <strong>${newCount}</strong> &nbsp;|&nbsp; Not activated: <strong>${notActivatedCount}</strong> &nbsp;|&nbsp; Total tracked: <strong>${rows.length}</strong>
       </p>
 
@@ -122,9 +123,9 @@ function _markRequestsAsSent() {
  * @returns {string} HTML string
  */
 function _statusBadge(status) {
-  const c = CONFIG.COLORS.STATUS[status];
+  const c = THEME.status[status];
   const style = c
     ? `background:${c.bg}; color:${c.fg};`
-    : 'background:#f1f3f4; color:#3c4043;';
+    : `background:${THEME.surfaceMuted}; color:${THEME.textStrong};`;
   return `<span style="padding:2px 8px; border-radius:4px; font-size:12px; font-weight:600; ${style}">${status}</span>`;
 }

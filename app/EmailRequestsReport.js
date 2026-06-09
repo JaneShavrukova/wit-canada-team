@@ -56,43 +56,21 @@ function buildEmailRequestsReport() {
   }
 
   // ── Write to sheet ───────────────────────────────────────
-  const ss     = SpreadsheetApp.getActiveSpreadsheet();
-  let   report = ss.getSheetByName(CONFIG.SHEET.REPORTS.EMAIL_REQUESTS);
-
-  if (!report) {
-    report = ss.insertSheet(CONFIG.SHEET.REPORTS.EMAIL_REQUESTS);
-  } else {
-    report.clearContents();
-    report.clearFormats();
-  }
-
-  const timestamp = new Date().toLocaleString('en-CA', {
-    timeZone:  'America/Vancouver',
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  });
+  const ss       = SpreadsheetApp.getActiveSpreadsheet();
+  const report   = getOrCreateReportSheet(CONFIG.SHEET.REPORTS.EMAIL_REQUESTS);
 
   const COL_COUNT = 5;
 
-  // Title
-  report.getRange(1, 1, 1, COL_COUNT).merge()
-    .setValue('WIT Email Creation Requests')
-    .setFontSize(14).setFontWeight('bold')
-    .setBackground('#1a2fa3').setFontColor('#ffffff');
-
-  // Timestamp
-  report.getRange(2, 1, 1, COL_COUNT).merge()
-    .setValue(`Updated: ${timestamp}`)
-    .setFontSize(10).setFontColor('#5f6368')
-    .setBackground('#f8f9fa');
+  // Title + timestamp banner (rows 1–2); data begins at row 3's headers.
+  writeReportTitleBlock(report, 'WIT Email Creation Requests', COL_COUNT);
 
   // Column headers
   const headers = ['Full Name', 'Role', 'Personal Email', 'Request Status', 'WIT Email (suggested)'];
   report.getRange(3, 1, 1, COL_COUNT)
     .setValues([headers])
     .setFontWeight('bold')
-    .setBackground('#e8f0fe')
-    .setFontColor('#1a2fa3');
+    .setBackground(THEME.report.SECTION_BG)
+    .setFontColor(THEME.report.SECTION_FG);
 
   // Data rows or empty state
   if (rows.length > 0) {
@@ -101,14 +79,12 @@ function buildEmailRequestsReport() {
   } else {
     report.getRange(4, 1, 1, COL_COUNT).merge()
       .setValue('✅ No pending email requests')
-      .setFontColor('#34a853').setFontWeight('bold')
+      .setFontColor(THEME.success).setFontWeight('bold')
       .setHorizontalAlignment('center');
   }
 
   // Column widths
-  [200, 220, 220, 130, 240].forEach((w, i) => {
-    report.setColumnWidth(i + 1, w);
-  });
+  setReportColumnWidths(report, [200, 220, 220, 130, 240]);
 
   report.setFrozenRows(3);
 
@@ -130,7 +106,7 @@ function buildEmailRequestsReport() {
 function _applyStatusColors(sheet, rows, startRow) {
   rows.forEach((row, i) => {
     const status = row[3]; // index 3 = Request Status
-    const color  = CONFIG.COLORS.STATUS[status]?.bg ?? '#ffffff';
+    const color  = THEME.status[status]?.bg ?? THEME.surface;
     sheet.getRange(startRow + i, 4).setBackground(color);
   });
 }
