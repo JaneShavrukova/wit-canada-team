@@ -12,16 +12,13 @@
 //      and the list of groups to assign.
 // ============================================================
 
-function processGroupsRequestOnEdit(e) {
-  const sheet = e.source.getActiveSheet();
-  const sheetName = sheet.getName();
+function processGroupsRequestOnEdit(e, ctx) {
+  const { sheet, sheetName, row, col, colMap } = ctx || buildEditContext(e);
 
-  // Built inside the function: referencing CONFIG at top level is unsafe
-  // because Apps Script evaluates files in name order (app/ before core/).
+  // Watches both the internal and external member sheets.
   const watchedSheets = new Set([CONFIG.SHEET.MAIN, CONFIG.SHEET.EXTERNAL]);
   if (!watchedSheets.has(sheetName)) return;
 
-  const colMap = getColumnIndexMap(sheet);
   const groupsCol = colMap[normalizeHeader(CONFIG.HEADERS.ADDED_TO_GROUPS)];
   if (!groupsCol) {
     Logger.log(`processGroupsRequestOnEdit: column "${CONFIG.HEADERS.ADDED_TO_GROUPS}" not found in sheet "${sheetName}". Trigger skipped.`);
@@ -29,14 +26,13 @@ function processGroupsRequestOnEdit(e) {
   }
 
   // ── Guard: only react to the 'Add to groups' column ────
-  if (e.range.getColumn() !== groupsCol) return;
+  if (col !== groupsCol) return;
 
   // ── Guard: only react when value transitions to 'requested'
   if (safeString(e.oldValue).toLowerCase() === CONFIG.GROUPS_STATUS.REQUESTED) return;
   const newValue = safeString(e.range.getValue()).toLowerCase();
   if (newValue !== CONFIG.GROUPS_STATUS.REQUESTED) return;
 
-  const row = e.range.getRow();
   if (row < CONFIG.SHEET.DATA_START_ROW) return;
 
   // ── Read member info ──────────────────────────────────────

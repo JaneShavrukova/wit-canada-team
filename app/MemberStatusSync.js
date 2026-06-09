@@ -11,11 +11,9 @@
 // → Automatically sets Member Status = 'active'
 // ============================================================
 
-function processMemberStatusOnEdit(e) {
-  const sheet = e.source.getActiveSheet();
-  if (sheet.getName() !== CONFIG.SHEET.MAIN) return;
-
-  const colMap = getColumnIndexMap(sheet);
+function processMemberStatusOnEdit(e, ctx) {
+  const { sheet, sheetName, row, col, colMap } = ctx || buildEditContext(e);
+  if (sheetName !== CONFIG.SHEET.MAIN) return;
 
   const contractCol  = colMap[normalizeHeader(CONFIG.HEADERS.CONTRACT_STATUS)];
   const emailCol     = colMap[normalizeHeader(CONFIG.HEADERS.EMAIL_STATUS)];
@@ -25,11 +23,9 @@ function processMemberStatusOnEdit(e) {
   if (!contractCol || !emailCol || !groupsCol || !memberCol) return;
 
   // ── Guard: only react when one of the three watched columns is edited ──
-  const editedCol = e.range.getColumn();
   const watchedCols = new Set([contractCol, emailCol, groupsCol]);
-  if (!watchedCols.has(editedCol)) return;
+  if (!watchedCols.has(col)) return;
 
-  const row = e.range.getRow();
   if (row < CONFIG.SHEET.DATA_START_ROW) return;
 
   // ── Read current values ──────────────────────────────────

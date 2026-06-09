@@ -13,14 +13,9 @@
 //   by sendWeeklyEmailRequestsReport() every Monday at 7 AM.
 // ============================================================
 
-function processEmailRequestOnEdit(e) {
-  const sheet = e.source.getActiveSheet();
-  if (sheet.getName() !== CONFIG.SHEET.MAIN) return;
-
-  const row = e.range.getRow();
-  const col = e.range.getColumn();
-
-  const colMap = getColumnIndexMap(sheet);
+function processEmailRequestOnEdit(e, ctx) {
+  const { sheet, sheetName, row, col, colMap } = ctx || buildEditContext(e);
+  if (sheetName !== CONFIG.SHEET.MAIN) return;
 
   // ── Guard: only watch the Request Status column ──────────
   const statusCol = colMap[normalizeHeader(CONFIG.HEADERS.EMAIL_STATUS)];

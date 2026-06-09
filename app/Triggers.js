@@ -24,10 +24,12 @@
  * so setupTriggers() is safe to run repeatedly.
  */
 const MANAGED_TRIGGER_HANDLERS = [
-  // On-edit (installable) — currently one trigger per handler.
-  // NOTE: every edit fires ALL of these. Phase 3 of the refactor
-  // collapses them behind a single onEdit dispatcher; until then
-  // this list documents the real, current wiring.
+  // On-edit (installable) — a single dispatcher routes to the four
+  // handlers (see app/EditRouter.js → onEditInstallable).
+  'onEditInstallable',
+
+  // Legacy per-handler on-edit triggers, kept here ONLY so re-running
+  // setupTriggers() removes them when upgrading from the old wiring.
   'processEmailRequestOnEdit',
   'processGroupsRequestOnEdit',
   'processMemberStatusOnEdit',
@@ -59,14 +61,8 @@ function setupTriggers() {
   });
 
   // ── On-edit (installable) ──────────────────────────────────
-  // One trigger per handler — mirrors the current manual wiring.
-  ['processEmailRequestOnEdit',
-   'processGroupsRequestOnEdit',
-   'processMemberStatusOnEdit',
-   'processIntroSentOnEdit']
-    .forEach((fn) => {
-      ScriptApp.newTrigger(fn).forSpreadsheet(ss).onEdit().create();
-    });
+  // Single dispatcher; routes to all four handlers (EditRouter.js).
+  ScriptApp.newTrigger('onEditInstallable').forSpreadsheet(ss).onEdit().create();
 
   // ── Form submit (installable) ──────────────────────────────
   ScriptApp.newTrigger('handleProfileFormSubmit')
@@ -96,8 +92,8 @@ function setupTriggers() {
     .create();
 
   Logger.log(
-    `setupTriggers: removed ${removed} existing, registered ` +
-    `${MANAGED_TRIGGER_HANDLERS.length} trigger(s).`,
+    `setupTriggers: removed ${removed} existing, registered 5 trigger(s) ` +
+    `(1 on-edit dispatcher, 1 form submit, 3 time-driven).`,
   );
 }
 

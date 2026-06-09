@@ -8,16 +8,15 @@
 // Sends to:   Personal Email
 // ============================================================
 
-function processIntroSentOnEdit(e) {
-  const sheet = e.source.getActiveSheet();
-  if (sheet.getName() !== CONFIG.SHEET.MAIN) return;
+function processIntroSentOnEdit(e, ctx) {
+  const { sheet, sheetName, row, col, colMap } = ctx || buildEditContext(e);
+  if (sheetName !== CONFIG.SHEET.MAIN) return;
 
   // ── Guard: only react to 'Intro sent' column ─────────────
-  const colMap = getColumnIndexMap(sheet);
   const introCol = colMap[normalizeHeader(CONFIG.HEADERS.INTRO_SENT)];
   if (!introCol)
     throw new Error(`Column not found: ${CONFIG.HEADERS.INTRO_SENT}`);
-  if (e.range.getColumn() !== introCol) return;
+  if (col !== introCol) return;
 
   // ── Guard: only react when box transitions false → true ──
   // e.oldValue === 'TRUE' means it was already checked — skip to prevent re-sends.
@@ -25,7 +24,6 @@ function processIntroSentOnEdit(e) {
   const checked = e.range.getValue();
   if (checked !== true) return;
 
-  const row = e.range.getRow();
   if (row < CONFIG.SHEET.DATA_START_ROW) return;
 
   // ── Resolve required columns ─────────────────────────────

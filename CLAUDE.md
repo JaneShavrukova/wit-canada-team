@@ -46,11 +46,15 @@ tools/   DriveStructure.js, SpreadSheetStructure.js — one-off export utilities
 
 ## How triggers are wired (read before changing handlers)
 
-There is **no master `onEdit` dispatcher yet**. Each of these is registered as
-its own *installable* On-Edit trigger, so **every cell edit fires all four**,
-and each independently rebuilds the column map and reads cells:
+A single *installable* On-Edit trigger, **`onEditInstallable`** (app/EditRouter.js),
+is the only edit trigger. It builds the column map **once** per edit and dispatches
+to the four handlers, each of which no-ops unless the edit matches its watched
+sheet + column/value. Handlers take `(e, ctx)` where `ctx = { sheet, sheetName,
+row, col, colMap }`; called without `ctx` they rebuild it via `buildEditContext(e)`.
+A handler that throws is isolated (logged) so the others still run; the first
+error is re-thrown afterwards so failures still surface.
 
-| Handler | Sheet | Reacts to |
+| Handler (dispatched, not trigger-bound) | Sheet | Reacts to |
 |---|---|---|
 | `processEmailRequestOnEdit` | WIT_Members | Email Status → `requested` |
 | `processGroupsRequestOnEdit` | WIT_Members, WIT_External | Add to groups → `requested` |
@@ -72,6 +76,12 @@ Other installable triggers:
 by handler name). Run it once from the editor after any fresh deploy. Audit live
 wiring with `listTriggers()`. (`ProfileUpdate.createProfileFormTrigger()` is the
 legacy single-purpose installer, now subsumed by `setupTriggers`.)
+
+> **Migrating to the dispatcher:** the live project still has the four legacy
+> per-handler On-Edit triggers. Running `setupTriggers()` removes them and
+> installs the single `onEditInstallable`. The interim is safe either way — if
+> a legacy trigger fires a handler directly (no `ctx`), the handler rebuilds it
+> via `buildEditContext(e)`.
 
 > **Not reproducible in code:** the per-trigger *Failure notification* setting
 > (the time-based jobs use "Notify me immediately" / "Notify me daily"). The
