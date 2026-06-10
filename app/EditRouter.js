@@ -64,6 +64,7 @@ function onEditInstallable(e) {
     processEmailRequestOnEdit,
     processGroupsRequestOnEdit,
     processOnboardingEmailOnEdit,
+    processContractSignedOnEdit,
     processMemberStatusOnEdit,
   ];
 

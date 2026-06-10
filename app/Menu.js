@@ -39,14 +39,24 @@ function onOpen() {
 
 /**
  * Shows a small branded launcher modal: header (emoji + title),
- * description, a "What it covers" checklist, and Open / Close buttons.
- * Shared by the onboarding-tool menu items.
+ * description, an optional "What it covers" checklist, and a primary
+ * link button (opens `url` in a new tab) + a secondary close button.
+ * Shared by the onboarding-tool menu items and the contract prompt.
  *
  * @param {{emoji: string, title: string, description: string,
- *          covers: string[], buttonLabel: string, url: string}} opts
+ *          url: string, buttonLabel: string,
+ *          covers?: string[], closeLabel?: string, height?: number}} opts
  */
 function _showLaunchCard(opts) {
-  const items = opts.covers.map((c) => `    <li>${c}</li>`).join('\n');
+  const covers = opts.covers || [];
+  const coversBlock = covers.length
+    ? `  <p class="covers-label">What it covers</p>
+  <ul>
+${covers.map((c) => `    <li>${c}</li>`).join('\n')}
+  </ul>`
+    : '';
+  const closeLabel = opts.closeLabel || 'Close';
+  const height     = opts.height || 400;
 
   const html = HtmlService.createHtmlOutput(`<!DOCTYPE html>
 <html>
@@ -79,17 +89,14 @@ ${themeCss()}
     <h1>${opts.title}</h1>
   </div>
   <p class="description">${opts.description}</p>
-  <p class="covers-label">What it covers</p>
-  <ul>
-${items}
-  </ul>
+${coversBlock}
   <div class="buttons">
     <a class="btn btn-primary" href="${opts.url}" target="_blank" onclick="google.script.host.close()">${opts.buttonLabel}</a>
-    <button class="btn btn-secondary" onclick="google.script.host.close()">Close</button>
+    <button class="btn btn-secondary" onclick="google.script.host.close()">${closeLabel}</button>
   </div>
 </div>
 </body>
-</html>`).setWidth(480).setHeight(400);
+</html>`).setWidth(480).setHeight(height);
 
   SpreadsheetApp.getUi().showModalDialog(html, `${opts.emoji} ${opts.title}`);
 }

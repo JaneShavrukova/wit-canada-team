@@ -115,6 +115,9 @@ const CONFIG = {
     PHOTO_FOLDER_ID: "1SdzoC6kMquUP14atedTNOGZouYQ-VG6t",
     BIO_FOLDER_ID: "1J90gz9dTXAuo6xfgiO9yeyh69zftVu9f",
 
+    // Folder opened by the "upload signed contract" prompt (ContractUpload.js).
+    CONTRACTS_FOLDER_ID: "16pxklNHgveLtVoOTGPNqa7EBqMtRNiyj",
+
     // Used by the Drive-structure export tool (tools/DriveStructure.js).
     STRUCTURE_OUTPUT_FOLDER_ID: "10Yzu4SKwqWiepB5-LfvGN0eRaHSgektQ",
     SHARED_DRIVES: [

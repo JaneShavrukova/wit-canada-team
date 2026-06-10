@@ -31,6 +31,7 @@ app/     Triggers.js            setupTriggers() — registers all installable tr
          GroupsSync.js          Actually adds members to Google Groups (AdminDirectory).
          GroupsView.js          Builds the Report_Groups snapshot sheet.
          MemberStatusSync.js    onEdit: Member Status → "onboarding" / "active".
+         ContractUpload.js      onEdit: Contract → "signed" → prompt to upload.
          OnboardingEmail.js     onEdit: Email Status → Letter 1 (requested) / Letter 2 (created).
          PhotoBioSync.js        Matches Drive photos/bios to members.
          PhotoBioReport.js      Renders the photo/bio status sheet + sidebar.
@@ -59,6 +60,7 @@ error is re-thrown afterwards so failures still surface.
 | `processEmailRequestOnEdit` | WIT_Members | Email Status → `requested` (Ops Lead notification) |
 | `processGroupsRequestOnEdit` | WIT_Members, WIT_External | Add to groups → `requested` |
 | `processOnboardingEmailOnEdit` | WIT_Members | Email Status → `requested` (Letter 1, personal email) / `created` (Letter 2, WIT email) |
+| `processContractSignedOnEdit` | WIT_Members | Contract Status → `signed` → prompt to upload signed contract |
 | `processMemberStatusOnEdit` | WIT_Members | Contract/Email/Groups → Member Status `onboarding` (in progress) or `active` (complete) |
 
 Onboarding emails are driven solely by **Email Status** (single source of truth);
