@@ -112,4 +112,4 @@ function processEmailRequestOnEdit(e, ctx) {
 }
 
 
-// generateWITEmail and buildMissingFieldsMessage live in Utils.gs.js
+// generateWITEmail and buildMissingFieldsMessage live in core/Utils.js

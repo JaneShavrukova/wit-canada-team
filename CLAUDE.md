@@ -38,7 +38,7 @@ app/     Triggers.js            setupTriggers() — registers all installable tr
          ProfileUpdate.js       Form-submit handler + its trigger installer.
          Sidebar.js             Doc sidebars and the member-guide launcher.
 
-tools/   DriveStructure.js, SpreadSheetStructure.js — one-off export utilities.
+tools/   DriveStructure.js, SpreadsheetStructure.js — one-off export utilities.
 
 *.html   FileGuide / MemberGuide / OnboardingGuide / SignatureGenerator —
          served via HtmlService. SiteTeamVisualPrototype.html is repo-only
