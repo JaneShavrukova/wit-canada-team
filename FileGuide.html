@@ -429,7 +429,7 @@
             </div>
           </div>
           <div class="note-grey">
-            The 2025 tab is archived — historical data only.
+            Past-year tabs (e.g. 2025) are archived — historical data only.
           </div>
         </div>
       </div>
@@ -665,14 +665,14 @@
             means.
           </p>
           <div class="col-note" style="margin-top: 4px">
-            Located between the Google Groups and Onboarding Actions sections.
+            Located between the Google Groups and Onboarding sections.
           </div>
         </div>
       </div>
 
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">
-          Onboarding Actions <span class="acc-arrow">▼</span>
+          Onboarding <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
           <p>
@@ -1017,6 +1017,35 @@
 
       <div class="acc-item">
         <div class="acc-head open" onclick="toggle(this)">
+          Member Onboarding <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open">
+          <div class="cmd-row">
+            <div class="cmd-name">Onboarding Checklist</div>
+            <div class="cmd-desc">
+              Opens the selected member's personalised welcome checklist — the
+              same one linked in their onboarding email.
+            </div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-name">Email Signature Generator</div>
+            <div class="cmd-desc">
+              Opens the signature generator pre-filled from the selected row;
+              the member copies the result into Gmail.
+            </div>
+          </div>
+          <div class="cmd-row">
+            <div class="cmd-name">Personal Info</div>
+            <div class="cmd-desc">
+              Opens the form members use to submit their phone, LinkedIn and
+              birthday (writes back to the sheet).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head open" onclick="toggle(this)">
           Guides <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body open">
@@ -1043,7 +1072,7 @@
         </div>
         <div class="acc-body">
           <div class="cmd-row">
-            <div class="cmd-name">Refresh email requests report</div>
+            <div class="cmd-name">Refresh Email Requests</div>
             <div class="cmd-desc">
               Rebuilds the <strong>Report_Email_Requests</strong> sheet — all
               members with a pending WIT email request (status: requested, sent,
@@ -1051,7 +1080,7 @@
             </div>
           </div>
           <div class="cmd-row">
-            <div class="cmd-name">Refresh photos &amp; bios report</div>
+            <div class="cmd-name">Refresh Photos &amp; Bios</div>
             <div class="cmd-desc">
               Scans the Photos and Bio folders in Drive, updates the Photo
               and Bio columns for all members, then opens
@@ -1060,7 +1089,7 @@
             </div>
           </div>
           <div class="cmd-row">
-            <div class="cmd-name">Refresh groups snapshot</div>
+            <div class="cmd-name">Refresh Groups</div>
             <div class="cmd-desc">
               Rebuilds <strong>Report_Groups</strong> — a clean list of every
               group and its members from both WIT_Members and WIT_External.
