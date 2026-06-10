@@ -77,6 +77,14 @@ but the live `/exec` URL keeps serving the old version until you redeploy:
 > menu modals/sidebars update immediately — only the public web-app URL needs a
 > new version.
 
+> **clasp gotchas (don't break the web app):** `clasp deploy --deploymentId
+> AKfycbxh3-EQ7VUbbf1WMn9q9aSBBCnSimhRST5QwEjs6VDXij07JwJQMP0Md99DqpqrFNmU
+> --description "…"` is now safe ONLY because `appsscript.json` has a `webapp`
+> block — without it, clasp snapshots the web app as a plain version and the
+> live URL serves "unable to open the file". Also: keep served `.html` at the
+> repo **root** — `createTemplateFromFile` can't resolve folder-prefixed names
+> (e.g. `ui/MemberGuide`), even though clasp "folders" work for `.gs` files.
+
 ## 6. Verify the photo/bio fix
 
 `buildPhotoBioReportSheet` had a runtime bug (undefined `ss`) fixed in the theme
