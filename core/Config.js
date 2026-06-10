@@ -49,7 +49,7 @@ const CONFIG = {
 
   EMAIL: {
     OPS_LEAD: "yevheniia.shavrukova@women-in-tech.org",
-    OPS_LEAD_NAME: "Jane",
+    OPS_LEAD_NAME: "Yevheniia",
   },
 
   MEMBER_STATUS: {
