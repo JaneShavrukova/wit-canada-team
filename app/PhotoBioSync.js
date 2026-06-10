@@ -41,8 +41,8 @@ function syncPhotosAndBios() {
     const last   = safeString(row[lastCol   - 1]);
     const status = safeString(row[statusCol - 1]).toLowerCase();
 
-    if ((!first && !last) || (status !== CONFIG.MEMBER_STATUS.ACTIVE && status !== CONFIG.MEMBER_STATUS.ONBOARDING)) {
-      // Not in scope — preserve whatever is already in the cell
+    if (!first && !last) {
+      // No name — can't match a file; keep whatever is in the cell.
       photoValues.push([row[photoCol - 1]]);
       bioValues.push([row[bioCol  - 1]]);
       return;
