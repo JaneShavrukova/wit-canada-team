@@ -34,7 +34,7 @@ clasp push     # deploy code to the Apps Script project
 clasp open     # open the project in the editor
 ```
 
-`.claspignore` keeps repo-only files (docs, `disabled/`, the visual prototype's
-test tooling) out of `clasp push`. There is no local test runner — handlers are
-verified against the live sheet (see DEPLOY.md). After changing triggers, run
-`setupTriggers()` from the editor.
+`.claspignore` keeps repo-only files (`*.md` docs, `disabled/`, `tests/`,
+`node_modules/`) out of `clasp push`. There is no local test runner — handlers
+are verified against the live sheet (see DEPLOY.md). After changing triggers,
+run `setupTriggers()` from the editor.

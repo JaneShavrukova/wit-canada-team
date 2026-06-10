@@ -7,6 +7,30 @@ refactor; for routine pushes only steps 1–2 (and 5 if the web app changed) app
 > This file is repo-only — `.claspignore` excludes `**/*.md`, so it is not
 > pushed to Apps Script.
 
+## Manual deploy: commit → push → clasp push
+
+The everyday flow after a change. Commit the docs in the **same** commit as the
+code (see CLAUDE.md → Standing instructions):
+
+```
+git add <files>
+git commit -m "…"
+git push origin main      # → GitHub
+clasp push -f             # → Apps Script project (updates HEAD)
+```
+
+After `clasp push`:
+
+- **Sheet automations** (the onEdit dispatcher, time-driven jobs, menu actions)
+  run the new code immediately — nothing else needed.
+- **Trigger wiring changed?** Run `setupTriggers()` from the editor (§2).
+- **Served pages changed** (`MemberGuide`, `SignatureGenerator`, or `doGet`)?
+  Cut a new web-app version (§5) — `clasp push` alone does not update the live
+  `/exec` URL.
+
+The numbered steps below are the fuller checklist (mostly one-time setup on a
+fresh deploy).
+
 ## 1. Push the code
 
 ```
@@ -16,22 +40,24 @@ clasp push
 Deploys every tracked file except those in `.claspignore`. Verify it reports
 the expected file count and no errors.
 
-## 2. Migrate triggers to the single dispatcher  *(one-time, after Phase 3)*
+## 2. Register triggers  *(after a fresh deploy or any trigger change)*
 
-The live project still has the four legacy per-handler On-Edit triggers. Switch
-to the single `onEditInstallable` dispatcher:
+All installable triggers — the single `onEditInstallable` dispatcher, the form
+submit, and the scheduled jobs — are installed by `setupTriggers()`. (The live
+project has already been migrated off the legacy per-handler On-Edit triggers;
+re-run this only on a fresh copy or after changing trigger wiring.)
 
 - [ ] Open the script: in the sheet, **Extensions → Apps Script**.
 - [ ] In the editor, select the **`setupTriggers`** function and **Run** it.
-      (Authorize if prompted.) It removes the legacy triggers and installs the
-      current set.
+      (Authorize if prompted.) It is idempotent — it clears the triggers it owns
+      and reinstalls the current set.
 - [ ] Select **`listTriggers`** and **Run** it → open **Executions** (or View →
       Logs) and confirm exactly these **5** handlers are registered:
       `onEditInstallable`, `handleProfileFormSubmit`, `syncPhotosAndBios`,
       `buildEmailRequestsReport`, `sendWeeklyEmailRequestsReport`.
 
-Safe either way: until `setupTriggers()` runs, the legacy triggers keep working
-(handlers rebuild their context via `buildEditContext`).
+Handlers also rebuild their own context via `buildEditContext` if ever called
+directly without a `ctx`, so the dispatcher swap is safe either way.
 
 ## 3. Re-apply failure-notification settings  *(after any `setupTriggers()` run)*
 
@@ -56,11 +82,14 @@ Safe either way: until `setupTriggers()` runs, the legacy triggers keep working
 On the **WIT_Members** sheet, confirm the dispatcher routes correctly (use a
 test row):
 
-- [ ] Set **Email Status → `requested`** → confirmation dialog appears.
+- [ ] Set **Contract Status → `signed`** → prompt to upload the signed contract.
+- [ ] Set **Email Status → `requested`** → confirm dialog; the activation
+      heads-up email goes to the member's **personal** inbox + Ops is notified.
+- [ ] Set **Email Status → `created`** → confirm dialog; the onboarding checklist
+      email goes to the member's **WIT** inbox.
 - [ ] Tick a group + set **Add to groups → `requested`** → groups-request dialog.
-- [ ] Tick **Intro sent** on a `created`/`active` member → onboarding email path.
 - [ ] Set Contract `signed` + Email `active` + Groups `added` → **Member Status**
-      auto-flips to `active`.
+      auto-flips to `active` (it sits at `onboarding` while still in progress).
 
 ## 5. Redeploy the web app  *(only if guides / signature / web app changed)*
 
@@ -85,17 +114,15 @@ but the live `/exec` URL keeps serving the old version until you redeploy:
 > repo **root** — `createTemplateFromFile` can't resolve folder-prefixed names
 > (e.g. `ui/MemberGuide`), even though clasp "folders" work for `.gs` files.
 
-## 6. Verify the photo/bio fix
+## 6. Verify the photo/bio sync
 
-`buildPhotoBioReportSheet` had a runtime bug (undefined `ss`) fixed in the theme
-commit. Confirm it's healthy:
+Confirm the report builder is healthy:
 
 - [ ] Menu → **WIT Operations → Actions → Refresh Photos & Bios** → completes
       without error and the `Report_Photos&Bios` sheet rebuilds.
 
 ---
 
-### Routine pushes (after the one-time migration is done)
-
-1. `clasp push`
-2. If guides/signature/web app changed → step 5 (new web-app version).
+For the everyday push flow, see **Manual deploy: commit → push → clasp push** at
+the top of this file. The numbered steps above are the fuller / one-time
+checklist.

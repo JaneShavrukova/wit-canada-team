@@ -21,14 +21,14 @@ core/    Config.js   Data & identifiers: sheet/column names, status enums,
          Utils.js    Stateless helpers: sheet access, column-index mapping,
                      string normalization, Drive lookups, UI alerts, email gen.
 
-app/     Triggers.js            setupTriggers() — registers all installable triggers.
+app/     EditRouter.js          onEditInstallable() — the single onEdit dispatcher.
+         Triggers.js            setupTriggers() — registers all installable triggers.
          Menu.js                onOpen() menu + onboarding-tool launchers.
          WebApp.js              doGet() — routes the web app by ?page=.
          EmailRequest.js        onEdit: Email Status → "requested".
          EmailRequestsReport.js Builds the Email_Requests report sheet (daily).
          EmailRequestWeeklySend.js  Monday batch summary email.
          GroupsAccessRequest.js onEdit: "Add to groups" → "requested" (notify).
-         GroupsSync.js          Actually adds members to Google Groups (AdminDirectory).
          GroupsView.js          Builds the Report_Groups snapshot sheet.
          MemberStatusSync.js    onEdit: Member Status → "onboarding" / "active".
          ContractUpload.js      onEdit: Contract → "signed" → prompt to upload.
@@ -40,16 +40,21 @@ app/     Triggers.js            setupTriggers() — registers all installable tr
 
 tools/   DriveStructure.js, SpreadsheetStructure.js — one-off export utilities.
 
+disabled/ GroupsSync.js — Admin-Directory group sync, parked (needs the
+         Workspace Groups Admin role nobody currently has); excluded from
+         clasp push via .claspignore.
+
 *.html   FileGuide / MemberGuide / OnboardingGuide / SignatureGenerator —
-         served via HtmlService. SiteTeamVisualPrototype.html is repo-only
-         (excluded from push).
+         served via HtmlService (kept at the repo root — see deploy note in
+         DEPLOY.md). SiteTeamVisualPrototype.html is a standalone org-chart
+         mockup, not served by doGet.
 ```
 
 ## How triggers are wired (read before changing handlers)
 
 A single *installable* On-Edit trigger, **`onEditInstallable`** (app/EditRouter.js),
 is the only edit trigger. It builds the column map **once** per edit and dispatches
-to the four handlers, each of which no-ops unless the edit matches its watched
+to the five handlers, each of which no-ops unless the edit matches its watched
 sheet + column/value. Handlers take `(e, ctx)` where `ctx = { sheet, sheetName,
 row, col, colMap }`; called without `ctx` they rebuild it via `buildEditContext(e)`.
 A handler that throws is isolated (logged) so the others still run; the first
@@ -85,11 +90,11 @@ by handler name). Run it once from the editor after any fresh deploy. Audit live
 wiring with `listTriggers()`. (`ProfileUpdate.createProfileFormTrigger()` is the
 legacy single-purpose installer, now subsumed by `setupTriggers`.)
 
-> **Migrating to the dispatcher:** the live project still has the four legacy
-> per-handler On-Edit triggers. Running `setupTriggers()` removes them and
-> installs the single `onEditInstallable`. The interim is safe either way — if
-> a legacy trigger fires a handler directly (no `ctx`), the handler rebuilds it
-> via `buildEditContext(e)`.
+> **Dispatcher migration (done):** the legacy per-handler On-Edit triggers have
+> been replaced by the single `onEditInstallable` (via `setupTriggers()`, run in
+> the live project). On any fresh deploy, re-run `setupTriggers()`. Handlers stay
+> safe if ever called directly without `ctx` — they rebuild it via
+> `buildEditContext(e)`.
 
 > **Not reproducible in code:** the per-trigger *Failure notification* setting
 > (the time-based jobs use "Notify me immediately" / "Notify me daily"). The
@@ -146,3 +151,16 @@ clasp open            # open the project in the editor
 There is no local test runner; handlers are verified by editing the live sheet
 or running functions from the editor. After deploying trigger changes, run
 `setupTriggers()` from the editor.
+
+## Standing instructions
+
+### Keep guides in sync with the code
+Every time you change the onboarding workflow, trigger logic, column
+structure, or any architecture decision — update the relevant guide files:
+
+- `FileGuide.html` — if column structure or status values changed
+- `OnboardingGuide.html` (Lead SOP) — if the onboarding steps changed
+- `CLAUDE.md` — if the architecture, triggers, or deploy process changed
+- `DEPLOY.md` / `README.md` — any relevant operational docs
+
+Do this in the same commit as the code change. Do not defer doc updates.
