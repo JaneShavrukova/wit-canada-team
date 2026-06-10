@@ -473,47 +473,6 @@
 
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">
-          Row layout <span class="acc-arrow">▼</span>
-        </div>
-        <div class="acc-body">
-          <div class="col-block">
-            <div class="col-name">Row 1 — Section banners</div>
-            <div class="col-desc">
-              Color-coded labels: Member Core, Personal Info, Member Management,
-              Google Groups, Onboarding, Tools / Accounts Access. Some sections
-              have hidden columns. To expand them, click the <strong>[+]</strong>
-              button in the thin grey bar above the column letters (above row 1).
-            </div>
-          </div>
-          <div class="col-block">
-            <div class="col-name">Row 2 — Column names</div>
-            <div class="col-desc">
-              The actual column headers. Scripts find columns by these names —
-              don't rename without telling the Ops Lead.
-            </div>
-          </div>
-          <div class="col-block">
-            <div class="col-name">Row 3 — Group emails</div>
-            <div class="col-desc">
-              In the Google Groups section only: the full group address for each
-              column.
-            </div>
-          </div>
-          <div class="col-block">
-            <div class="col-name">Row 4+ — Member data</div>
-            <div class="col-desc">
-              One row per member. Scripts start reading from row 4.
-            </div>
-          </div>
-          <div class="tip">
-            Hidden columns are collapsed behind the <strong>▶</strong> arrows.
-            Click them to expand Personal Info and other sections.
-          </div>
-        </div>
-      </div>
-
-      <div class="acc-item">
-        <div class="acc-head" onclick="toggle(this)">
           Report_Groups sheet <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
@@ -543,9 +502,7 @@
     <div id="columns" class="section">
       <div class="hint-bar">
         Some column sections are hidden by default. To expand them, look for the
-        <strong>[+]</strong> button in the thin grey bar <em>above</em> the column
-        letters (above row 1) — not the ▶ arrow in the colored header, which is
-        decorative only.
+        <strong>[+]</strong> button.
       </div>
 
       <div class="acc-item">
@@ -574,12 +531,7 @@
           <div class="col-block">
             <div class="col-name">WIT Email</div>
             <div class="col-desc">
-              Their @women-in-tech.org address. Filled in once the Ops Lead
-              creates it.
-            </div>
-            <div class="col-note">
-              Leave blank until created — the group sync skips rows without a
-              WIT email.
+              Their @women-in-tech.org address.
             </div>
           </div>
         </div>
@@ -628,30 +580,38 @@
           <div class="col-block">
             <div class="col-name">Contract status</div>
             <div class="col-desc">
-              Free-text field. Set to <strong>signed</strong> once the volunteer
-              agreement is received. Leave blank until then.
+              Tracks the volunteer agreement. Values: <strong>not sent</strong> →
+              <strong>sent</strong> → <strong>signed</strong>. The Lead updates this
+              manually. See the <strong>Statuses</strong> tab for details.
             </div>
           </div>
           <div class="col-block">
             <div class="col-name">Email Status</div>
             <div class="col-desc">
-              Dropdown that drives the WIT email creation flow. The Lead sets
-              <strong>requested</strong> — the Ops Lead updates the rest.
-              See the <strong>Statuses</strong> tab for all values.
+              Drives the WIT email creation flow. Values: <strong>—</strong> →
+              <strong>requested</strong> → <strong>sent</strong> →
+              <strong>created</strong> → <strong>not activated</strong> →
+              <strong>active</strong>. The Lead sets <strong>requested</strong> —
+              the Ops Lead updates the rest. See the <strong>Statuses</strong> tab
+              for what each value triggers automatically.
             </div>
           </div>
           <div class="col-block">
             <div class="col-name">Member Status</div>
             <div class="col-desc">
-              Overall standing of the member. Updated automatically.
-              See the <strong>Statuses</strong> tab for values.
+              Overall standing of the member. Values: <strong>—</strong> →
+              <strong>onboarding</strong> → <strong>active</strong>. Updated
+              automatically — do not edit manually. See the
+              <strong>Statuses</strong> tab for conditions.
             </div>
           </div>
           <div class="col-block">
             <div class="col-name">Add to groups</div>
             <div class="col-desc">
-              Set by the Lead to <strong>requested</strong>, then updated by Ops
-              once group access is assigned. See the <strong>Statuses</strong> tab.
+              Tracks Google Group access. Values: <strong>—</strong> →
+              <strong>requested</strong> → <strong>added</strong>. The Lead sets
+              <strong>requested</strong> — Ops updates to <strong>added</strong>
+              once access is assigned. See the <strong>Statuses</strong> tab.
             </div>
           </div>
         </div>
@@ -664,10 +624,8 @@
         <div class="acc-body">
           <p>
             One column per Google Group. A checked box means this member should
-            belong to that group. The sync reads these and assigns access via
-            Google Admin.
+            belong to that group.
           </p>
-          <p>Row 3 shows the full group email for each column.</p>
           <div class="warn">
             Never add members to groups manually in Google Admin — it won't be
             reflected here and breaks the audit trail.
@@ -681,8 +639,7 @@
         </div>
         <div class="acc-body">
           <p>
-            Checkboxes that track progress through onboarding. The Onboarding
-            Status formula reads these to compute the progress bar.
+            Checkboxes that track progress through onboarding.
           </p>
           <div class="col-block">
             <div class="col-name">Drive access</div>
@@ -716,49 +673,6 @@
             Tracks which platforms each member has access to. Ticked manually —
             informational only, no automation.
           </p>
-          <div class="divider"></div>
-          <h5>Social</h5>
-          <div class="col-block">
-            <div class="col-name">LinkedIn · Instagram · YouTube · TikTok</div>
-            <div class="col-desc">
-              Following or contributing to WIT Canada accounts.
-            </div>
-          </div>
-          <div class="divider"></div>
-          <h5>Work tools</h5>
-          <div class="col-block">
-            <div class="col-name">Google Workspace</div>
-            <div class="col-desc">
-              Has an active @women-in-tech.org account with Shared Drive access.
-            </div>
-          </div>
-          <div class="col-block">
-            <div class="col-name">WIT-h</div>
-            <div class="col-desc">
-              Registered on the global WIT Hub. Part of standard onboarding.
-            </div>
-          </div>
-          <div class="col-block">
-            <div class="col-name">Canva</div>
-            <div class="col-desc">
-              Added to the WIT Canada Canva team. Relevant for MarkCom and
-              design contributors.
-            </div>
-          </div>
-          <div class="col-block">
-            <div class="col-name">Zoom · Notion</div>
-            <div class="col-desc">
-              Access to WIT Canada accounts where applicable.
-            </div>
-          </div>
-          <div class="divider"></div>
-          <h5>Events</h5>
-          <div class="col-block">
-            <div class="col-name">Luma · Eventbrite</div>
-            <div class="col-desc">
-              Access to WIT Canada event management accounts.
-            </div>
-          </div>
         </div>
       </div>
     </div>
