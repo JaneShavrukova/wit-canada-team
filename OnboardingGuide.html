@@ -345,10 +345,12 @@
           <div class="step">
             <div class="step-num">3</div>
             <div>
-              <div class="step-title">Member signs → upload &amp; confirm</div>
+              <div class="step-title">Member signs → mark signed &amp; upload</div>
               <div class="step-desc">
-                Upload the signed contract to the designated Drive folder. Set
-                <strong>Contract Status = signed</strong>.
+                Set <strong>Contract Status = signed</strong> → a prompt pops up
+                offering to open the signed-contracts Drive folder. Click
+                <strong>Upload now</strong> and drop the signed copy in.
+                <span class="auto-tag">auto</span>
               </div>
             </div>
           </div>
@@ -367,9 +369,11 @@
                 Request WIT email
               </div>
               <div class="step-desc">
-                Set <strong>Email Status = requested</strong>. <br /><br />The
-                system queues the member for the Monday batch email sent to
-                Admin (Global Team).
+                Set <strong>Email Status = requested</strong> → confirm the dialog.<br /><br />
+                Automatically: <strong>Letter 1</strong> (the activation heads-up) is
+                emailed to the member's <strong>personal</strong> inbox, the Ops Lead is
+                notified, and the member is queued for the Monday batch email to Admin.
+                <span class="auto-tag">auto</span>
               </div>
             </div>
           </div>
@@ -392,10 +396,44 @@
             <strong>requested → sent</strong> automatically after the email sends.
           </div>
           <div class="ok" style="margin-top: 8px">
-            <strong>Ops takes over from here</strong> — assigns group access, checks
-            <strong>Intro Sent</strong> in the sheet and the onboarding welcome email
-            sends automatically.<br />Tracks
-            completion and sets <strong>Member Status = active</strong>.
+            <strong>Ops takes over here</strong> — coordinates account creation with
+            Admin and assigns group access. The steps below happen once the account exists.
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="toggle(this)">
+          Account created → onboarding <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body">
+          <div class="step">
+            <div class="step-num">6</div>
+            <div>
+              <div class="step-title">Account created → mark it</div>
+              <div class="step-desc">
+                Once Admin creates the WIT account, set
+                <strong>Email Status = created</strong> → confirm the dialog.
+                <strong>Letter 2</strong> (the onboarding checklist) auto-sends to the
+                member's <strong>WIT</strong> email. <span class="auto-tag">auto</span>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">7</div>
+            <div>
+              <div class="step-title">Member activates → mark active</div>
+              <div class="step-desc">
+                After the member activates their account, set
+                <strong>Email Status = active</strong>. No email is sent at this stage.
+              </div>
+            </div>
+          </div>
+          <div class="ok">
+            <strong>Member Status is automatic:</strong> it becomes
+            <strong>onboarding</strong> while in progress, then <strong>active</strong>
+            once the contract is signed, email is active, and groups are added.
+            <span class="auto-tag">auto</span>
           </div>
         </div>
       </div>
@@ -423,8 +461,8 @@
             <div class="col-desc">✓ Onboarding checklist complete</div>
           </div>
           <div class="ok">
-            <strong>Member Status = active</strong> — set by Ops when all steps
-            are done.
+            <strong>Member Status = active</strong> — set automatically once all
+            of the above are true.
           </div>
         </div>
       </div>
@@ -463,7 +501,7 @@
           </div>
           <div class="status-row">
             <span class="badge b-request">requested</span>
-            <span class="col-desc">Lead sets this. Queues the member for the Monday batch email to Admin.</span>
+            <span class="col-desc">Lead sets this → <strong>Letter 1</strong> emails the member's personal inbox, Ops is notified, and the member is queued for the Monday Admin batch.</span>
           </div>
           <div class="status-row">
             <span class="badge b-sent">sent</span>
@@ -471,7 +509,7 @@
           </div>
           <div class="status-row">
             <span class="badge b-created">created</span>
-            <span class="col-desc">WIT email created. Ops will assign group access.</span>
+            <span class="col-desc">WIT account created → <strong>Letter 2</strong> (onboarding checklist) auto-emails the member's WIT inbox.</span>
           </div>
           <div class="status-row">
             <span class="badge b-not-activated">not activated</span>
@@ -479,7 +517,7 @@
           </div>
           <div class="status-row">
             <span class="badge b-active">active</span>
-            <span class="col-desc">Member activated their WIT email. Setup complete.</span>
+            <span class="col-desc">Member activated their WIT email. No email is sent at this stage.</span>
           </div>
         </div>
       </div>
@@ -513,11 +551,11 @@
           </div>
           <div class="status-row">
             <span class="badge b-onb">onboarding</span>
-            <span class="col-desc">Onboarding instructions sent by Ops. Member is working through the checklist.</span>
+            <span class="col-desc">Set <strong>automatically</strong> while onboarding is in progress — contract signed, email pipeline underway, groups pending.</span>
           </div>
           <div class="status-row">
             <span class="badge b-active">active</span>
-            <span class="col-desc">Fully onboarded. Set by Ops when all steps are complete.</span>
+            <span class="col-desc">Set <strong>automatically</strong> once contract is signed, email is active, and groups are added.</span>
           </div>
           <div class="note-grey">Photos &amp; bios sync only runs for rows where Member Status is <strong>active</strong> or <strong>onboarding</strong>.</div>
         </div>
@@ -571,13 +609,12 @@
           </div>
           <div class="col-block">
             <div class="col-desc">
-              Checks <strong>Intro Sent</strong> in the sheet — onboarding welcome email sends automatically <span class="auto-tag">auto</span>
+              Sets <strong>Email Status = created</strong> when the account is ready — Letter 2 (onboarding checklist) sends automatically <span class="auto-tag">auto</span>
             </div>
           </div>
           <div class="col-block">
             <div class="col-desc">
-              Tracks onboarding completion — sets Member Status =
-              <strong>active</strong>
+              Member Status flips to <strong>onboarding</strong> / <strong>active</strong> automatically <span class="auto-tag">auto</span>
             </div>
           </div>
         </div>
@@ -608,12 +645,10 @@
             <div class="col-desc">Signs the contract</div>
           </div>
           <div class="col-block">
-            <div class="col-desc">Activates their WIT email</div>
+            <div class="col-desc">Gets <strong>Letter 1</strong> (personal email) → activates their WIT email</div>
           </div>
           <div class="col-block">
-            <div class="col-desc">
-              Completes the onboarding checklist independently
-            </div>
+            <div class="col-desc">Gets <strong>Letter 2</strong> (WIT email) → completes the onboarding checklist</div>
           </div>
         </div>
       </div>

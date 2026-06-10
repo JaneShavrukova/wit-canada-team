@@ -464,7 +464,7 @@
             <div>
               <div class="step-title">Ops Lead</div>
               <div class="step-desc">
-                Assigns group access, checks Intro Sent — onboarding welcome email sends automatically. Tracks completion and sets Member Status = active.
+                Assigns group access; sets Email Status to <strong>created</strong> when the account is ready — the onboarding checklist email sends automatically. Member Status flips to onboarding / active on its own.
               </div>
             </div>
           </div>
@@ -696,13 +696,6 @@
             </div>
           </div>
           <div class="col-block">
-            <div class="col-name">Intro sent</div>
-            <div class="col-desc">
-              Ops Lead ticks this — onboarding welcome email and Onboarding
-              Guide send automatically.
-            </div>
-          </div>
-          <div class="col-block">
             <div class="col-name">Photo</div>
             <div class="col-desc">
               Updated automatically by the photos & bios sync. True when a
@@ -815,7 +808,7 @@
           </div>
           <div class="status-row">
             <span class="badge b-created">signed</span>
-            <span class="col-desc">Contract has been signed. Member is confirmed.</span>
+            <span class="col-desc">Contract signed → a prompt offers to open the signed-contracts Drive folder so you can upload it.</span>
           </div>
         </div>
       </div>
@@ -831,7 +824,7 @@
           </div>
           <div class="status-row">
             <span class="badge b-request">requested</span>
-            <span class="col-desc">Lead sets this. Queues the member for the next Monday batch report sent to the Ops Lead.</span>
+            <span class="col-desc">Lead sets this → <strong>Letter 1</strong> emails the member's personal inbox, Ops is notified, and the member is queued for the Monday batch report.</span>
           </div>
           <div class="status-row">
             <span class="badge b-sent">sent</span>
@@ -839,7 +832,7 @@
           </div>
           <div class="status-row">
             <span class="badge b-created">created</span>
-            <span class="col-desc">Ops Lead created the WIT email and sent the activation link to the member.</span>
+            <span class="col-desc">WIT account created → <strong>Letter 2</strong> (onboarding checklist) auto-emails the member's WIT inbox.</span>
           </div>
           <div class="status-row">
             <span class="badge b-not-activated">not activated</span>
@@ -847,7 +840,7 @@
           </div>
           <div class="status-row">
             <span class="badge b-active">active</span>
-            <span class="col-desc">Member activated their WIT email. Setup complete.</span>
+            <span class="col-desc">Member activated their WIT email. No email is sent at this stage.</span>
           </div>
         </div>
       </div>
@@ -881,11 +874,11 @@
           </div>
           <div class="status-row">
             <span class="badge b-onb">onboarding</span>
-            <span class="col-desc">Onboarding instructions sent. Member is working through the checklist.</span>
+            <span class="col-desc">Set <strong>automatically</strong> while onboarding is in progress — contract signed, email pipeline underway, groups pending.</span>
           </div>
           <div class="status-row">
             <span class="badge b-active">active</span>
-            <span class="col-desc">Fully onboarded and active on the team.</span>
+            <span class="col-desc">Set <strong>automatically</strong> once contract is signed, email is active, and groups are added.</span>
           </div>
         </div>
       </div>
