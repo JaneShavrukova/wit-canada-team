@@ -107,9 +107,13 @@ function openMemberGuideForRow() {
   const { sheet, row, colMap } = ctx;
   const get = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
 
+  // Pass all four fields so the in-guide "Create email signature" link
+  // can hand the full profile to the signature generator.
   const url = buildUrl(CONFIG.URLS.MEMBER_GUIDE, {
     firstName: get(CONFIG.HEADERS.FIRST_NAME),
+    lastName:  get(CONFIG.HEADERS.LAST_NAME),
     role:      get(CONFIG.HEADERS.ROLE),
+    witEmail:  get(CONFIG.HEADERS.WIT_EMAIL),
   });
 
   _showLaunchCard({
