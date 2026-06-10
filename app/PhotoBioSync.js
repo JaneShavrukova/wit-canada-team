@@ -95,7 +95,7 @@ function tryShowAlert(totalUnmatched) {
     } else {
       ui.alert(
         '✅ Sync Complete',
-        `${totalUnmatched} member(s) need review.\n\nOpen "WIT Operations → Check photos & bios status" for details.`,
+        `${totalUnmatched} member(s) need review.\n\nSee the "${CONFIG.SHEET.REPORTS.PHOTO_BIO}" sheet (just opened) for details.`,
         ui.ButtonSet.OK
       );
     }

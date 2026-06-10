@@ -118,7 +118,7 @@ but the live `/exec` URL keeps serving the old version until you redeploy:
 
 Confirm the report builder is healthy:
 
-- [ ] Menu → **WIT Operations → Actions → Refresh Photos & Bios** → completes
+- [ ] Menu → **⚙️ Tools → Actions → Refresh Photos & Bios** → completes
       without error and the `Report_Photos&Bios` sheet rebuilds.
 
 ---

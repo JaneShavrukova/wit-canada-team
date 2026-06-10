@@ -6,7 +6,7 @@
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
 
-  ui.createMenu('WIT Operations')
+  ui.createMenu('⚙️ Tools')
 
     // ── 👤 Member Onboarding ─────────────────────────────────
     .addSubMenu(ui.createMenu('👤 Member Onboarding')
@@ -30,6 +30,13 @@ function onOpen() {
       .addItem('Refresh Groups',                 'buildGroupsView'))
 
     .addToUi();
+
+  // Auto-open the System Guide sidebar on open so new users discover the
+  // workflow without hunting through the menu. Safe in this simple onOpen
+  // trigger for ALL users: showSidebar() only uses HtmlService +
+  // SpreadsheetApp.getUi() (and themeCss(), a pure string) — no OAuth-scoped
+  // calls, so it runs in AuthMode.LIMITED without elevated authorization.
+  showFileGuide();
 }
 
 
