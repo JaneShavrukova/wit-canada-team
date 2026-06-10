@@ -587,12 +587,13 @@
 
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">
-          Personal Info (hidden) <span class="acc-arrow">▼</span>
+          Personal Info <span style="font-weight:normal; color: var(--color-text-muted)">(hidden)</span> <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
           <p>
             This section is collapsed by default. Click the
-            <strong>▶</strong> arrow in the column header area to expand it.
+            <strong>[+]</strong> button in the thin grey bar above the column
+            letters to expand this section.
           </p>
           <div class="col-block">
             <div class="col-name">Personal Email</div>
@@ -621,7 +622,7 @@
 
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">
-          Contract Status <span class="acc-arrow">▼</span>
+          Member Management <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
           <div class="col-block">
@@ -631,12 +632,34 @@
               agreement is received. Leave blank until then.
             </div>
           </div>
+          <div class="col-block">
+            <div class="col-name">Email Status</div>
+            <div class="col-desc">
+              Dropdown that drives the WIT email creation flow. The Lead sets
+              <strong>requested</strong> — the Ops Lead updates the rest.
+              See the <strong>Statuses</strong> tab for all values.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Member Status</div>
+            <div class="col-desc">
+              Overall standing of the member. Updated automatically.
+              See the <strong>Statuses</strong> tab for values.
+            </div>
+          </div>
+          <div class="col-block">
+            <div class="col-name">Add to groups</div>
+            <div class="col-desc">
+              Set by the Lead to <strong>requested</strong>, then updated by Ops
+              once group access is assigned. See the <strong>Statuses</strong> tab.
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">
-          Google Groups columns <span class="acc-arrow">▼</span>
+          Google Groups <span style="font-weight:normal; color: var(--color-text-muted)">(hidden)</span> <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
           <p>
@@ -654,26 +677,7 @@
 
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">
-          Email Request Status <span class="acc-arrow">▼</span>
-        </div>
-        <div class="acc-body">
-          <p>
-            Dropdown that drives the WIT email creation flow. The Lead sets
-            <strong>requested</strong> — the Ops Lead updates the rest.
-          </p>
-          <p>
-            See the <strong>Statuses</strong> tab for all values and what each
-            means.
-          </p>
-          <div class="col-note" style="margin-top: 4px">
-            Located between the Google Groups and Onboarding sections.
-          </div>
-        </div>
-      </div>
-
-      <div class="acc-item">
-        <div class="acc-head" onclick="toggle(this)">
-          Onboarding <span class="acc-arrow">▼</span>
+          Onboarding <span style="font-weight:normal; color: var(--color-text-muted)">(hidden)</span> <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
           <p>
@@ -712,22 +716,7 @@
 
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">
-          Member Status <span class="acc-arrow">▼</span>
-        </div>
-        <div class="acc-body">
-          <div class="col-block">
-            <div class="col-name">Member Status</div>
-            <div class="col-desc">
-              Overall standing of the member. See the
-              <strong>Statuses</strong> tab for values.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="acc-item">
-        <div class="acc-head" onclick="toggle(this)">
-          Tools / Accounts Access <span class="acc-arrow">▼</span>
+          Tools / Accounts Access <span style="font-weight:normal; color: var(--color-text-muted)">(hidden)</span> <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
           <p>
@@ -1006,7 +995,7 @@
     <div id="tools" class="section">
       <p style="margin-bottom: 12px; font-size: 11px; color: var(--color-text-body)">
         To access these actions, click <strong>WIT Operations</strong> in the top menu bar
-        (between "Help" and the search bar). Each item opens a submenu:
+        (after "Help"). Each item opens a submenu:
         <strong>Member Onboarding</strong>, <strong>Documentation</strong>,
         and <strong>Actions</strong>.
       </p>
@@ -1064,7 +1053,7 @@
 
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">
-          Reports <span class="acc-arrow">▼</span>
+          Actions <span class="acc-arrow">▼</span>
         </div>
         <div class="acc-body">
           <div class="cmd-row">
