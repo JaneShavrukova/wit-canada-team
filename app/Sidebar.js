@@ -3,11 +3,11 @@
 // ============================================================
 
 function showFileGuide() {
-  showSidebar('ui/FileGuide', 'About this file', 320);
+  showSidebar('FileGuide', 'About this file', 320);
 }
 
 function showNewMemberGuideSidebar() {
-  showSidebar('ui/OnboardingGuide', 'Member onboarding guide', 280);
+  showSidebar('OnboardingGuide', 'Member onboarding guide', 280);
 }
 
 function showSidebar(templateName, title, width) {

@@ -40,12 +40,15 @@ app/     Triggers.js            setupTriggers() — registers all installable tr
 
 tools/   DriveStructure.js, SpreadsheetStructure.js — one-off export utilities.
 
-ui/      FileGuide / MemberGuide / OnboardingGuide / SignatureGenerator —
-         HtmlService pages. Loaded by name WITH the folder prefix, e.g.
-         createTemplateFromFile('ui/MemberGuide').
+*.html   FileGuide / MemberGuide / OnboardingGuide / SignatureGenerator —
+         HtmlService pages, served via createTemplateFromFile by name.
+         KEEP THESE AT THE ROOT: Apps Script is a flat-file project, and
+         createTemplateFromFile does not reliably resolve folder-prefixed
+         names (e.g. 'ui/MemberGuide' breaks the deployed web app), even
+         though clasp "folders" work fine for .gs server files.
 
-SiteTeamVisualPrototype.html  Standalone org-chart mockup at root — not served
-         by doGet, not on the THEME (it carries its own inline styles).
+SiteTeamVisualPrototype.html  Standalone org-chart mockup — not served by
+         doGet; carries its own inline styles (mirrors THEME.brand).
 ```
 
 ## How triggers are wired (read before changing handlers)
