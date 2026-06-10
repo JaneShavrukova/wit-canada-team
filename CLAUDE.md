@@ -40,9 +40,12 @@ app/     Triggers.js            setupTriggers() — registers all installable tr
 
 tools/   DriveStructure.js, SpreadsheetStructure.js — one-off export utilities.
 
-*.html   FileGuide / MemberGuide / OnboardingGuide / SignatureGenerator —
-         served via HtmlService. SiteTeamVisualPrototype.html is repo-only
-         (excluded from push).
+ui/      FileGuide / MemberGuide / OnboardingGuide / SignatureGenerator —
+         HtmlService pages. Loaded by name WITH the folder prefix, e.g.
+         createTemplateFromFile('ui/MemberGuide').
+
+SiteTeamVisualPrototype.html  Standalone org-chart mockup at root — not served
+         by doGet, not on the THEME (it carries its own inline styles).
 ```
 
 ## How triggers are wired (read before changing handlers)

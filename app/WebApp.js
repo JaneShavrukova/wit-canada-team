@@ -11,7 +11,7 @@ function doGet(e) {
   const page = (e && e.parameter && e.parameter.page) || 'guide';
 
   if (page === 'signature') {
-    const tpl = HtmlService.createTemplateFromFile('SignatureGenerator');
+    const tpl = HtmlService.createTemplateFromFile('ui/SignatureGenerator');
     tpl.firstName = (e.parameter.firstName || '').toString();
     tpl.lastName  = (e.parameter.lastName  || '').toString();
     tpl.role      = (e.parameter.role      || '').toString();
@@ -27,7 +27,7 @@ function doGet(e) {
   const ln = (e.parameter.lastName  || '').toString();
   const rl = (e.parameter.role      || '').toString();
   const we = (e.parameter.witEmail  || '').toString();
-  const guideTpl = HtmlService.createTemplateFromFile('MemberGuide');
+  const guideTpl = HtmlService.createTemplateFromFile('ui/MemberGuide');
   guideTpl.firstName    = fn;
   guideTpl.lastName     = ln;
   guideTpl.role         = rl;

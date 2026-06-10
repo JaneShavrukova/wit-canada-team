@@ -23,7 +23,7 @@ core/   Config.js (data & identifiers) · Theme.js (design tokens) ·
 app/    onEdit dispatcher (EditRouter), trigger registration (Triggers),
         menu/sidebars, web-app entry point, and the feature handlers
 tools/  one-off Drive / spreadsheet structure export utilities
-*.html  HtmlService pages (member guide, signature generator, doc guides)
+ui/     HtmlService pages (member guide, signature generator, doc guides)
 disabled/  parked code excluded from deploy (needs Workspace admin access)
 ```
 
