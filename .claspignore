@@ -10,5 +10,6 @@ disabled/**
 
 # Repo meta
 **/*.md
+**/*.sh
 .DS_Store
 .clasp.json
