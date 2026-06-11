@@ -31,12 +31,10 @@ function onOpen() {
 
     .addToUi();
 
-  // Auto-open the System Guide sidebar on open so new users discover the
-  // workflow without hunting through the menu. Safe in this simple onOpen
-  // trigger for ALL users: showSidebar() only uses HtmlService +
-  // SpreadsheetApp.getUi() (and themeCss(), a pure string) — no OAuth-scoped
-  // calls, so it runs in AuthMode.LIMITED without elevated authorization.
-  showFileGuide();
+  // NOTE: the System Guide sidebar is auto-opened on open by the INSTALLABLE
+  // onOpenInstallable() trigger (app/Sidebar.js, wired in app/Triggers.js) —
+  // NOT here. A simple onOpen runs in AuthMode.LIMITED and cannot call
+  // Ui.showSidebar() (it needs the script.container.ui scope).
 }
 
 

@@ -52,9 +52,10 @@ re-run this only on a fresh copy or after changing trigger wiring.)
       (Authorize if prompted.) It is idempotent — it clears the triggers it owns
       and reinstalls the current set.
 - [ ] Select **`listTriggers`** and **Run** it → open **Executions** (or View →
-      Logs) and confirm exactly these **5** handlers are registered:
-      `onEditInstallable`, `handleProfileFormSubmit`, `syncPhotosAndBios`,
-      `buildEmailRequestsReport`, `sendWeeklyEmailRequestsReport`.
+      Logs) and confirm exactly these **6** handlers are registered:
+      `onEditInstallable`, `onOpenInstallable`, `handleProfileFormSubmit`,
+      `syncPhotosAndBios`, `buildEmailRequestsReport`,
+      `sendWeeklyEmailRequestsReport`.
 
 Handlers also rebuild their own context via `buildEditContext` if ever called
 directly without a `ctx`, so the dispatcher swap is safe either way.
@@ -90,6 +91,8 @@ test row):
 - [ ] Tick a group + set **Add to groups → `requested`** → groups-request dialog.
 - [ ] Set Contract `signed` + Email `active` + Groups `added` → **Member Status**
       auto-flips to `active` (it sits at `onboarding` while still in progress).
+- [ ] Reload the spreadsheet → the **System Guide** sidebar auto-opens
+      (`onOpenInstallable`). Requires the installable on-open trigger from §2.
 
 ## 5. Redeploy the web app  *(only if guides / signature / web app changed)*
 

@@ -13,7 +13,9 @@
 // them, so re-running never creates duplicates.
 //
 // NOT covered here:
-//   • onOpen()  — simple trigger, fires automatically, no install.
+//   • onOpen()  — simple trigger, builds the menu, fires automatically.
+//     (The on-open guide sidebar IS covered here — onOpenInstallable —
+//      because showSidebar() needs auth a simple trigger can't grant.)
 //
 // Time-based hours are interpreted in the script time zone
 // (America/Vancouver, see appsscript.json), so atHour(3) == 3 AM PT.
@@ -24,9 +26,12 @@
  * so setupTriggers() is safe to run repeatedly.
  */
 const MANAGED_TRIGGER_HANDLERS = [
-  // On-edit (installable) — a single dispatcher routes to the four
+  // On-edit (installable) — a single dispatcher routes to the five
   // handlers (see app/EditRouter.js → onEditInstallable).
   'onEditInstallable',
+
+  // On-open (installable) — auto-opens the guide sidebar (see Sidebar.js).
+  'onOpenInstallable',
 
   // Legacy per-handler on-edit triggers, kept here ONLY so re-running
   // setupTriggers() removes them when upgrading from the old wiring.
@@ -61,8 +66,14 @@ function setupTriggers() {
   });
 
   // ── On-edit (installable) ──────────────────────────────────
-  // Single dispatcher; routes to all four handlers (EditRouter.js).
+  // Single dispatcher; routes to all five handlers (EditRouter.js).
   ScriptApp.newTrigger('onEditInstallable').forSpreadsheet(ss).onEdit().create();
+
+  // ── On-open (installable) — auto-opens the guide sidebar ───
+  // Installable (not the simple onOpen) so it can call Ui.showSidebar(),
+  // which needs the script.container.ui scope that simple triggers
+  // (AuthMode.LIMITED) can't grant.
+  ScriptApp.newTrigger('onOpenInstallable').forSpreadsheet(ss).onOpen().create();
 
   // ── Form submit (installable) ──────────────────────────────
   ScriptApp.newTrigger('handleProfileFormSubmit')
@@ -92,8 +103,8 @@ function setupTriggers() {
     .create();
 
   Logger.log(
-    `setupTriggers: removed ${removed} existing, registered 5 trigger(s) ` +
-    `(1 on-edit dispatcher, 1 form submit, 3 time-driven).`,
+    `setupTriggers: removed ${removed} existing, registered 6 trigger(s) ` +
+    `(1 on-edit dispatcher, 1 on-open, 1 form submit, 3 time-driven).`,
   );
 }
 

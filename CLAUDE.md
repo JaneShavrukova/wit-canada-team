@@ -78,12 +78,18 @@ Other installable triggers:
 
 | Handler | Type | Schedule |
 |---|---|---|
+| `onOpenInstallable` | On open | auto-opens the System Guide sidebar |
 | `handleProfileFormSubmit` | Form submit | on submit |
 | `syncPhotosAndBios` | Time-driven | daily 6–7 AM PT |
 | `buildEmailRequestsReport` | Time-driven | daily 3–4 AM PT |
 | `sendWeeklyEmailRequestsReport` | Time-driven | Monday 7–8 AM PT |
 
-`onOpen` is a simple trigger (no install needed).
+`onOpen` (app/Menu.js) is a *simple* trigger that builds the menu — no install
+needed. The on-open **sidebar** is a separate **installable** trigger
+(`onOpenInstallable`, app/Sidebar.js): `Ui.showSidebar()` needs the
+`script.container.ui` scope, which simple triggers (AuthMode.LIMITED) can't use,
+so it must be installable. Running as the installing user's full authorization,
+it opens for every editor without each re-authorizing.
 
 **Wiring lives in `app/Triggers.js → setupTriggers()`.** It is idempotent (dedupes
 by handler name). Run it once from the editor after any fresh deploy. Audit live
