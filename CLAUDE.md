@@ -170,3 +170,14 @@ structure, or any architecture decision — update the relevant guide files:
 - `DEPLOY.md` / `README.md` — any relevant operational docs
 
 Do this in the same commit as the code change. Do not defer doc updates.
+
+### Notify when guides are updated
+Any time you modify a guide file (`FileGuide.html`, `OnboardingGuide.html`,
+`MemberGuide.html`, or any file in `docs/`) — end your response with a
+short summary of what changed:
+
+**Guides updated:**
+- `FileGuide.html` — [what changed, one line]
+- `OnboardingGuide.html` — [what changed, one line]
+
+Do this even if the guide change was minor or part of a larger task.
