@@ -3,23 +3,37 @@
 # Full deploy chain:  commit → clasp push → clasp deploy → git push
 #
 # Usage:
-#   ./deploy.sh "commit message"            # full chain (code + web app)
-#   ./deploy.sh "commit message" --no-deploy  # skip the web-app version bump
-#                                             # (use when no served .html / doGet changed)
+#   ./deploy.sh                             # full chain, auto-generated message
+#   ./deploy.sh "commit message"            # full chain, your message
+#   ./deploy.sh --no-deploy                 # auto message, skip web-app bump
+#   ./deploy.sh "commit message" --no-deploy  # your message, skip web-app bump
 #
+# If you don't pass a message, one is built from the changed file list.
 # See DEPLOY.md for the manual steps and the why behind each one.
 
 set -euo pipefail
 
-MSG="${1:-}"
-if [[ -z "$MSG" ]]; then
-  echo "✗ Commit message required."
-  echo '  Usage: ./deploy.sh "commit message" [--no-deploy]'
-  exit 1
-fi
-
+# Parse args: a lone "--no-deploy" may appear with or without a message.
+MSG=""
 DEPLOY=1
-[[ "${2:-}" == "--no-deploy" ]] && DEPLOY=0
+for arg in "$@"; do
+  if [[ "$arg" == "--no-deploy" ]]; then
+    DEPLOY=0
+  else
+    MSG="$arg"
+  fi
+done
+
+# Auto-generate a commit message from the changed files when none is given.
+if [[ -z "$MSG" ]]; then
+  FILES=$(git status --porcelain | sed 's/^...//' | xargs -n1 basename | sort -u | paste -sd ', ' -)
+  if [[ -z "$FILES" ]]; then
+    echo "✗ Nothing to commit — working tree is clean."
+    exit 1
+  fi
+  MSG="chore: update ${FILES}"
+  echo "▸ auto message: \"$MSG\""
+fi
 
 DEPLOYMENT_ID="AKfycbxh3-EQ7VUbbf1WMn9q9aSBBCnSimhRST5QwEjs6VDXij07JwJQMP0Md99DqpqrFNmU"
 
