@@ -266,3 +266,21 @@ function buildUrl(base, params) {
   if (!query) return base;
   return base + (base.includes('?') ? '&' : '?') + query;
 }
+
+
+// ─────────────────────────────────────────────
+// HTML template helpers
+// ─────────────────────────────────────────────
+
+/**
+ * Inlines the raw content of another HTML file into an HtmlService template.
+ * Used for shared partials (single source of truth) via `<?!= include('X') ?>`.
+ * The included file's contents are returned verbatim — it inherits the host's
+ * styles, so partials hold markup only, not their own <style>/<script>.
+ *
+ * @param {string} filename  the partial's file name, without .html
+ * @returns {string} the file's HTML content
+ */
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}

@@ -299,6 +299,19 @@
         color: var(--color-text-muted);
         line-height: 1.4;
       }
+      .auto-tag {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: bold;
+        background: var(--color-primary-tint);
+        color: var(--color-primary);
+        border-radius: 3px;
+        padding: 1px 5px;
+        margin-left: 4px;
+        vertical-align: middle;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
       .warn {
         background: #fef9e7;
         border-left: 2px solid #d35400;
@@ -369,6 +382,9 @@
         <button class="nav-btn" onclick="show('groups', this)">Groups</button>
         <button class="nav-btn" onclick="show('tools', this)">
           ⚙️ Tools
+        </button>
+        <button class="nav-btn" onclick="show('leadsop', this)">
+          Onboarding SOP
         </button>
       </div>
     </div>
@@ -1003,6 +1019,22 @@
           <div class="note-grey">Requires Google Workspace Admin permissions (Groups Admin role). If you see a permission error — contact the Ops Lead, they will run it for you.</div>
         </div>
       </div> -->
+    </div>
+
+    <!-- LEAD SOP -->
+    <div id="leadsop" class="section">
+      <div class="hint-bar">
+        Everything a Lead needs to do — from first row to handing off to Ops.
+      </div>
+      <div class="hint-bar" style="margin-bottom: 14px;">
+        Heads up — some column sections in the sheet are hidden by default. To
+        expand them, click the <strong>[+]</strong> button in the thin grey bar
+        above the column letters (above row 1) — not the ▶ arrow in the colored
+        header, which is decorative. The <strong>Columns</strong> tab has the
+        full column reference.
+      </div>
+
+      <?!= include("_LeadSteps") ?>
     </div>
 
     <script>

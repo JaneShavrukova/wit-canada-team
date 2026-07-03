@@ -48,6 +48,12 @@ disabled/ GroupsSync.js — Admin-Directory group sync, parked (needs the
          served via HtmlService (kept at the repo root — see deploy note in
          DEPLOY.md). SiteTeamVisualPrototype.html is a standalone org-chart
          mockup, not served by doGet.
+         `_`-prefixed .html files are shared partials, not standalone pages:
+         `_LeadSteps.html` holds the Lead step-by-step SOP and is the single
+         source of truth for it — inlined by both OnboardingGuide (Steps tab)
+         and FileGuide (Onboarding SOP tab) via `<?!= include('_LeadSteps') ?>`
+         (`include()` lives in core/Utils.js). Partials carry markup only and
+         inherit the host's styles.
 ```
 
 ## How triggers are wired (read before changing handlers)
