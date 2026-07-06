@@ -82,19 +82,16 @@ function processEmailRequestOnEdit(e, ctx) {
     }
   }
 
-  // ── Instant notification to Ops Lead ────────────────────
-  MailApp.sendEmail({
-    to:      CONFIG.EMAIL.OPS_LEAD,
-    subject: `[WIT Email Request] ${fullName}`,
-    body:
-      `Hi ${CONFIG.EMAIL.OPS_LEAD_NAME},\n\n` +
-      `A WIT email has been requested for a new member.\n\n` +
-      `Name:             ${fullName}\n` +
-      `Role:             ${role}\n` +
-      `Personal email:   ${personalEmail}\n` +
-      `Suggested email:  ${WITEmail}\n\n` +
-      `This member will also be included in the Monday batch report.\n\n` +
-      `— WIT Automation`,
+  // ── Instant notification to Ops Lead (same layout as the batch) ──
+  _sendMemberRequestEmail({
+    to:           CONFIG.EMAIL.OPS_LEAD,
+    greetingName: CONFIG.EMAIL.OPS_LEAD_NAME,
+    subject:      `[WIT Email Request] ${fullName}`,
+    member:       { fullName, role, personalEmail, status: CONFIG.STATUS.REQUEST, witEmail: WITEmail },
+    intro: (d) =>
+      `<p>A WIT email has been requested for the following member, as of <strong>${d}</strong>:</p>`,
+    afterTableHtml:
+      `<p>This member will also be included in the Monday batch report.</p>`,
   });
   Logger.log(`processEmailRequestOnEdit: instant notification sent to Ops Lead for ${fullName}.`);
 

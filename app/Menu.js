@@ -10,6 +10,7 @@ function onOpen() {
 
     // ── 👤 Member Onboarding ─────────────────────────────────
     .addSubMenu(ui.createMenu('👤 Member Onboarding')
+      .addItem('📧 Send Email Request',          'sendEmailRequestForSelectedMember')
       .addItem('📋 Onboarding Checklist',        'openMemberGuideForRow')
       .addItem('✍️ Email Signature Generator',   'openSignatureGeneratorForRow')
       .addItem('📇 Personal Info',               'openPersonalInfoForm'))

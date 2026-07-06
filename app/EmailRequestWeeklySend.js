@@ -34,37 +34,10 @@ function sendWeeklyEmailRequestsReport() {
     timeStyle: 'short',
   });
 
-  const tableRows = rows
-    .map(([name, role, personalEmail, requestStatus, witEmail]) => `
-      <tr>
-        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${name}</td>
-        <td style="padding:8px 10px; border-bottom:1px solid ${T.border}; color:${T.textMuted};">${role}</td>
-        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${personalEmail}</td>
-        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${_statusBadge(requestStatus)}</td>
-        <td style="padding:8px 10px; border-bottom:1px solid ${T.border}; color:${T.primary}; font-weight:bold;">${witEmail}</td>
-      </tr>
-    `)
-    .join('');
+  const introHtml =
+    `<p>Here is the weekly summary of WIT email creation requests as of <strong>${timestamp}</strong>:</p>`;
 
-  const htmlBody = `
-    <div style="font-family: Arial, sans-serif; font-size: 14px; color: ${T.textStrong}; max-width: 800px;">
-
-      <p>Hi Tamuna,</p>
-      <p>Here is the weekly summary of WIT email creation requests as of <strong>${timestamp}</strong>:</p>
-
-      <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
-        <thead>
-          <tr style="background:${T.primary}; color:${T.onPrimary};">
-            <th style="padding:10px; text-align:left;">Full Name</th>
-            <th style="padding:10px; text-align:left;">Role</th>
-            <th style="padding:10px; text-align:left;">Personal Email</th>
-            <th style="padding:10px; text-align:left;">Status</th>
-            <th style="padding:10px; text-align:left;">WIT Email (suggested)</th>
-          </tr>
-        </thead>
-        <tbody>${tableRows}</tbody>
-      </table>
-
+  const afterTableHtml = `
       <p style="color:${T.textMuted}; font-size:13px;">
         New this week: <strong>${newCount}</strong> &nbsp;|&nbsp; Not activated: <strong>${notActivatedCount}</strong> &nbsp;|&nbsp; Total tracked: <strong>${rows.length}</strong>
       </p>
@@ -72,10 +45,10 @@ function sendWeeklyEmailRequestsReport() {
       <p>Please process at your convenience. Let me know if you have any questions.</p>
 
       <p>Best regards,<br>
-      <strong>WIT Canada Operations</strong> (automated weekly report)</p>
+      <strong>WIT Canada Operations</strong> (automated weekly report)</p>`;
 
-    </div>
-  `;
+  // Shared renderer → the single-member "send now" action reuses the same layout.
+  const htmlBody = _renderEmailRequestsEmailHtml('Tamuna', introHtml, rows, afterTableHtml);
 
   MailApp.sendEmail({
     to:       CONFIG.EMAIL.OPS_LEAD,
@@ -128,4 +101,158 @@ function _statusBadge(status) {
     ? `background:${c.bg}; color:${c.fg};`
     : `background:${THEME.surfaceMuted}; color:${THEME.textStrong};`;
   return `<span style="padding:2px 8px; border-radius:4px; font-size:12px; font-weight:600; ${style}">${status}</span>`;
+}
+
+
+/**
+ * Renders the shared HTML body for email-creation-request emails — the exact
+ * table/layout used by the Monday batch. Both the weekly summary and the
+ * single-member "send now" action call this, so the two emails look identical.
+ * Emails can't use CSS variables, so THEME tokens are inlined.
+ *
+ * @param {string}  greetingName    name after "Hi " (recipient of the request)
+ * @param {string}  introHtml       HTML paragraph(s) shown above the table
+ * @param {Array[]} rows            [name, role, personalEmail, status, witEmail][]
+ * @param {string}  afterTableHtml  HTML shown below the table (summary + sign-off)
+ * @returns {string} full HTML body
+ */
+function _renderEmailRequestsEmailHtml(greetingName, introHtml, rows, afterTableHtml) {
+  const T = THEME;
+
+  const tableRows = rows
+    .map(([name, role, personalEmail, requestStatus, witEmail]) => `
+      <tr>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${name}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border}; color:${T.textMuted};">${role}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${personalEmail}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border};">${_statusBadge(requestStatus)}</td>
+        <td style="padding:8px 10px; border-bottom:1px solid ${T.border}; color:${T.primary}; font-weight:bold;">${witEmail}</td>
+      </tr>
+    `)
+    .join('');
+
+  return `
+    <div style="font-family: Arial, sans-serif; font-size: 14px; color: ${T.textStrong}; width: 100%;">
+
+      <p>Hi ${greetingName},</p>
+      ${introHtml}
+
+      <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+        <thead>
+          <tr style="background:${T.primary}; color:${T.onPrimary};">
+            <th style="padding:10px; text-align:left;">Full Name</th>
+            <th style="padding:10px; text-align:left;">Role</th>
+            <th style="padding:10px; text-align:left;">Personal Email</th>
+            <th style="padding:10px; text-align:left;">Status</th>
+            <th style="padding:10px; text-align:left;">WIT Email (suggested)</th>
+          </tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+
+      ${afterTableHtml}
+
+    </div>
+  `;
+}
+
+
+/**
+ * Sends a single-member WIT email-creation request in the shared batch layout.
+ * Centralizes the date stamp and the report-row shape so callers (the on-edit
+ * 'requested' notification and the ad-hoc menu action) supply only the
+ * recipient, greeting, subject, and the wording around the table.
+ *
+ * @param {Object}   o
+ * @param {string}   o.to             recipient email
+ * @param {string}   o.greetingName   name after "Hi "
+ * @param {string}   o.subject        email subject
+ * @param {Object}   o.member         { fullName, role, personalEmail, status, witEmail }
+ * @param {(date: string) => string} o.intro  builds the intro <p>, given the date
+ * @param {string}   o.afterTableHtml HTML below the table
+ */
+function _sendMemberRequestEmail({ to, greetingName, subject, member, intro, afterTableHtml }) {
+  const dateStr = new Date().toLocaleDateString('en-CA', {
+    timeZone:  'America/Vancouver',
+    dateStyle: 'full',
+  });
+
+  const row = [
+    member.fullName,
+    member.role          || '—',
+    member.personalEmail || '—',
+    member.status,
+    member.witEmail,
+  ];
+
+  MailApp.sendEmail({
+    to,
+    subject,
+    htmlBody: _renderEmailRequestsEmailHtml(greetingName, intro(dateStr), [row], afterTableHtml),
+  });
+}
+
+
+/**
+ * Menu action (👤 Member Onboarding → Send Email Request — this member).
+ * Sends a WIT email-creation request for the single highlighted member using
+ * the same layout as the Monday batch, then flips the row's Email Status →
+ * 'sent'. Use to request one account ad-hoc without waiting for the weekly run.
+ *
+ * Recipient/greeting mirror the Monday batch (goes to CONFIG.EMAIL.OPS_LEAD).
+ * Setting the status via setValue does not fire onEdit (script edits don't
+ * trigger it), so there is no interaction with the edit handlers.
+ */
+function sendEmailRequestForSelectedMember() {
+  const ctx = requireActiveMemberRow();
+  if (!ctx) return;
+  const { sheet, row, colMap } = ctx;
+
+  const get = (header) => safeString(sheet.getRange(row, getCol(colMap, header)).getValue());
+
+  const firstName     = get(CONFIG.HEADERS.FIRST_NAME);
+  const lastName      = get(CONFIG.HEADERS.LAST_NAME);
+  const role          = get(CONFIG.HEADERS.ROLE);
+  const personalEmail = get(CONFIG.HEADERS.PERSONAL_EMAIL);
+
+  // ── Validate required fields ─────────────────────────────
+  if (!firstName || !lastName || !personalEmail) {
+    showAlert('⚠️ Missing Data', buildMissingFieldsMessage({ firstName, lastName, personalEmail }));
+    return;
+  }
+
+  const witEmail = generateWITEmail(firstName, lastName);
+  const fullName = `${firstName} ${lastName}`;
+
+  // ── Confirmation ─────────────────────────────────────────
+  if (CONFIG.UI.CONFIRMATION) {
+    const ui       = SpreadsheetApp.getUi();
+    const response = ui.alert(
+      '📧 Send Email Request',
+      `Send a WIT email creation request for ${fullName}?`,
+      ui.ButtonSet.YES_NO
+    );
+    if (response !== ui.Button.YES) return;
+  }
+
+  // ── Send (single-row table, Monday layout) ───────────────
+  _sendMemberRequestEmail({
+    to:           CONFIG.EMAIL.OPS_LEAD,
+    greetingName: 'Tamuna',
+    subject:      `WIT Email Request — ${fullName}`,
+    member:       { fullName, role, personalEmail, status: CONFIG.STATUS.REQUEST, witEmail },
+    intro: (d) =>
+      `<p>Here is a WIT email creation request for the following member, as of <strong>${d}</strong></p>`,
+    afterTableHtml:
+      `<p>Please create this account at your convenience. Let me know if you have any questions.</p>`,
+  });
+
+  // ── Mark row requested → sent (mirrors the Monday flow) ──
+  sheet.getRange(row, getCol(colMap, CONFIG.HEADERS.EMAIL_STATUS)).setValue(CONFIG.STATUS.SENT);
+
+  Logger.log(`sendEmailRequestForSelectedMember: request sent for ${fullName}; status → sent.`);
+
+  if (CONFIG.UI.ALERTS) {
+    showAlert('✅ Sent', `Email request for ${fullName} sent.`);
+  }
 }
