@@ -75,6 +75,10 @@
   .func-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .region-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
 
+  /* Hides a toggle without removing it — see the "By Function" button below.
+     Delete the class from the button to bring the tab back. */
+  .toggle-btn.is-hidden { display: none; }
+
   .view { display: none; }
   .view.active { display: block; animation: fadeUp 0.35s ease both; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -97,8 +101,11 @@
 <div class="toggle-bar">
   <div class="toggle-inner">
     <span class="toggle-label">Our People:</span>
-    <button class="toggle-btn active" onclick="setView('functional',this)">By Function</button>
-    <button class="toggle-btn" onclick="setView('regional',this)">By Region</button>
+    <!-- "By Function" is hidden from the UI but fully functional: the button, the
+         #view-functional markup and setView() are all intact. Remove `is-hidden`
+         (and move `active` back onto this button + #view-functional) to restore it. -->
+    <button class="toggle-btn is-hidden" onclick="setView('functional',this)">By Function</button>
+    <button class="toggle-btn active" onclick="setView('regional',this)">By Region</button>
   </div>
 </div>
 
@@ -108,11 +115,11 @@
   <div class="tier">
     <div class="tier-label"><span class="tier-tag tag-board">Board of Directors</span><span class="tier-line"></span></div>
     <div class="grid-board">
-      <div class="card"><div class="card-img">JW</div><div class="card-body"><div class="card-name">Julie Watson</div><div class="card-role">Board Chair & Country Director</div><div class="card-loc">Montréal, QC</div></div></div>
-      <div class="card"><div class="card-img">RH</div><div class="card-body"><div class="card-name">Roula Habchi</div><div class="card-role">Board Vice-Chair</div><div class="card-loc">Montréal, QC</div></div></div>
-      <div class="card"><div class="card-img">BS</div><div class="card-body"><div class="card-name">Bibiana Souza</div><div class="card-role">Board Vice-President</div><div class="card-loc">Vancouver, BC</div></div></div>
-      <div class="card"><div class="card-img">SD</div><div class="card-body"><div class="card-name">Stéphanie Davis</div><div class="card-role">Board Secretary</div><div class="card-loc">Calgary, AB</div></div></div>
-      <div class="card"><div class="card-img">AX</div><div class="card-body"><div class="card-name">Ailin Xu</div><div class="card-role">Board Treasurer</div><div class="card-loc">Montréal, QC</div></div></div>
+      <div class="card"><div class="card-img">JW</div><div class="card-body"><div class="card-name">Julie Watson</div><div class="card-role">Board Chair & Country Director</div><div class="card-loc">Montreal, Quebec</div></div></div>
+      <div class="card"><div class="card-img">RH</div><div class="card-body"><div class="card-name">Roula Habchi</div><div class="card-role">Board Vice-Chair</div><div class="card-loc">Montreal, Quebec</div></div></div>
+      <div class="card"><div class="card-img">BS</div><div class="card-body"><div class="card-name">Bibiana Souza</div><div class="card-role">Board Vice-President</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+      <div class="card"><div class="card-img">SD</div><div class="card-body"><div class="card-name">Stéphanie Davis</div><div class="card-role">Board Secretary</div><div class="card-loc">Calgary, Alberta</div></div></div>
+      <div class="card"><div class="card-img">AX</div><div class="card-body"><div class="card-name">Ailin Xu</div><div class="card-role">Board Treasurer</div><div class="card-loc">Montreal, Quebec</div></div></div>
     </div>
   </div>
 
@@ -123,23 +130,21 @@
     <div class="func-group">
       <div class="func-title">National Heads</div>
       <div class="grid-lead">
-        <div class="card"><div class="card-img">RH</div><div class="card-body"><div class="card-name">Roula Habchi</div><div class="card-role">Partnerships Director (Canada + QC)</div><div class="card-loc">Montréal, QC</div></div></div>
-        <div class="card"><div class="card-img">CC</div><div class="card-body"><div class="card-name">Charlotte Cénac</div><div class="card-role">Head of Marketing & Communication</div><div class="card-loc">Montréal, QC</div></div></div>
-        <div class="card"><div class="card-img">YS</div><div class="card-body"><div class="card-name">Yevheniia Shavrukova</div><div class="card-role">Head of Systems & Processes</div><div class="card-loc">Vancouver, BC</div></div></div>
-        <div class="card"><div class="card-img">PL</div><div class="card-body"><div class="card-name">Pamela Lebeau</div><div class="card-role">Head of PR & Communication</div><div class="card-loc">Montréal, QC</div></div></div>
-        <div class="card"><div class="card-img">AK</div><div class="card-body"><div class="card-name">Amanda Kozlowski</div><div class="card-role">N.A. Awards Director</div><div class="card-loc">Montréal, QC</div></div></div>
-        <div class="card"><div class="card-img">AB</div><div class="card-body"><div class="card-name">Aureanne Bisoka</div><div class="card-role">Head of Webinars</div><div class="card-loc">Montréal, QC</div></div></div>
+        <div class="card"><div class="card-img">RH</div><div class="card-body"><div class="card-name">Roula Habchi</div><div class="card-role">Partnerships Director</div><div class="card-loc">Montreal, Quebec</div></div></div>
+        <div class="card"><div class="card-img">OV</div><div class="card-body"><div class="card-name">Olga Vashchenko</div><div class="card-role">Head of Marketing & PR</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+        <div class="card"><div class="card-img">YS</div><div class="card-body"><div class="card-name">Yevheniia Shavrukova</div><div class="card-role">Head of Systems & Processes</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+        <div class="card"><div class="card-img">AK</div><div class="card-body"><div class="card-name">Amanda Kozlowski</div><div class="card-role">North America Awards Director</div><div class="card-loc">Montreal, Quebec</div></div></div>
+        <div class="card"><div class="card-img">AB</div><div class="card-body"><div class="card-name">Aureanne Bisoka</div><div class="card-role">Head of Webinars</div><div class="card-loc">Montreal, Quebec</div></div></div>
       </div>
     </div>
 
     <div class="func-group">
       <div class="func-title">Provincial Leads</div>
       <div class="grid-lead">
-        <div class="card"><div class="card-img">AM</div><div class="card-body"><div class="card-name">Aadi Manchanda</div><div class="card-role">Head of Maritimes</div><div class="card-loc">Halifax, NS</div></div></div>
-        <div class="card"><div class="card-img">BS</div><div class="card-body"><div class="card-name">Bibiana Souza</div><div class="card-role">Head of BC</div><div class="card-loc">Vancouver, BC</div></div></div>
-        <div class="card"><div class="card-img">PF</div><div class="card-body"><div class="card-name">Peggy Fomah</div><div class="card-role">Head of Alberta</div><div class="card-loc">Calgary, AB</div></div></div>
-        <div class="card"><div class="card-img">SG</div><div class="card-body"><div class="card-name">Sarah-Lena Grogg</div><div class="card-role">Head of Québec</div><div class="card-loc">Montréal, QC</div></div></div>
-        <div class="card"><div class="card-img">SR</div><div class="card-body"><div class="card-name">Sharmeen Rehan</div><div class="card-role">Head of Ontario</div><div class="card-loc">Toronto, ON</div></div></div>
+        <div class="card"><div class="card-img">BS</div><div class="card-body"><div class="card-name">Bibiana Souza</div><div class="card-role">Head of British Columbia</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+        <div class="card"><div class="card-img">SR</div><div class="card-body"><div class="card-name">Sharmeen Rehan</div><div class="card-role">Head of Ontario</div><div class="card-loc">Toronto, Ontario</div></div></div>
+        <div class="card"><div class="card-img">AM</div><div class="card-body"><div class="card-name">Aadi Manchanda</div><div class="card-role">Head of Maritimes</div><div class="card-loc">Halifax, Nova Scotia</div></div></div>
+        <div class="card"><div class="card-img">DG</div><div class="card-body"><div class="card-name">Dely Goicochea</div><div class="card-role">Head of Thunder Bay (Ontario sub-chapter)</div><div class="card-loc">Thunder Bay, Ontario</div></div></div>
       </div>
     </div>
   </div>
@@ -149,87 +154,90 @@
     <div class="tier-label"><span class="tier-tag tag-vol">Our People</span><span class="tier-line"></span></div>
 
     <!-- BY FUNCTION -->
-    <div class="view active" id="view-functional">
+    <div class="view" id="view-functional">
 
       <div class="func-group">
         <div class="func-title">Partnerships</div>
         <div class="vol-grid">
-          <div class="card"><div class="card-img">AK</div><div class="card-body"><div class="card-name">Amanda Kozlowski</div><div class="card-role">N.A. Awards Director</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">EM</div><div class="card-body"><div class="card-name">Émilie Monette</div><div class="card-role">Partnership Experience & Design Lead</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">EK</div><div class="card-body"><div class="card-name">Elsa Kupfer</div><div class="card-role">Partnership QC Lead</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">OM</div><div class="card-body"><div class="card-name">Olivia Miles</div><div class="card-role">Partnership BC Lead</div><div class="card-loc">Vancouver, BC</div></div></div>
-          <div class="card"><div class="card-img">QA</div><div class="card-body"><div class="card-name">Qurat-Ul-Ann Akbar</div><div class="card-role">Partnership ON Lead</div><div class="card-loc">Toronto, ON</div></div></div>
-          <div class="card"><div class="card-img">SA</div><div class="card-body"><div class="card-name">Simran Arora</div><div class="card-role">Partnership NS Lead</div><div class="card-loc">Halifax, NS</div></div></div>
-          <div class="card"><div class="card-img">RP</div><div class="card-body"><div class="card-name">Raisa Pesel</div><div class="card-role">Local Partnership Support</div><div class="card-loc">Toronto, ON</div></div></div>
+          <div class="card"><div class="card-img">AK</div><div class="card-body"><div class="card-name">Amanda Kozlowski</div><div class="card-role">North America Awards Director</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">EM</div><div class="card-body"><div class="card-name">Émilie Monette</div><div class="card-role">Partnership Experience & Design Lead</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">EK</div><div class="card-body"><div class="card-name">Elsa Kupfer</div><div class="card-role">Partnership Quebec Lead</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">OM</div><div class="card-body"><div class="card-name">Olivia Miles</div><div class="card-role">Partnership British Columbia Lead</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">QA</div><div class="card-body"><div class="card-name">Qurat-Ul-Ann Akbar</div><div class="card-role">Partnership Ontario Lead</div><div class="card-loc">Toronto, Ontario</div></div></div>
+          <div class="card"><div class="card-img">SA</div><div class="card-body"><div class="card-name">Simran Arora</div><div class="card-role">Partnership Nova Scotia Lead</div><div class="card-loc">Halifax, Nova Scotia</div></div></div>
+          <div class="card"><div class="card-img">RP</div><div class="card-body"><div class="card-name">Raisa Pesel</div><div class="card-role">Local Partnership Support</div><div class="card-loc">Toronto, Ontario</div></div></div>
         </div>
       </div>
 
       <div class="func-group">
         <div class="func-title">Marketing / PR / Design</div>
         <div class="vol-grid">
-          <div class="card"><div class="card-img">EG</div><div class="card-body"><div class="card-name">Elisabeth Gregoire</div><div class="card-role">Digital Marketing Lead</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">PT</div><div class="card-body"><div class="card-name">Paule Judith Tougouma</div><div class="card-role">Creative Brand Lead</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">MS</div><div class="card-body"><div class="card-name">Mina Salekfard</div><div class="card-role">Marketing & Strategy Lead</div><div class="card-loc">Toronto, ON</div></div></div>
-          <div class="card"><div class="card-img">VR</div><div class="card-body"><div class="card-name">Vidyotma Rohmetra</div><div class="card-role">Marketing & PR Lead</div><div class="card-loc">Toronto, ON</div></div></div>
-          <div class="card"><div class="card-img">AC</div><div class="card-body"><div class="card-name">Ashwini Chandra</div><div class="card-role">Marketing & PR Lead</div><div class="card-loc">Halifax, NS</div></div></div>
-          <div class="card"><div class="card-img">OV</div><div class="card-body"><div class="card-name">Olga Vashchenko</div><div class="card-role">Marketing & PR Lead</div><div class="card-loc">Vancouver, BC</div></div></div>
-          <div class="card"><div class="card-img">CP</div><div class="card-body"><div class="card-name">Coel Poesiat</div><div class="card-role">Digital Designer</div><div class="card-loc">Vancouver, BC</div></div></div>
-          <div class="card"><div class="card-img">UK</div><div class="card-body"><div class="card-name">Utkarsha Kulkarni</div><div class="card-role">Digital Designer</div><div class="card-loc">Halifax, NS</div></div></div>
-          <div class="card"><div class="card-img">MB</div><div class="card-body"><div class="card-name">Marie-Soleil Boucher</div><div class="card-role">Leadership Series</div><div class="card-loc">Montréal, QC</div></div></div>
+          <div class="card"><div class="card-img">OV</div><div class="card-body"><div class="card-name">Olga Vashchenko</div><div class="card-role">Head of Marketing & PR</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">EG</div><div class="card-body"><div class="card-name">Elisabeth Gregoire</div><div class="card-role">Digital Marketing Lead</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">PT</div><div class="card-body"><div class="card-name">Paule Judith Tougouma</div><div class="card-role">Creative Brand Lead</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">MS</div><div class="card-body"><div class="card-name">Mina Salekfard</div><div class="card-role">Marketing & Strategy Lead</div><div class="card-loc">Toronto, Ontario</div></div></div>
+          <div class="card"><div class="card-img">VR</div><div class="card-body"><div class="card-name">Vidyotma Rohmetra</div><div class="card-role">Marketing & PR Lead</div><div class="card-loc">Toronto, Ontario</div></div></div>
+          <div class="card"><div class="card-img">AC</div><div class="card-body"><div class="card-name">Ashwini Chandra</div><div class="card-role">Marketing & PR Lead</div><div class="card-loc">Halifax, Nova Scotia</div></div></div>
+          <div class="card"><div class="card-img">CP</div><div class="card-body"><div class="card-name">Coel Poesiat</div><div class="card-role">Digital Designer</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">UK</div><div class="card-body"><div class="card-name">Utkarsha Kulkarni</div><div class="card-role">Digital Designer</div><div class="card-loc">Halifax, Nova Scotia</div></div></div>
+          <div class="card"><div class="card-img">MB</div><div class="card-body"><div class="card-name">Marie-Soleil Boucher</div><div class="card-role">Leadership Series Lead</div><div class="card-loc">Montreal, Quebec</div></div></div>
         </div>
       </div>
 
       <div class="func-group">
         <div class="func-title">Strategy & Operations</div>
         <div class="vol-grid">
-          <div class="card"><div class="card-img">JD</div><div class="card-body"><div class="card-name">Jessica Dowdall</div><div class="card-role">Strategy Lead</div><div class="card-loc">Vancouver, BC</div></div></div>
-          <div class="card"><div class="card-img">DC</div><div class="card-body"><div class="card-name">Divya Chainani</div><div class="card-role">Strategy & Operations Lead</div><div class="card-loc">Halifax, NS</div></div></div>
-          <div class="card"><div class="card-img">RG</div><div class="card-body"><div class="card-name">Rosy Groenendijk</div><div class="card-role">People & Operations Lead</div><div class="card-loc">Vancouver, BC</div></div></div>
-          <div class="card"><div class="card-img">AA</div><div class="card-body"><div class="card-name">Anisha Anand</div><div class="card-role">AI Enablement Program Manager</div><div class="card-loc">Vancouver, BC</div></div></div>
+          <div class="card"><div class="card-img">YS</div><div class="card-body"><div class="card-name">Yevheniia Shavrukova</div><div class="card-role">Head of Systems & Processes</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">JD</div><div class="card-body"><div class="card-name">Jessica Dowdall</div><div class="card-role">Strategy Lead</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">DC</div><div class="card-body"><div class="card-name">Divya Chainani</div><div class="card-role">Strategy & Operations Lead</div><div class="card-loc">Halifax, Nova Scotia</div></div></div>
+          <div class="card"><div class="card-img">RG</div><div class="card-body"><div class="card-name">Rosy Groenendijk</div><div class="card-role">People & Operations Lead</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">AA</div><div class="card-body"><div class="card-name">Anisha Anand</div><div class="card-role">AI Enablement Program Lead</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">SA</div><div class="card-body"><div class="card-name">Somya Anand</div><div class="card-role">AI Training Lead</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
         </div>
       </div>
 
       <div class="func-group">
         <div class="func-title">Events & Community</div>
         <div class="vol-grid">
-          <div class="card"><div class="card-img">AB</div><div class="card-body"><div class="card-name">Aureanne Bisoka</div><div class="card-role">Head of Webinars</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">JQ</div><div class="card-body"><div class="card-name">Jessica Quansah</div><div class="card-role">Event Lead</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">EP</div><div class="card-body"><div class="card-name">Elena Pakka</div><div class="card-role">Event Lead</div><div class="card-loc">Toronto, ON</div></div></div>
-          <div class="card"><div class="card-img">EP</div><div class="card-body"><div class="card-name">Émilie Poirier</div><div class="card-role">Event Partner</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">ZB</div><div class="card-body"><div class="card-name">Zeina Banat</div><div class="card-role">Event & Mentorship Lead</div><div class="card-loc">Toronto, ON</div></div></div>
-          <div class="card"><div class="card-img">AR</div><div class="card-body"><div class="card-name">Anna Richard</div><div class="card-role">Podcast Host</div><div class="card-loc">Montréal, QC</div></div></div>
-          <div class="card"><div class="card-img">SD</div><div class="card-body"><div class="card-name">Stéphanie Davis</div><div class="card-role">Partnership AB Lead & Events Lead</div><div class="card-loc">Calgary, AB</div></div></div>
+          <div class="card"><div class="card-img">AB</div><div class="card-body"><div class="card-name">Aureanne Bisoka</div><div class="card-role">Head of Webinars</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">JQ</div><div class="card-body"><div class="card-name">Jessica Quansah</div><div class="card-role">Event Lead</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">EP</div><div class="card-body"><div class="card-name">Elena Pakka</div><div class="card-role">Event Lead</div><div class="card-loc">Toronto, Ontario</div></div></div>
+          <div class="card"><div class="card-img">EP</div><div class="card-body"><div class="card-name">Émilie Poirier</div><div class="card-role">Event Partner</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">ZB</div><div class="card-body"><div class="card-name">Zeina Banat</div><div class="card-role">Event & Mentorship Lead</div><div class="card-loc">Toronto, Ontario</div></div></div>
+          <div class="card"><div class="card-img">AR</div><div class="card-body"><div class="card-name">Anna Richard</div><div class="card-role">Podcast Host</div><div class="card-loc">Montreal, Quebec</div></div></div>
+          <div class="card"><div class="card-img">SD</div><div class="card-body"><div class="card-name">Stéphanie Davis</div><div class="card-role">Partnership Alberta Lead & Events Lead</div><div class="card-loc">Calgary, Alberta</div></div></div>
+          <div class="card"><div class="card-img">SF</div><div class="card-body"><div class="card-name">Setareh Fatemeh Molaei Tehrani</div><div class="card-role">Community Outreach Manager</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
         </div>
       </div>
 
       <div class="func-group">
         <div class="func-title">Mentorship & Talent</div>
         <div class="vol-grid">
-          <div class="card"><div class="card-img">EK</div><div class="card-body"><div class="card-name">Elena Kiseleva</div><div class="card-role">Mentorship Program Lead</div><div class="card-loc">Vancouver, BC</div></div></div>
-          <div class="card"><div class="card-img">DS</div><div class="card-body"><div class="card-name">Daria Senicheva</div><div class="card-role">Mentorship Program Advisor</div><div class="card-loc">Vancouver, BC</div></div></div>
-          <div class="card"><div class="card-img">AM</div><div class="card-body"><div class="card-name">Ange MacCabe</div><div class="card-role">Mentorship Lead</div><div class="card-loc">Halifax, NS</div></div></div>
-          <div class="card"><div class="card-img">SM</div><div class="card-body"><div class="card-name">Sarah Morshed</div><div class="card-role">Talent Scout</div><div class="card-loc">Halifax, NS</div></div></div>
+          <div class="card"><div class="card-img">EK</div><div class="card-body"><div class="card-name">Elena Kiseleva</div><div class="card-role">Mentorship Program Lead</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">DS</div><div class="card-body"><div class="card-name">Daria Senicheva</div><div class="card-role">Mentorship Program Advisor</div><div class="card-loc">Vancouver, British Columbia</div></div></div>
+          <div class="card"><div class="card-img">AM</div><div class="card-body"><div class="card-name">Ange MacCabe</div><div class="card-role">Mentorship Lead</div><div class="card-loc">Halifax, Nova Scotia</div></div></div>
+          <div class="card"><div class="card-img">SM</div><div class="card-body"><div class="card-name">Sarah Morshed</div><div class="card-role">Talent Scout</div><div class="card-loc">Halifax, Nova Scotia</div></div></div>
         </div>
       </div>
 
     </div>
 
     <!-- BY REGION -->
-    <div class="view" id="view-regional">
+    <div class="view active" id="view-regional">
 
       <div class="func-group">
-        <div class="func-title"><span class="region-dot" style="background:#e8b84b"></span>Québec <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:11px">· Lead: Sarah-Lena Grogg</span></div>
+        <div class="func-title"><span class="region-dot" style="background:#e8b84b"></span>Quebec</div>
         <div class="vol-grid">
           <div class="card"><div class="card-img">AB</div><div class="card-body"><div class="card-name">Aureanne Bisoka</div><div class="card-role">Head of Webinars</div></div></div>
+          <div class="card"><div class="card-img">AK</div><div class="card-body"><div class="card-name">Amanda Kozlowski</div><div class="card-role">North America Awards Director</div></div></div>
           <div class="card"><div class="card-img">JQ</div><div class="card-body"><div class="card-name">Jessica Quansah</div><div class="card-role">Event Lead</div></div></div>
           <div class="card"><div class="card-img">EG</div><div class="card-body"><div class="card-name">Elisabeth Gregoire</div><div class="card-role">Digital Marketing Lead</div></div></div>
           <div class="card"><div class="card-img">PT</div><div class="card-body"><div class="card-name">Paule Judith Tougouma</div><div class="card-role">Creative Brand Lead</div></div></div>
-          <div class="card"><div class="card-img">EK</div><div class="card-body"><div class="card-name">Elsa Kupfer</div><div class="card-role">Partnership QC Lead</div></div></div>
-          <div class="card"><div class="card-img">MB</div><div class="card-body"><div class="card-name">Marie-Soleil Boucher</div><div class="card-role">Leadership Series</div></div></div>
+          <div class="card"><div class="card-img">EK</div><div class="card-body"><div class="card-name">Elsa Kupfer</div><div class="card-role">Partnership Quebec Lead</div></div></div>
+          <div class="card"><div class="card-img">EM</div><div class="card-body"><div class="card-name">Émilie Monette</div><div class="card-role">Partnership Experience & Design Lead</div></div></div>
+          <div class="card"><div class="card-img">MB</div><div class="card-body"><div class="card-name">Marie-Soleil Boucher</div><div class="card-role">Leadership Series Lead</div></div></div>
           <div class="card"><div class="card-img">AR</div><div class="card-body"><div class="card-name">Anna Richard</div><div class="card-role">Podcast Host</div></div></div>
           <div class="card"><div class="card-img">EP</div><div class="card-body"><div class="card-name">Émilie Poirier</div><div class="card-role">Event Partner</div></div></div>
-          <div class="card"><div class="card-img">AK</div><div class="card-body"><div class="card-name">Amanda Kozlowski</div><div class="card-role">N.A. Awards Director</div></div></div>
-          <div class="card"><div class="card-img">EM</div><div class="card-body"><div class="card-name">Émilie Monette</div><div class="card-role">Partnership Experience & Design Lead</div></div></div>
         </div>
       </div>
 
@@ -241,29 +249,32 @@
           <div class="card"><div class="card-img">RP</div><div class="card-body"><div class="card-name">Raisa Pesel</div><div class="card-role">Local Partnership Support</div></div></div>
           <div class="card"><div class="card-img">MS</div><div class="card-body"><div class="card-name">Mina Salekfard</div><div class="card-role">Marketing & Strategy Lead</div></div></div>
           <div class="card"><div class="card-img">VR</div><div class="card-body"><div class="card-name">Vidyotma Rohmetra</div><div class="card-role">Marketing & PR Lead</div></div></div>
-          <div class="card"><div class="card-img">QA</div><div class="card-body"><div class="card-name">Qurat-Ul-Ann Akbar</div><div class="card-role">Partnership ON Lead</div></div></div>
-          <div class="card"><div class="card-img">DG</div><div class="card-body"><div class="card-name">Dely Goicochea</div><div class="card-role">Head of Thunder Bay</div></div></div>
+          <div class="card"><div class="card-img">QA</div><div class="card-body"><div class="card-name">Qurat-Ul-Ann Akbar</div><div class="card-role">Partnership Ontario Lead</div></div></div>
+          <div class="card"><div class="card-img">DG</div><div class="card-body"><div class="card-name">Dely Goicochea</div><div class="card-role">Head of Thunder Bay</div><div class="card-loc">Thunder Bay, Ontario</div></div></div>
         </div>
       </div>
 
       <div class="func-group">
         <div class="func-title"><span class="region-dot" style="background:#00c6d7"></span>British Columbia <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:11px">· Lead: Bibiana Souza</span></div>
         <div class="vol-grid">
+          <div class="card"><div class="card-img">YS</div><div class="card-body"><div class="card-name">Yevheniia Shavrukova</div><div class="card-role">Head of Systems & Processes</div></div></div>
+          <div class="card"><div class="card-img">OV</div><div class="card-body"><div class="card-name">Olga Vashchenko</div><div class="card-role">Head of Marketing & PR</div></div></div>
           <div class="card"><div class="card-img">JD</div><div class="card-body"><div class="card-name">Jessica Dowdall</div><div class="card-role">Strategy Lead</div></div></div>
-          <div class="card"><div class="card-img">OM</div><div class="card-body"><div class="card-name">Olivia Miles</div><div class="card-role">Partnership BC Lead</div></div></div>
+          <div class="card"><div class="card-img">OM</div><div class="card-body"><div class="card-name">Olivia Miles</div><div class="card-role">Partnership British Columbia Lead</div></div></div>
           <div class="card"><div class="card-img">RG</div><div class="card-body"><div class="card-name">Rosy Groenendijk</div><div class="card-role">People & Operations Lead</div></div></div>
-          <div class="card"><div class="card-img">OV</div><div class="card-body"><div class="card-name">Olga Vashchenko</div><div class="card-role">Marketing & PR Lead</div></div></div>
           <div class="card"><div class="card-img">EK</div><div class="card-body"><div class="card-name">Elena Kiseleva</div><div class="card-role">Mentorship Program Lead</div></div></div>
           <div class="card"><div class="card-img">DS</div><div class="card-body"><div class="card-name">Daria Senicheva</div><div class="card-role">Mentorship Program Advisor</div></div></div>
           <div class="card"><div class="card-img">CP</div><div class="card-body"><div class="card-name">Coel Poesiat</div><div class="card-role">Digital Designer</div></div></div>
-          <div class="card"><div class="card-img">AA</div><div class="card-body"><div class="card-name">Anisha Anand</div><div class="card-role">AI Enablement Program Manager</div></div></div>
+          <div class="card"><div class="card-img">AA</div><div class="card-body"><div class="card-name">Anisha Anand</div><div class="card-role">AI Enablement Program Lead</div></div></div>
+          <div class="card"><div class="card-img">SA</div><div class="card-body"><div class="card-name">Somya Anand</div><div class="card-role">AI Training Lead</div></div></div>
+          <div class="card"><div class="card-img">SF</div><div class="card-body"><div class="card-name">Setareh Fatemeh Molaei Tehrani</div><div class="card-role">Community Outreach Manager</div></div></div>
         </div>
       </div>
 
       <div class="func-group">
-        <div class="func-title"><span class="region-dot" style="background:#f59e0b"></span>Alberta <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:11px">· Lead: Peggy Fomah</span></div>
+        <div class="func-title"><span class="region-dot" style="background:#f59e0b"></span>Alberta</div>
         <div class="vol-grid">
-          <div class="card"><div class="card-img">SD</div><div class="card-body"><div class="card-name">Stéphanie Davis</div><div class="card-role">Partnership AB Lead & Events Lead</div></div></div>
+          <div class="card"><div class="card-img">SD</div><div class="card-body"><div class="card-name">Stéphanie Davis</div><div class="card-role">Partnership Alberta Lead & Events Lead</div></div></div>
         </div>
       </div>
 
@@ -274,7 +285,7 @@
           <div class="card"><div class="card-img">AM</div><div class="card-body"><div class="card-name">Ange MacCabe</div><div class="card-role">Mentorship Lead</div></div></div>
           <div class="card"><div class="card-img">SM</div><div class="card-body"><div class="card-name">Sarah Morshed</div><div class="card-role">Talent Scout</div></div></div>
           <div class="card"><div class="card-img">AC</div><div class="card-body"><div class="card-name">Ashwini Chandra</div><div class="card-role">Marketing & PR Lead</div></div></div>
-          <div class="card"><div class="card-img">SA</div><div class="card-body"><div class="card-name">Simran Arora</div><div class="card-role">Partnership NS Lead</div></div></div>
+          <div class="card"><div class="card-img">SA</div><div class="card-body"><div class="card-name">Simran Arora</div><div class="card-role">Partnership Nova Scotia Lead</div></div></div>
           <div class="card"><div class="card-img">UK</div><div class="card-body"><div class="card-name">Utkarsha Kulkarni</div><div class="card-role">Digital Designer</div></div></div>
         </div>
       </div>
