@@ -33,6 +33,7 @@ const CONFIG = {
     CREATED: "created",
     NOT_ACTIVATED: "not activated",
     ACTIVE: "active",
+    DELETED: "deleted", // terminal: WIT account deletion requested (offboarding)
   },
 
   CONTRACT: {
@@ -53,7 +54,10 @@ const CONFIG = {
   },
 
   MEMBER_STATUS: {
-    DEFAULT: "—",
+    // 'inactive' is the resting/default state (a member not yet onboarded, or
+    // one who has left). A manual transition INTO 'inactive' on a member who
+    // has a WIT email drives offboarding (see app/Offboarding.js).
+    INACTIVE: "inactive",
     ONBOARDING: "onboarding",
     ACTIVE: "active",
   },

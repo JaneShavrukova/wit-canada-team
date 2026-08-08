@@ -196,6 +196,16 @@
         color: #9c1c1c;
         border: 1px solid #f5a0a0;
       }
+      .b-deleted {
+        background: #fdecea;
+        color: #a8321e;
+        border: 1px solid #f0a595;
+      }
+      .b-inactive {
+        background: #f1efe8;
+        color: #444441;
+        border: 1px solid #d3d1c7;
+      }
       .group-row {
         display: flex;
         flex-direction: column;
@@ -602,17 +612,22 @@
               Drives the WIT email creation flow. Values: <strong>—</strong> →
               <strong>requested</strong> → <strong>sent</strong> →
               <strong>created</strong> → <strong>not activated</strong> →
-              <strong>active</strong>. The Lead sets <strong>requested</strong> —
-              the Ops Lead updates the rest. See the <strong>Statuses</strong> tab
-              for what each value triggers automatically.
+              <strong>active</strong>, plus <strong>deleted</strong> (set
+              automatically when a member is offboarded). The Lead sets
+              <strong>requested</strong> — the Ops Lead updates the rest. See the
+              <strong>Statuses</strong> tab for what each value triggers
+              automatically.
             </div>
           </div>
           <div class="col-block">
             <div class="col-name">Member Status</div>
             <div class="col-desc">
-              Overall standing of the member. Values: <strong>—</strong> →
-              <strong>onboarding</strong> → <strong>active</strong>. Updated
-              automatically — do not edit manually. See the
+              Overall standing of the member. Values: <strong>inactive</strong>
+              (default) → <strong>onboarding</strong> → <strong>active</strong>.
+              <strong>onboarding</strong>/<strong>active</strong> are set
+              automatically — don't type those. Setting it back to
+              <strong>inactive</strong> manually offboards the member (asks the
+              admin to delete their WIT account). See the
               <strong>Statuses</strong> tab for conditions.
             </div>
           </div>
@@ -738,6 +753,10 @@
             <span class="badge b-active">active</span>
             <span class="col-desc">Member activated their WIT email. No email is sent at this stage.</span>
           </div>
+          <div class="status-row">
+            <span class="badge b-deleted">deleted</span>
+            <span class="col-desc">Set <strong>automatically</strong> when the member is offboarded (Member Status → <strong>inactive</strong>). The admin has been asked to delete the WIT account.</span>
+          </div>
         </div>
       </div>
 
@@ -764,9 +783,11 @@
       <div class="acc-item">
         <div class="acc-head" onclick="toggle(this)">Member Status <span class="acc-arrow">▼</span></div>
         <div class="acc-body">
+          <p><strong>onboarding</strong> and <strong>active</strong> are set <strong>automatically</strong> — don't type them. Setting <strong>inactive</strong> manually is how you offboard a member.</p>
+          <div class="divider"></div>
           <div class="status-row">
-            <span class="badge b-new">—</span>
-            <span class="col-desc">Default. Member added but onboarding not yet started.</span>
+            <span class="badge b-inactive">inactive</span>
+            <span class="col-desc">Default resting state (member not yet onboarded). Setting it back to <strong>inactive</strong> on a member who has a WIT email <strong>offboards</strong> them: after a confirmation, the admin is emailed to delete the WIT account and Email Status is set to <strong>deleted</strong>.</span>
           </div>
           <div class="status-row">
             <span class="badge b-onb">onboarding</span>

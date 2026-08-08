@@ -79,6 +79,7 @@ THEME.status = {
   [CONFIG.STATUS.SENT]:          { bg: '#cfe2ff', fg: '#0a4a90' },
   [CONFIG.STATUS.CREATED]:       { bg: '#d1e7dd', fg: '#0a5933' },
   [CONFIG.STATUS.NOT_ACTIVATED]: { bg: '#fde8e8', fg: '#9c1c1c' },
+  [CONFIG.STATUS.DELETED]:       { bg: '#fdecea', fg: '#a8321e' },
 };
 
 /**

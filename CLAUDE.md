@@ -33,6 +33,7 @@ app/     EditRouter.js          onEditInstallable() — the single onEdit dispat
          MemberStatusSync.js    onEdit: Member Status → "onboarding" / "active".
          ContractUpload.js      onEdit: Contract → "signed" → prompt to upload.
          OnboardingEmail.js     onEdit: Email Status → Letter 1 (requested) / Letter 2 (created).
+         Offboarding.js         onEdit: Member Status → "inactive" → email admin to delete WIT account.
          PhotoBioSync.js        Matches Drive photos/bios to members.
          PhotoBioReport.js      Renders the photo/bio status sheet + sidebar.
          ProfileUpdate.js       Form-submit handler + its trigger installer.
@@ -60,7 +61,7 @@ disabled/ GroupsSync.js — Admin-Directory group sync, parked (needs the
 
 A single *installable* On-Edit trigger, **`onEditInstallable`** (app/EditRouter.js),
 is the only edit trigger. It builds the column map **once** per edit and dispatches
-to the five handlers, each of which no-ops unless the edit matches its watched
+to the six handlers, each of which no-ops unless the edit matches its watched
 sheet + column/value. Handlers take `(e, ctx)` where `ctx = { sheet, sheetName,
 row, col, colMap }`; called without `ctx` they rebuild it via `buildEditContext(e)`.
 A handler that throws is isolated (logged) so the others still run; the first
@@ -73,12 +74,22 @@ error is re-thrown afterwards so failures still surface.
 | `processOnboardingEmailOnEdit` | WIT_Members | Email Status → `requested` (Letter 1, personal email) / `created` (Letter 2, WIT email) |
 | `processContractSignedOnEdit` | WIT_Members | Contract Status → `signed` → prompt to upload signed contract |
 | `processMemberStatusOnEdit` | WIT_Members | Contract/Email/Groups → Member Status `onboarding` (in progress) or `active` (complete) |
+| `processOffboardingOnEdit` | WIT_Members | Member Status → `inactive` (on a member with a WIT email) → confirm, email admin to delete the WIT account, flag Email Status → `deleted` |
 
 Onboarding emails are driven solely by **Email Status** (single source of truth);
 they fire only on a transition *into* the target value. The `requested`
 confirmation lives in `processEmailRequestOnEdit` (which runs first and reverts on
 cancel, gating Letter 1); `created` gets its own confirmation in the onboarding
 handler. The legacy "Intro sent" trigger has been removed.
+
+**Offboarding** is the mirror image, driven by **Member Status**. `inactive` is
+the resting/default Member Status value (`CONFIG.MEMBER_STATUS` has no `—` default
+anymore), so `processOffboardingOnEdit` fires only on a real transition *into*
+`inactive` **and** only when the row has a WIT email — a brand-new row sitting at
+`inactive` with no account is a silent no-op. `processMemberStatusOnEdit` writes
+Member Status but only ever reacts to Contract/Email/Groups edits (never a
+Member-Status edit), so the two never collide. Setting Email Status → `deleted`
+is a script edit, which does not re-fire `onEdit`.
 
 Other installable triggers:
 
