@@ -40,6 +40,7 @@ const THEME = {
   success:     '#0f6e56',
   successTint: '#e1f5ee',
   warning:     '#e8b84b',
+  warningTint: '#fdf5e2', // soft amber background for follow-up callouts
   danger:      '#9c1c1c',
 };
 
@@ -113,6 +114,7 @@ function themeCss() {
     'color-success':       THEME.success,
     'color-success-tint':  THEME.successTint,
     'color-warning':       THEME.warning,
+    'color-warning-tint':  THEME.warningTint,
     'color-danger':        THEME.danger,
     // Marketing accents — available everywhere, but use sparingly
     // (promo/highlight surfaces only). See THEME.brand policy note.

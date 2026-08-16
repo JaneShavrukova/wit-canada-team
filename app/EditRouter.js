@@ -59,13 +59,16 @@ function onEditInstallable(e) {
   // promotion runs last so it sees the row's settled state. The onboarding
   // handler runs after processEmailRequestOnEdit (so a 'requested' cancel
   // reverts first) and before member-status (so a 'created' cancel reverts
-  // before status is recomputed). Offboarding watches Member Status, which
+  // before status is recomputed). The 'not activated' follow-up also watches
+  // Email Status but reacts to a value none of the others touch, so it simply
+  // sits with them. Offboarding watches Member Status, which
   // processMemberStatusOnEdit never writes on a Member-Status edit, so their
   // order is independent; it runs last as a terminal action.
   const handlers = [
     processEmailRequestOnEdit,
     processGroupsRequestOnEdit,
     processOnboardingEmailOnEdit,
+    processNotActivatedOnEdit,
     processContractSignedOnEdit,
     processMemberStatusOnEdit,
     processOffboardingOnEdit,

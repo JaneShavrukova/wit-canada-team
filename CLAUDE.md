@@ -33,6 +33,7 @@ app/     EditRouter.js          onEditInstallable() — the single onEdit dispat
          MemberStatusSync.js    onEdit: Member Status → "onboarding" / "active".
          ContractUpload.js      onEdit: Contract → "signed" → prompt to upload.
          OnboardingEmail.js     onEdit: Email Status → Letter 1 (requested) / Letter 2 (created).
+         EmailNotActivated.js   onEdit: Email Status → "not activated" → confirm, email admin to chase activation (or revert).
          Offboarding.js         onEdit: Member Status → "inactive" → email admin to delete WIT account.
          PhotoBioSync.js        Matches Drive photos/bios to members.
          PhotoBioReport.js      Renders the photo/bio status sheet + sidebar.
@@ -72,6 +73,7 @@ error is re-thrown afterwards so failures still surface.
 | `processEmailRequestOnEdit` | WIT_Members | Email Status → `requested` (Ops Lead notification) |
 | `processGroupsRequestOnEdit` | WIT_Members, WIT_External | Add to groups → `requested` |
 | `processOnboardingEmailOnEdit` | WIT_Members | Email Status → `requested` (Letter 1, personal email) / `created` (Letter 2, WIT email) |
+| `processNotActivatedOnEdit` | WIT_Members | Email Status → `not activated` (on a row with a WIT email) → Yes/No modal; Yes emails the admin to chase activation, No reverts the status |
 | `processContractSignedOnEdit` | WIT_Members | Contract Status → `signed` → prompt to upload signed contract |
 | `processMemberStatusOnEdit` | WIT_Members | Contract/Email/Groups → Member Status `onboarding` (in progress) or `active` (complete) |
 | `processOffboardingOnEdit` | WIT_Members | Member Status → `inactive` (on a member with a WIT email) → confirm, email admin to delete the WIT account, flag Email Status → `deleted` |
@@ -81,6 +83,17 @@ they fire only on a transition *into* the target value. The `requested`
 confirmation lives in `processEmailRequestOnEdit` (which runs first and reverts on
 cancel, gating Letter 1); `created` gets its own confirmation in the onboarding
 handler. The legacy "Intro sent" trigger has been removed.
+
+**`not activated`** (`app/EmailNotActivated.js`) is the one Email Status value that
+asks before acting: the modal's **Yes** emails the admin to chase the activation
+and leaves the status in place; **No** reverts Email Status to `e.oldValue`
+(falling back to `created`, the status that normally precedes it) and sends
+nothing. A row with no WIT email is a no-op with a toast — there is no account for
+the admin to chase. `processMemberStatusOnEdit` runs on the same edit and may set
+Member Status → `onboarding`; that stays correct after a revert because it treats
+`not activated` and `created` identically (neither is in its `EMAIL_EXCLUDED` set).
+Unlike offboarding, a *send failure* does not revert the status — `not activated`
+describes the account's real state whether or not the reminder went out.
 
 **Offboarding** is the mirror image, driven by **Member Status**. `inactive` is
 the resting/default Member Status value (`CONFIG.MEMBER_STATUS` has no `—` default
