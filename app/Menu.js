@@ -113,13 +113,15 @@ function openMemberGuideForRow() {
   const { sheet, row, colMap } = ctx;
   const get = (header) => safeString(sheet.getRange(row, colMap[normalizeHeader(header)]).getValue());
 
-  // Pass all four fields so the in-guide "Create email signature" link
-  // can hand the full profile to the signature generator.
+  // Pass the full profile so the in-guide "Create email signature" link
+  // can hand it straight to the signature generator (phone included — it
+  // fills the signature's optional phone row).
   const url = buildUrl(CONFIG.URLS.MEMBER_GUIDE, {
     firstName: get(CONFIG.HEADERS.FIRST_NAME),
     lastName:  get(CONFIG.HEADERS.LAST_NAME),
     role:      get(CONFIG.HEADERS.ROLE),
     witEmail:  get(CONFIG.HEADERS.WIT_EMAIL),
+    phone:     get(CONFIG.HEADERS.PHONE),
   });
 
   _showLaunchCard({
@@ -161,6 +163,7 @@ function openSignatureGeneratorForRow() {
     lastName:  get(CONFIG.HEADERS.LAST_NAME),
     role:      get(CONFIG.HEADERS.ROLE),
     witEmail:  get(CONFIG.HEADERS.WIT_EMAIL),
+    phone:     get(CONFIG.HEADERS.PHONE),
   });
 
   _showLaunchCard({
@@ -168,7 +171,7 @@ function openSignatureGeneratorForRow() {
     title:       'Email Signature Generator',
     description: 'A ready-to-use generator, pre-filled with your details, for your WIT Canada email signature.',
     covers: [
-      'Pre-filled with your info',
+      'Pre-filled with your info (phone optional)',
       'Live signature preview',
       'One-click copy for Gmail',
       'Step-by-step Gmail setup',
