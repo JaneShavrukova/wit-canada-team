@@ -156,7 +156,7 @@ legacy single-purpose installer, now subsumed by `setupTriggers`.)
   `core/Theme.js` is the only `.js` file that may contain raw hex.
 - **Email-signature images are hosted from GitHub, not the repo working copy.**
   `SignatureGenerator.html` points every `<img>` at
-  `raw.githubusercontent.com/JaneShavrukova/wit-canada-ops/main/assets/…`,
+  `raw.githubusercontent.com/JaneShavrukova/wit-canada-team/main/assets/…`,
   because mail clients render neither inline SVG nor `data:` URIs in a
   signature. Anything added to `assets/` is therefore **broken until pushed to
   GitHub** — `clasp push` alone does not publish it. The contact glyphs
