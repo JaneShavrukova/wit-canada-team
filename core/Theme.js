@@ -54,7 +54,6 @@ const THEME = {
 THEME.brand = {
   electric:  '#020ba6', // vivid brand blue (promo headlines/CTAs)
   cyan:      '#02f3f2', // bright accent (highlights, on dark)
-  cyanSoft:  '#6feef0', // cyan muted for hairlines (email-signature rules)
   navy:      '#020039', // deep brand navy (promo backgrounds)
   ivory:     '#fafae6', // warm off-white (promo backgrounds)
   gold:      '#e6cf67', // gold accent
@@ -121,7 +120,6 @@ function themeCss() {
     // (promo/highlight surfaces only). See THEME.brand policy note.
     'brand-electric':      THEME.brand.electric,
     'brand-cyan':          THEME.brand.cyan,
-    'brand-cyan-soft':     THEME.brand.cyanSoft,
     'brand-navy':          THEME.brand.navy,
     'brand-ivory':         THEME.brand.ivory,
     'brand-gold':          THEME.brand.gold,
