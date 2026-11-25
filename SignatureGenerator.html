@@ -496,7 +496,7 @@
 
     var fullName     = [firstName, lastName].filter(Boolean).join(' ') || 'First Name Last Name';
     var displayRole  = role     || 'Job Title';
-    var displayEmail = witEmail || 'firstname.lastname@women-in-tech.org';
+    var displayEmail = witEmail;
 
     // tel: wants no spaces or punctuation; the visible label keeps them.
     var telHref = phone.replace(/[^\d+]/g, '');

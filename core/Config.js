@@ -75,7 +75,7 @@ const CONFIG = {
     BIO: "Bio",
     CONTRACT_STATUS: "Contract status",
     MEMBER_STATUS: "Member Status",
-    PHONE: "Phone Number (Whats App)",
+    PHONE: "Phone",
     LINKEDIN: "LinkedIn URL",
     BIRTHDAY: "Birthday",
   },

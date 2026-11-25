@@ -64,6 +64,12 @@ ${covers.map((c) => `    <li>${c}</li>`).join('\n')}
   const closeLabel = opts.closeLabel || 'Close';
   const height     = opts.height || 400;
 
+  const safeUrl = opts.url
+  .replace(/&/g, '&amp;')
+  .replace(/"/g, '&quot;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;');
+
   const html = HtmlService.createHtmlOutput(`<!DOCTYPE html>
 <html>
 <head>
@@ -97,7 +103,7 @@ ${themeCss()}
   <p class="description">${opts.description}</p>
 ${coversBlock}
   <div class="buttons">
-    <a class="btn btn-primary" href="${opts.url}" target="_blank" onclick="google.script.host.close()">${opts.buttonLabel}</a>
+    <a class="btn btn-primary" href="${safeUrl}" target="_blank" onclick="google.script.host.close()">${opts.buttonLabel}</a>
     <button class="btn btn-secondary" onclick="google.script.host.close()">${closeLabel}</button>
   </div>
 </div>
